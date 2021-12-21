@@ -8,6 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
-    List<User> findByMeetingAnswers(MeetingAnswer meetingAnswers);
     Optional<User> findByUsername(String username);
 }

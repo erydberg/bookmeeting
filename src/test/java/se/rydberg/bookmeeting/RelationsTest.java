@@ -5,8 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import se.rydberg.bookmeeting.security.User;
-import se.rydberg.bookmeeting.security.UserService;
+
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,10 +18,10 @@ public class RelationsTest {
     private MeetingService meetingService;
 
     @Autowired
-    private UserService userService;
+    private MeetingAnswerService answerService;
 
     @Autowired
-    private MeetingAnswerService answerService;
+    private MeetingAttendeeService attendeeService;
 
 
     @Test
@@ -41,19 +40,20 @@ public class RelationsTest {
         meetingService.save(meeting);
         UUID meetingId = meeting.getId();
 
-        User user = User.builder().username("erik").enabled(true).password("lösen").build();
-        userService.save(user);
+
+        MeetingAttendee attendee = MeetingAttendee.builder().name("Erik").email("kalle@mail.se").build();
+        attendeeService.save(attendee);
 
         MeetingAnswer meetingAnswer = new MeetingAnswer();
         answerService.save(meetingAnswer);
         meetingAnswer.setComing(true);
-        meetingAnswer.setUser(user);
+        meetingAnswer.setAttendee(attendee);
 
         meeting.addMeetingAnswer(meetingAnswer);
-        user.addMeetingAnswer(meetingAnswer);
+        attendee.addMeetingAnswer(meetingAnswer);
 
         meetingService.save(meeting);
-        userService.save(user);
+        attendeeService.save(attendee);
 
         System.out.println("har antal svar: " + meeting.getMeetingAnswers().size());
 
@@ -66,10 +66,4 @@ public class RelationsTest {
 
     }
 
-    @Test
-    public void testSaveUser(){
-        User user = User.builder().username("erik").password("lösen").build();
-        userService.save(user);
-        System.out.println("UserID: " + user.getId());
-    }
 }

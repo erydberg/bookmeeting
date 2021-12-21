@@ -3,7 +3,6 @@ package se.rydberg.bookmeeting;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
-import se.rydberg.bookmeeting.security.User;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -23,7 +22,7 @@ public class MeetingAnswer {
     private UUID id;
     private boolean coming;
     @ManyToOne
-    private User user;
+    private MeetingAttendee attendee;
     @ManyToOne
     private Meeting meeting;
 
