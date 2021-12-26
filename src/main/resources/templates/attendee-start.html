@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Scoutmöten</title>
+</head>
+<body>
+
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1 sec:authentication="name">Anmäl dig till scoutmöten och hajker</h1>
+</div>
+För att anmäla dig - klicka på länken i ditt mail eller klista in id-et för din scout där hemma.
+<p>
+    Här kan man tänka sig att man får ange något som gör att vi kan hämta korrekt användare istället för att använda länken.
+</p>
+<ul>
+    <li>e-postadress</li>
+    <li>uuid</li>
+    <li>mobilnummer</li>
+</ul>
+
+</body>
+</html>

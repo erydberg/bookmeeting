@@ -1,8 +1,9 @@
-package se.rydberg.bookmeeting;
+package se.rydberg.bookmeeting.meeting;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import se.rydberg.bookmeeting.meeting.Meeting;
 
 import java.util.UUID;
 

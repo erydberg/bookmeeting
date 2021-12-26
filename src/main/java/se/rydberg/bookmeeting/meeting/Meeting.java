@@ -1,12 +1,14 @@
-package se.rydberg.bookmeeting;
+package se.rydberg.bookmeeting.meeting;
 
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.repository.cdi.Eager;
+import se.rydberg.bookmeeting.MeetingAnswer;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,10 +28,14 @@ public class Meeting {
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     @Column(name = "id",unique=true, nullable = false)
     private UUID id;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
+    private LocalDate startDate;
+    private LocalTime startTime;
+    private LocalDate endDate;
+    private LocalTime endTime;
     private String title;
     private String description;
+    private String descriptionUrl;
+
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MeetingAnswer> meetingAnswers = new ArrayList<>();

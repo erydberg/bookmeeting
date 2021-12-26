@@ -1,7 +1,9 @@
-package se.rydberg.bookmeeting;
+package se.rydberg.bookmeeting.meeting;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -9,9 +11,11 @@ import java.util.UUID;
 @Service
 public class MeetingService {
     private final MeetingRepository meetingRepository;
+    private final ModelMapper modelMapper;
 
-    public MeetingService(MeetingRepository meetingRepository) {
+    public MeetingService(MeetingRepository meetingRepository, ModelMapper modelMapper) {
         this.meetingRepository = meetingRepository;
+        this.modelMapper = modelMapper;
     }
 
     public Meeting save(Meeting meeting){
@@ -32,5 +36,13 @@ public class MeetingService {
 
     public List<Meeting> getAll(){
         return meetingRepository.findAll(Sort.by(Sort.Direction.ASC, "startDateTime"));
+    }
+
+    protected MeetingDTO toDto(Meeting entity) {
+        if (entity != null) {
+            return modelMapper.map(entity, MeetingDTO.class);
+        }else{
+            return null;
+        }
     }
 }

@@ -8,9 +8,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class StartController {
 
+    @GetMapping("")
+    public String start(){
+        return "start";
+    }
+
     @GetMapping("/utv")
     public void devSetup(){
 
     }
+
+
+
+
+
 
 }

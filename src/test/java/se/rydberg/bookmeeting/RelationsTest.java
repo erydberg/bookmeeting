@@ -5,8 +5,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import se.rydberg.bookmeeting.meeting.Meeting;
+import se.rydberg.bookmeeting.meeting.MeetingService;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -36,7 +39,7 @@ public class RelationsTest {
 
     @Test
     public void shouldCreateBooking(){
-        Meeting meeting = Meeting.builder().title("Möte 1").startDateTime(LocalDateTime.now()).build();
+        Meeting meeting = Meeting.builder().title("Möte 1").startDate(LocalDate.now()).build();
         meetingService.save(meeting);
         UUID meetingId = meeting.getId();
 
@@ -61,9 +64,5 @@ public class RelationsTest {
         System.out.println(savedMeeting.getId());
         System.out.println("har antal svar: " + savedMeeting.getMeetingAnswers().size());
         savedMeeting.getMeetingAnswers().forEach(MeetingAnswer -> System.out.println(meetingAnswer.getId()));
-
-
-
     }
-
 }

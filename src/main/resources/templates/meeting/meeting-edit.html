@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Redigera möte</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/meeting'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Planerat möte</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<form id="frmEditMeeting" method="post" class="form-general" th:action="@{/meeting/save}" th:object="${meeting}">
+    <div class="form-box">
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="title">Möte</label>
+        <input class="input-long" type="text" id="title" placeholder="Skriv in mötets titel" th:field="*{title}">
+        <label for="startday">Startdag</label>
+        <input type="date" id="startday" th:field="*{startDate}">
+        <label for="starttime">Starttid </label>
+        <input type="time" id="starttime" th:field="*{startTime}">
+        <label for="endday">Slutdag</label>
+        <input type="date" id="endday" th:field="*{endDate}">
+        <label for="endtime">Sluttid </label>
+        <input type="time" id="endtime" th:field="*{endTime}">
+        <div>
+            <div>
+                <label for="description">Beskrivning</label>
+                <textarea id="description" rows="10" cols="50" th:field="*{description}"></textarea>
+            </div>
+            <div>
+                <label for="descriptionUrl">Länk till mer information</label>
+                <input class="input-long" type="url" id="descriptionUrl" th:field="*{descriptionUrl}">
+
+            </div>
+
+
+            <div class="submit-area">
+                <button type="submit">Spara</button>
+                <a th:if="${!#strings.isEmpty(meeting.id)}" th:href="@{'/meeting/detail/' + ${menu.id}}"> | Avbryt</a>
+            </div>
+            </p>
+        </div>
+</form>
+</body>
+</html>

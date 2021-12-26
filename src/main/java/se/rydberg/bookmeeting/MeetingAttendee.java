@@ -34,7 +34,6 @@ public class MeetingAttendee {
 
     public void addMeetingAnswer(MeetingAnswer answer){
         if(meetingAnswers == null){
-            System.out.println("meetingAnswers is empty!");
             meetingAnswers = new ArrayList<>();
         }
         meetingAnswers.add(answer);

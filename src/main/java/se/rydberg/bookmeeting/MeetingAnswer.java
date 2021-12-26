@@ -3,6 +3,7 @@ package se.rydberg.bookmeeting;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
+import se.rydberg.bookmeeting.meeting.Meeting;
 
 import javax.persistence.*;
 import java.util.Objects;
