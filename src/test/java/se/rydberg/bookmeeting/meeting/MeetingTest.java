@@ -1,29 +1,33 @@
 package se.rydberg.bookmeeting.meeting;
 
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import se.rydberg.bookmeeting.BookmeetingApplication;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = BookmeetingApplication.class)
+
 @ExtendWith(MockitoExtension.class)
 public class MeetingTest {
 
+    @Mock
     private MeetingService meetingService;
 
-    @Disabled
+    @Mock
+    private MeetingRepository meetingRepository;
+
+
+    @BeforeEach
+    public void init(){
+        ModelMapper modelMapper = new ModelMapper();
+        meetingService = new MeetingService(meetingRepository, modelMapper);
+    }
+
     @Test
     public void shouldTransformEntityToDTO(){
         Meeting meetingEntity = Meeting.builder().title("Ett testmöte")
@@ -35,6 +39,28 @@ public class MeetingTest {
 
         MeetingDTO meetingDTO = meetingService.toDto(meetingEntity);
         assertThat(meetingDTO.getTitle()).isEqualTo(meetingEntity.getTitle());
+        assertThat(meetingDTO.getEndDate()).isEqualTo(meetingEntity.getEndDate());
+        assertThat(meetingDTO.getStartDate()).isEqualTo(meetingEntity.getStartDate());
+        assertThat(meetingDTO.getStartTime()).isEqualTo(meetingEntity.getStartTime());
+        assertThat(meetingDTO.getEndTime()).isEqualTo(meetingEntity.getEndTime());
+    }
 
+    @Test
+    public void shouldTransformDtoToEntity(){
+        MeetingDTO dto = MeetingDTO.builder().title("en dto")
+                .description("En beskrivning")
+                .startDate(LocalDate.parse("2022-05-10"))
+                .startTime(LocalTime.NOON)
+                .endDate(LocalDate.parse("2022-05-10"))
+                .endTime(LocalTime.NOON.plusHours(2)).build();
+
+        Meeting entity = meetingService.toEntity(dto);
+
+        assertThat(entity.getTitle()).isEqualTo(dto.getTitle());
+        assertThat(entity.getDescription()).isEqualTo(dto.getDescription());
+        assertThat(entity.getStartDate()).isEqualTo(dto.getStartDate());
+        assertThat(entity.getStartTime()).isEqualTo(dto.getStartTime());
+        assertThat(entity.getEndDate()).isEqualTo(dto.getEndDate());
+        assertThat(entity.getEndTime()).isEqualTo(dto.getEndTime());
     }
 }

@@ -45,4 +45,12 @@ public class MeetingService {
             return null;
         }
     }
+
+    protected Meeting toEntity(MeetingDTO dto){
+        if (dto != null) {
+            return modelMapper.map(dto, Meeting.class);
+        }else{
+            return null;
+        }
+    }
 }
