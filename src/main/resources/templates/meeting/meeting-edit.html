@@ -46,7 +46,7 @@
 
             <div class="submit-area">
                 <button type="submit">Spara</button>
-                <a th:if="${!#strings.isEmpty(meeting.id)}" th:href="@{'/meeting/detail/' + ${menu.id}}"> | Avbryt</a>
+                <a th:if="${!#strings.isEmpty(meeting.id)}" th:href="@{'/meeting/detail/' + ${meeting.id}}"> | Avbryt</a>
             </div>
             </p>
         </div>

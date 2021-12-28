@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
 import java.util.UUID;
 
@@ -18,12 +17,23 @@ public class MeetingService {
         this.modelMapper = modelMapper;
     }
 
+    public MeetingDTO saveDTO(MeetingDTO dto){
+        Meeting entity = toEntity(dto);
+        Meeting savedMeeting =  save(entity);
+        return toDto(savedMeeting);
+    }
+
     public Meeting save(Meeting meeting){
         return meetingRepository.save(meeting);
     }
 
-    public Meeting getBy(UUID uuid){
-        return meetingRepository.getById(uuid);
+    public Meeting findBy(UUID uuid) throws MeetingNotFoundException {
+        return meetingRepository.findById(uuid).orElseThrow(()-> new MeetingNotFoundException("Kan inte hitta mötet i systemet."));
+    }
+
+    public MeetingDTO findDTOBy(UUID uuid) throws MeetingNotFoundException {
+        Meeting meeting = findBy(uuid);
+        return toDto(meeting);
     }
 
     public Meeting getWithAnswersBy(UUID uuid){

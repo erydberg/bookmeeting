@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.rydberg.bookmeeting.meeting.Meeting;
+import se.rydberg.bookmeeting.meeting.MeetingNotFoundException;
 import se.rydberg.bookmeeting.meeting.MeetingService;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
@@ -28,12 +28,12 @@ public class RelationsTest {
 
 
     @Test
-    public void shouldLoadRelationsInDb() throws InterruptedException {
+    public void shouldLoadRelationsInDb() throws InterruptedException, MeetingNotFoundException {
         Meeting meeting = new Meeting();
         meetingService.save(meeting);
         UUID id = meeting.getId();
         System.out.println("id: " + id);
-        Meeting meeting1 = meetingService.getBy(id);
+        Meeting meeting1 = meetingService.findBy(id);
         System.out.println(meeting1.getId());
     }
 

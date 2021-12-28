@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import se.rydberg.bookmeeting.meeting.Meeting;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface MeetingRepository extends JpaRepository<Meeting, UUID> {

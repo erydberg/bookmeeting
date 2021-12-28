@@ -29,4 +29,8 @@ public class MeetingDTO {
     private String description;
     private String descriptionUrl;
     private List<MeetingAnswer> meetingAnswers;
+
+    public String formattedDescription(){
+        return description.replaceAll("(\r\n|\n)", "<br>");
+    }
 }

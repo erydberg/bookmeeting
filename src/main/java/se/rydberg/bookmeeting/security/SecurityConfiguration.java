@@ -24,6 +24,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/styles/**").permitAll()
                 //normal users
                 .antMatchers("/attendee/**").permitAll()
+                //to change to admin-user
+                .antMatchers("/meeting/**").permitAll()
 
                 //admin users
                 .antMatchers("/h2-console/**").permitAll()
