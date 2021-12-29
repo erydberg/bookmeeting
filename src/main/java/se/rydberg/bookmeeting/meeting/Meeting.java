@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 import se.rydberg.bookmeeting.answer.MeetingAnswer;
+import se.rydberg.bookmeeting.department.Department;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,7 +16,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -35,7 +35,8 @@ public class Meeting {
     private String description;
     private String descriptionUrl;
     private String place;
-
+    @ManyToOne
+    private Department department;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MeetingAnswer> meetingAnswers = new ArrayList<>();
@@ -54,8 +55,6 @@ public class Meeting {
         meetingAnswers.remove(answer);
         answer.setMeeting(null);
     }
-
-    // @Column(name = "updated", columnDefinition="DATETIME")
 
     @Override
     public boolean equals(Object o) {

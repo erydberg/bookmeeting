@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import se.rydberg.bookmeeting.Status;
 import se.rydberg.bookmeeting.answer.MeetingAnswer;
+import se.rydberg.bookmeeting.department.Department;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class MeetingAttendee {
     private String email;
     @Enumerated(STRING)
     private Status status = Status.ACTIVE;
+    @ManyToOne
+    private Department department;
 
     @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MeetingAnswer> meetingAnswers = new ArrayList<>();

@@ -1,9 +1,9 @@
 package se.rydberg.bookmeeting.meeting;
 
-public class MeetingNotFoundException extends Exception {
+public class NotFoundInDatabaseException extends Exception {
     private final String message;
 
-    public MeetingNotFoundException(String msg) {
+    public NotFoundInDatabaseException(String msg) {
         this.message = msg;
     }
 

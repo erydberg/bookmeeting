@@ -9,8 +9,9 @@ import se.rydberg.bookmeeting.answer.MeetingAnswer;
 import se.rydberg.bookmeeting.answer.MeetingAnswerService;
 import se.rydberg.bookmeeting.answer.MeetingAttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
+import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.meeting.Meeting;
-import se.rydberg.bookmeeting.meeting.MeetingNotFoundException;
+import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 import se.rydberg.bookmeeting.meeting.MeetingService;
 
 
@@ -32,7 +33,7 @@ public class RelationsTest {
 
 
     @Test
-    public void shouldLoadRelationsInDb() throws InterruptedException, MeetingNotFoundException {
+    public void shouldLoadRelationsInDb() throws NotFoundInDatabaseException {
         Meeting meeting = new Meeting();
         meetingService.save(meeting);
         UUID id = meeting.getId();
@@ -43,6 +44,9 @@ public class RelationsTest {
 
     @Test
     public void shouldCreateBooking(){
+        Department department = Department.builder().name("Spårarna").build();
+
+
         Meeting meeting = Meeting.builder().title("Möte 1").startDate(LocalDate.now()).build();
         meetingService.save(meeting);
         UUID meetingId = meeting.getId();
