@@ -1,8 +1,9 @@
-package se.rydberg.bookmeeting;
+package se.rydberg.bookmeeting.answer;
 
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
+import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.meeting.Meeting;
 
 import javax.persistence.*;

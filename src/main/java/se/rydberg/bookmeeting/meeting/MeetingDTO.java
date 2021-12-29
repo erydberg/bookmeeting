@@ -1,7 +1,7 @@
 package se.rydberg.bookmeeting.meeting;
 
 import lombok.*;
-import se.rydberg.bookmeeting.MeetingAnswer;
+import se.rydberg.bookmeeting.answer.MeetingAnswer;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -28,6 +28,7 @@ public class MeetingDTO {
     private String title;
     private String description;
     private String descriptionUrl;
+    private String place;
     private List<MeetingAnswer> meetingAnswers;
 
     public String formattedDescription(){

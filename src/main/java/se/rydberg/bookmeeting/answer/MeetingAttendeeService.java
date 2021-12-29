@@ -1,6 +1,7 @@
-package se.rydberg.bookmeeting;
+package se.rydberg.bookmeeting.answer;
 
 import org.springframework.stereotype.Service;
+import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 
 @Service
 public class MeetingAttendeeService {

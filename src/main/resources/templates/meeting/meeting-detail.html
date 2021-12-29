@@ -29,10 +29,12 @@
         <span th:text="${meeting.endDate}"></span>
         <span th:text="${meeting.endTime}"></span>
     </div>
+    <div>
+        <span th:text="${meeting.place}"></span>
+    </div>
     <div class="description"
          th:utext=${meeting.formattedDescription()}></div>
     <a th:if="${!#strings.isEmpty(meeting.descriptionUrl)}" th:href="${meeting.descriptionUrl}">Mer information</a>
 </div>
-
 </body>
 </html>

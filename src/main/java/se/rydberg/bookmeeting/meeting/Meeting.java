@@ -3,11 +3,10 @@ package se.rydberg.bookmeeting.meeting;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
-import se.rydberg.bookmeeting.MeetingAnswer;
+import se.rydberg.bookmeeting.answer.MeetingAnswer;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,7 @@ public class Meeting {
     private String title;
     private String description;
     private String descriptionUrl;
+    private String place;
 
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)

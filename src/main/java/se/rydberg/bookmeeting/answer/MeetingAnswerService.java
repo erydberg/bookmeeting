@@ -1,4 +1,4 @@
-package se.rydberg.bookmeeting;
+package se.rydberg.bookmeeting.answer;
 
 import org.springframework.stereotype.Service;
 
