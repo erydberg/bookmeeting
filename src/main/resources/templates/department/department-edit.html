@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Redigera avdelning</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/department'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/department/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Avdelning</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<form id="frmEditDepartment" method="post" class="form-general" th:action="@{/department/save}" th:object="${department}">
+    <div class="form-box">
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="title">Avdelning</label>
+        <input class="input-long" type="text" id="title" placeholder="Skriv in avdelningens namn" th:field="*{name}">
+
+        <div class="submit-area">
+            <button type="submit">Spara</button>
+            <a th:if="${!#strings.isEmpty(department.id)}" th:href="@{'/department/detail/' + ${department.id}}"> |
+                Avbryt</a>
+        </div>
+        </p>
+    </div>
+</form>
+</body>
+</html>

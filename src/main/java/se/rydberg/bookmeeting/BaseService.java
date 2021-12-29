@@ -1,7 +1,16 @@
 package se.rydberg.bookmeeting;
 
-public class BaseService {
+import org.modelmapper.ModelMapper;
 
-    //tex för toDto, toEntity
+public class BaseService {
+    private final ModelMapper modelMapper;
+
+    public BaseService(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+
+    //tex för toDto, toEntity om jag får till det.
+
 
 }

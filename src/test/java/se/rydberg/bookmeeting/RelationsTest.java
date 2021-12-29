@@ -10,6 +10,7 @@ import se.rydberg.bookmeeting.answer.MeetingAnswerService;
 import se.rydberg.bookmeeting.answer.MeetingAttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.department.Department;
+import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.meeting.Meeting;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 import se.rydberg.bookmeeting.meeting.MeetingService;
@@ -17,6 +18,8 @@ import se.rydberg.bookmeeting.meeting.MeetingService;
 
 import java.time.LocalDate;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = BookmeetingApplication.class)
@@ -30,6 +33,10 @@ public class RelationsTest {
 
     @Autowired
     private MeetingAttendeeService attendeeService;
+
+    @Autowired
+    private DepartmentService departmentService;
+
 
 
     @Test
@@ -45,15 +52,18 @@ public class RelationsTest {
     @Test
     public void shouldCreateBooking(){
         Department department = Department.builder().name("Spårarna").build();
-
+        Department departmentSaved = departmentService.save(department);
 
         Meeting meeting = Meeting.builder().title("Möte 1").startDate(LocalDate.now()).build();
-        meetingService.save(meeting);
-        UUID meetingId = meeting.getId();
-
+        departmentSaved.addMeeting(meeting);
+        Meeting meetingSaved = meetingService.save(meeting);
+        UUID meetingId = meetingSaved.getId();
+        assertThat(meetingSaved.getDepartment().getName()).isEqualTo("Spårarna");
 
         MeetingAttendee attendee = MeetingAttendee.builder().name("Erik").email("kalle@mail.se").build();
+        departmentSaved.addAttendee(attendee);
         attendeeService.save(attendee);
+        assertThat(attendee.getDepartment().getName()).isEqualTo("Spårarna");
 
         MeetingAnswer meetingAnswer = new MeetingAnswer();
         answerService.save(meetingAnswer);

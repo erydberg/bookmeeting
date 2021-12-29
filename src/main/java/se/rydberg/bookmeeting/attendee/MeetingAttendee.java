@@ -38,7 +38,6 @@ public class MeetingAttendee {
     @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MeetingAnswer> meetingAnswers = new ArrayList<>();
 
-
     public void addMeetingAnswer(MeetingAnswer answer){
         if(meetingAnswers == null){
             meetingAnswers = new ArrayList<>();

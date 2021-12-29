@@ -2,6 +2,7 @@ package se.rydberg.bookmeeting.meeting;
 
 import lombok.*;
 import se.rydberg.bookmeeting.answer.MeetingAnswer;
+import se.rydberg.bookmeeting.department.Department;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class MeetingDTO {
     private String descriptionUrl;
     private String place;
     private List<MeetingAnswer> meetingAnswers;
+    private Department department;
 
     public String formattedDescription(){
         return description.replaceAll("(\r\n|\n)", "<br>");

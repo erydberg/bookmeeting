@@ -25,7 +25,7 @@ public class Department {
     private UUID id;
     private String name;
 
-    @OneToMany(mappedBy = "meetingAttendee", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<MeetingAttendee> attendees = new ArrayList<>();
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
