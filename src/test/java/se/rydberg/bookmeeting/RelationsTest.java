@@ -1,5 +1,7 @@
 package se.rydberg.bookmeeting;
 
+import org.hibernate.LazyInitializationException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,7 @@ public class RelationsTest {
     }
 
     @Test
-    public void shouldCreateBooking(){
+    public void shouldCreateBooking() throws NotFoundInDatabaseException {
         Department department = Department.builder().name("Spårarna").build();
         Department departmentSaved = departmentService.save(department);
 
@@ -78,9 +80,20 @@ public class RelationsTest {
 
         System.out.println("har antal svar: " + meeting.getMeetingAnswers().size());
 
+        Meeting savedMeetingLazyLoaded = meetingService.findBy(meetingId);
+        LazyInitializationException exception = Assertions.assertThrows(
+                LazyInitializationException.class,() -> {
+                    savedMeetingLazyLoaded.getMeetingAnswers().isEmpty();
+        });
+
         Meeting savedMeeting = meetingService.getWithAnswersBy(meetingId);
         System.out.println(savedMeeting.getId());
         System.out.println("har antal svar: " + savedMeeting.getMeetingAnswers().size());
         savedMeeting.getMeetingAnswers().forEach(MeetingAnswer -> System.out.println(meetingAnswer.getId()));
+    }
+
+    @Test
+    public void testLazyLoad(){
+
     }
 }

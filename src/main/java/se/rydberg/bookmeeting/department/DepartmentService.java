@@ -1,10 +1,13 @@
 package se.rydberg.bookmeeting.department;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentService {
@@ -36,6 +39,23 @@ public class DepartmentService {
         return toDto(entity);
     }
 
+    public void delete(Department department){
+        departmentRepository.delete(department);
+    }
+
+    public void deleteDTO(DepartmentDTO dto){
+        delete(toEntity(dto));
+    }
+
+    public void deleteById(UUID id){
+        try {
+            Department department = findBy(id);
+            delete(department);
+        } catch (NotFoundInDatabaseException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected DepartmentDTO toDto(Department entity) {
         if (entity != null) {
             return modelMapper.map(entity, DepartmentDTO.class);
@@ -52,5 +72,8 @@ public class DepartmentService {
         }
     }
 
-
+    public List<DepartmentDTO> getAll() {
+        return departmentRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream()
+                .map(department -> toDto(department)).collect(Collectors.toList());
+    }
 }

@@ -1,6 +1,5 @@
 package se.rydberg.bookmeeting.department;
 
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
+
+import static java.lang.String.format;
 
 @Controller
 @RequestMapping("department")
@@ -23,6 +25,13 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
+    @GetMapping("")
+    public String departmentStart(Model model) {
+        List<DepartmentDTO> departments = departmentService.getAll();
+        model.addAttribute("departments", departments);
+        return "department/department-start";
+    }
+
     @GetMapping("/new")
     public String newDepartment(Model model) {
         DepartmentDTO department = new DepartmentDTO();
@@ -31,19 +40,19 @@ public class DepartmentController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editDepartment(Model model, @PathVariable String id){
-        try{
+    public String editDepartment(Model model, @PathVariable String id) {
+        try {
             DepartmentDTO departmentDto = departmentService.findDTOBy(UUID.fromString(id));
             model.addAttribute("department", departmentDto);
             return "department/department-edit";
-        } catch (Exception e){
+        } catch (Exception e) {
             model.addAttribute("error_message", "Kunde inte hitta avdelningen att redigera");
             return "error/general_error";
         }
     }
 
     @GetMapping("/detail/{id}")
-    public String getDepartment(Model model, @PathVariable String id){
+    public String getDepartment(Model model, @PathVariable String id) {
         try {
             DepartmentDTO departmentDto = departmentService.findDTOBy(UUID.fromString(id));
             model.addAttribute("department", departmentDto);
@@ -57,12 +66,12 @@ public class DepartmentController {
     @PostMapping("/save")
     public String saveDepartment(@Valid DepartmentDTO departmentDto, BindingResult bindingResult, Model model,
             RedirectAttributes redirectAttributes) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("error_message", "Fyll i alla fält.");
             model.addAttribute("department", departmentDto);
             return "department/department-edit";
         }
-        if(departmentDto.getId()!=null) {
+        if (departmentDto.getId() != null) {
             try {
                 Department backendDepartment = departmentService.findBy(departmentDto.getId());
                 backendDepartment.setName(departmentDto.getName());
@@ -74,12 +83,29 @@ public class DepartmentController {
                 model.addAttribute("error_message", "Kan inte hitta det sparade mötet att uppdatera. Försök igen.");
                 return "error/general_error";
             }
-        }else{
+        } else {
             DepartmentDTO savedDepartment = departmentService.saveDTO(departmentDto);
             model.addAttribute("department", savedDepartment);
             redirectAttributes.addFlashAttribute("message", "Avdelning sparad");
             return "redirect:/department/detail/" + savedDepartment.getId();
         }
+    }
 
+    @GetMapping("delete/{id}")
+    public String deleteDepartment(@PathVariable String id, Model model, RedirectAttributes redirectAttributes) {
+        if (id.isEmpty()) {
+            model.addAttribute("error_message", "Ingen avdelning angiven.");
+            return "error/general_error";
+        }
+        try {
+            Department departmentToRemove = departmentService.findBy(UUID.fromString(id));
+            redirectAttributes
+                    .addFlashAttribute("message", format("Avdelning %s är borttagen", departmentToRemove.getName()));
+            departmentService.deleteById(UUID.fromString(id));
+            return "redirect:/department";
+        } catch (NotFoundInDatabaseException e) {
+            model.addAttribute("error_message", "Ingen avdelning hittad att ta bort.");
+            return "error/general_error";
+        }
     }
 }

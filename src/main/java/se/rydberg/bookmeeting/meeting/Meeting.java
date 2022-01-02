@@ -38,13 +38,11 @@ public class Meeting {
     @ManyToOne
     private Department department;
 
-    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MeetingAnswer> meetingAnswers = new ArrayList<>();
 
     public void addMeetingAnswer(MeetingAnswer answer) {
-        System.out.println("addMeetingAnswer");
         if (meetingAnswers == null) {
-            System.out.println("den är tom!");
             meetingAnswers = new ArrayList<>();
         }
         meetingAnswers.add(answer);
