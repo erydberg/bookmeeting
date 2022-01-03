@@ -34,6 +34,18 @@ public class DepartmentService {
                 .orElseThrow(() -> new NotFoundInDatabaseException("Kunde inte hitta avdelningen i systemet."));
     }
 
+    public Department getDepartmentWithAttendees(UUID uuid) throws NotFoundInDatabaseException {
+        return departmentRepository.getDepartmentWithAttendees(uuid);
+    }
+
+    //public Department getDepartmentFull(UUID uuid) throws NotFoundInDatabaseException {
+    //    return departmentRepository.getFullDepartment(uuid);
+    //}
+
+    public Department getDepartmentWithMeetings(UUID uuid) throws NotFoundInDatabaseException {
+        return departmentRepository.getDepartmentWithMeetings(uuid);
+    }
+
     public DepartmentDTO findDTOBy(UUID id) throws NotFoundInDatabaseException {
         Department entity = findBy(id);
         return toDto(entity);
@@ -72,7 +84,11 @@ public class DepartmentService {
         }
     }
 
-    public List<DepartmentDTO> getAll() {
+    public List<Department> getAll(){
+        return departmentRepository.findAll(Sort.by(Sort.Direction.ASC,"name"));
+    }
+
+    public List<DepartmentDTO> getAllDTOs() {
         return departmentRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream()
                 .map(department -> toDto(department)).collect(Collectors.toList());
     }

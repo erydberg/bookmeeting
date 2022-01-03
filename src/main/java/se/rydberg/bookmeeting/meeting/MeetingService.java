@@ -46,7 +46,7 @@ public class MeetingService {
     }
 
     public List<Meeting> getAll() {
-        return meetingRepository.findAll(Sort.by(Sort.Direction.ASC, "startDateTime"));
+        return meetingRepository.findAll(Sort.by(Sort.Direction.ASC, "startDate"));
     }
 
     protected MeetingDTO toDto(Meeting entity) {

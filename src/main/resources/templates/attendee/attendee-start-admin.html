@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Administration scouter - Scoutmöten</title>
+</head>
+<body>
+
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/attendee/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Välj avdelning</h1>
+</div>
+
+<div class="notepad">
+    <ul class="list">
+        <li  th:each="department: ${departments}">
+            <a th:href="@{'/attendee/bydepartment/' + ${department.id}}" th:text="${department.name}"></a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

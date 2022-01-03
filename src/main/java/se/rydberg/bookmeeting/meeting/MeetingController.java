@@ -8,17 +8,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import se.rydberg.bookmeeting.department.DepartmentDTO;
+import se.rydberg.bookmeeting.department.DepartmentService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
 @RequestMapping("meeting")
 public class MeetingController {
     private final MeetingService meetingService;
+    private final DepartmentService departmentService;
 
-    public MeetingController(MeetingService meetingService) {
+    public MeetingController(MeetingService meetingService, DepartmentService departmentService) {
         this.meetingService = meetingService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping("")
@@ -30,12 +35,16 @@ public class MeetingController {
     public String newMeeting(Model model) {
         MeetingDTO meeting = new MeetingDTO();
         model.addAttribute("meeting", meeting);
+        List<DepartmentDTO> departments = departmentService.getAllDTOs();
+        model.addAttribute("departments", departments);
         return "meeting/meeting-edit";
     }
 
     @GetMapping("/edit/{id}")
     public String editMeeting(Model model, @PathVariable String id) {
         try {
+            List<DepartmentDTO> departments = departmentService.getAllDTOs();
+            model.addAttribute("departments", departments);
             MeetingDTO meetingDTO = meetingService.findDTOBy(UUID.fromString(id));
             model.addAttribute("meeting", meetingDTO);
             return "meeting/meeting-edit";

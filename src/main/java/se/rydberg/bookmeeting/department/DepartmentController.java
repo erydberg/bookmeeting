@@ -27,7 +27,7 @@ public class DepartmentController {
 
     @GetMapping("")
     public String departmentStart(Model model) {
-        List<DepartmentDTO> departments = departmentService.getAll();
+        List<DepartmentDTO> departments = departmentService.getAllDTOs();
         model.addAttribute("departments", departments);
         return "department/department-start";
     }

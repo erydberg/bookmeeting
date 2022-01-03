@@ -28,7 +28,6 @@ public class MeetingAnswer {
     @ManyToOne
     private Meeting meeting;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,6 +38,6 @@ public class MeetingAnswer {
 
     @Override
     public int hashCode() {
-        return 0;
+        return getClass().hashCode();
     }
 }

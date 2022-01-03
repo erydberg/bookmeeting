@@ -1,6 +1,7 @@
 package se.rydberg.bookmeeting.department;
 
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.meeting.Meeting;
@@ -8,8 +9,10 @@ import se.rydberg.bookmeeting.meeting.Meeting;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
+@ToString
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -26,9 +29,11 @@ public class Department {
     private String name;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
+    @ToString.Exclude
     private List<MeetingAttendee> attendees = new ArrayList<>();
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
+    @ToString.Exclude
     private List<Meeting> meetings = new ArrayList<>();
 
     public void addAttendee(MeetingAttendee attendee){
@@ -58,4 +63,16 @@ public class Department {
         meeting.setDepartment(null);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Department that = (Department) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

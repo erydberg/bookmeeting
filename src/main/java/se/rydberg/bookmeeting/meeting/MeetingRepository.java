@@ -12,6 +12,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, UUID> {
 
     @Query("SELECT m FROM Meeting m left JOIN FETCH m.meetingAnswers WHERE m.id = (:id)")
     Meeting getMeetingWithAnswers(@Param("id") UUID id);
+
     /**
      * @Query("SELECT s FROM ShopList s left JOIN FETCH s.articles WHERE s.id = (:id)")
      *     ShopList getShopListWithArticles(@Param("id") Integer id);

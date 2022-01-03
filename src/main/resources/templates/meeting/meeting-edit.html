@@ -34,6 +34,13 @@
         <input type="time" id="endtime" th:field="*{endTime}">
         <label for="place">Plats</label>
         <input type="text" id="place" th:field="*{place}">
+
+        <div class="category-select">
+            <select name="department" id="department" th:field="*{department}">
+                <option value="">Välj avdelning...</option>
+                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}">Värde</option>
+            </select>
+        </div>
         <div>
             <div>
                 <label for="description">Beskrivning</label>

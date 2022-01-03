@@ -32,6 +32,8 @@
     <div>
         <span th:text="${meeting.place}"></span>
     </div>
+    Ändring
+    <div th:if="${meeting.department}" th:text="${meeting.department.name}"></div>
     <div class="description"
          th:utext=${meeting.formattedDescription()}></div>
     <a th:if="${!#strings.isEmpty(meeting.descriptionUrl)}" th:href="${meeting.descriptionUrl}">Mer information</a>
