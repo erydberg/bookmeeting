@@ -7,10 +7,7 @@ import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.meeting.Meeting;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @ToString
 @Getter
@@ -30,16 +27,16 @@ public class Department {
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
     @ToString.Exclude
-    private List<MeetingAttendee> attendees = new ArrayList<>();
+    private Set<MeetingAttendee> attendees = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
     @ToString.Exclude
     @OrderColumn(name = "orderMeeting")
-    private List<Meeting> meetings = new ArrayList<>();
+    private Set<Meeting> meetings = new LinkedHashSet<>();
 
     public void addAttendee(MeetingAttendee attendee){
         if (attendees == null) {
-            attendees = new ArrayList<>();
+            attendees = new LinkedHashSet<>();
         }
         attendees.add(attendee);
         attendee.setDepartment(this);
@@ -53,7 +50,7 @@ public class Department {
     public void addMeeting(Meeting meeting){
         System.out.println("adding meeting");
         if (meetings == null) {
-            meetings = new ArrayList<>();
+            meetings = new LinkedHashSet<>();
         }
         meetings.add(meeting);
         meeting.setDepartment(this);
@@ -64,11 +61,11 @@ public class Department {
         meeting.setDepartment(null);
     }
 
-    public void addMeetings(List<Meeting> listOfMeetings){
+    public void addMeetings(Set<Meeting> setOfMeetings){
         if (meetings != null) {
             meetings.clear();
         }
-        meetings = listOfMeetings;
+        meetings = setOfMeetings;
     }
 
     @Override

@@ -25,14 +25,7 @@ public class MeetingService {
     }
 
     public Meeting save(Meeting meeting) {
-        LocalDate startDate = meeting.getStartDate();
-        meeting.setOrderMeeting(calculateDateInt(startDate));
         return meetingRepository.save(meeting);
-    }
-
-    private int calculateDateInt(LocalDate startDate) {
-        return startDate.getDayOfYear() +
-                startDate.getMonthValue() + startDate.getDayOfYear();
     }
 
     public Meeting findBy(UUID uuid) throws NotFoundInDatabaseException {

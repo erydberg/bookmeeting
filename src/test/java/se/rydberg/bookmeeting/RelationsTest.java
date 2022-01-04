@@ -63,7 +63,6 @@ public class RelationsTest {
         System.out.println("antal avdelningar " + departmentService.getAll().size());
         System.out.println("antal attendees " + attendeeService.findAll().size());
         System.out.println("antal möten " + meetingService.findAll().size());
-       // clearDB();
         setupDepartment();
         setupAttendees();
         setupMeetings();
@@ -211,20 +210,5 @@ public class RelationsTest {
 
         departmentAventyrare = Department.builder().name("Äventyrare").build();
         departmentService.save(departmentAventyrare);
-    }
-
-    private void clearDB() {
-        System.out.println("Antal avdelningar: " + departmentService.getAll().size());
-        departmentService.deleteById(departmentSparare.getId());
-        departmentService.deleteById(departmentUpptackare.getId());
-        departmentService.deleteById(departmentAventyrare.getId());
-
-        System.out.println("antal deltagare: " + attendeeService.findAll().size());
-        attendeeService.deleteById(attendeeSparare1.getId());
-        attendeeService.deleteById(attendeeSparare2.getId());
-        attendeeService.deleteById(attendeeUpptackare1.getId());
-        attendeeService.deleteById(attendeeUpptackare2.getId());
-        attendeeService.deleteById(attendeeAventyrare1.getId());
-        attendeeService.deleteById(attendeeAventyrare2.getId());
     }
 }

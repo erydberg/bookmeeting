@@ -9,10 +9,7 @@ import se.rydberg.bookmeeting.department.Department;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -35,17 +32,16 @@ public class Meeting {
     private String description;
     private String descriptionUrl;
     private String place;
-    private int orderMeeting;
 
     @ManyToOne
     private Department department;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<MeetingAnswer> meetingAnswers = new ArrayList<>();
+    private Set<MeetingAnswer> meetingAnswers = new LinkedHashSet<>();
 
     public void addMeetingAnswer(MeetingAnswer answer) {
         if (meetingAnswers == null) {
-            meetingAnswers = new ArrayList<>();
+            meetingAnswers = new LinkedHashSet<>();
         }
         meetingAnswers.add(answer);
         answer.setMeeting(this);

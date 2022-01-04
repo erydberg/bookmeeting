@@ -7,7 +7,7 @@ import se.rydberg.bookmeeting.department.Department;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -30,7 +30,7 @@ public class MeetingDTO {
     private String description;
     private String descriptionUrl;
     private String place;
-    private List<MeetingAnswer> meetingAnswers;
+    private Set<MeetingAnswer> meetingAnswers;
     private Department department;
 
     public String formattedDescription(){

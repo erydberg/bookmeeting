@@ -4,7 +4,7 @@ import lombok.*;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.meeting.Meeting;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -15,6 +15,6 @@ import java.util.UUID;
 public class DepartmentDTO {
     private UUID id;
     private String name;
-    private List<Meeting> meetings;
-    private List<MeetingAttendee> attendees;
+    private Set<Meeting> meetings;
+    private Set<MeetingAttendee> attendees;
 }

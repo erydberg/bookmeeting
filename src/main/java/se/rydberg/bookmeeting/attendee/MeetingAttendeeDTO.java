@@ -6,9 +6,7 @@ import se.rydberg.bookmeeting.answer.MeetingAnswer;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -22,5 +20,5 @@ public class MeetingAttendeeDTO {
     @Email(message = "Du behöver fylla i en korrekt e-postadress")
     private String email;
     private Status status;
-    private List<MeetingAnswer> meetingAnswers = new ArrayList<>();
+    private Set<MeetingAnswer> meetingAnswers = new LinkedHashSet<>();
 }
