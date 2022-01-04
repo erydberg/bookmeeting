@@ -34,6 +34,7 @@ public class Department {
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
     @ToString.Exclude
+    @OrderColumn(name = "orderMeeting")
     private List<Meeting> meetings = new ArrayList<>();
 
     public void addAttendee(MeetingAttendee attendee){
@@ -61,6 +62,13 @@ public class Department {
     public void removeMeeting(Meeting meeting){
         meetings.remove(meeting);
         meeting.setDepartment(null);
+    }
+
+    public void addMeetings(List<Meeting> listOfMeetings){
+        if (meetings != null) {
+            meetings.clear();
+        }
+        meetings = listOfMeetings;
     }
 
     @Override

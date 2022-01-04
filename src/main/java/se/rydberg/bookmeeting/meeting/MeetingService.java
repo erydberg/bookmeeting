@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +25,14 @@ public class MeetingService {
     }
 
     public Meeting save(Meeting meeting) {
+        LocalDate startDate = meeting.getStartDate();
+        meeting.setOrderMeeting(calculateDateInt(startDate));
         return meetingRepository.save(meeting);
+    }
+
+    private int calculateDateInt(LocalDate startDate) {
+        return startDate.getDayOfYear() +
+                startDate.getMonthValue() + startDate.getDayOfYear();
     }
 
     public Meeting findBy(UUID uuid) throws NotFoundInDatabaseException {
@@ -35,6 +43,10 @@ public class MeetingService {
     public MeetingDTO findDTOBy(UUID uuid) throws NotFoundInDatabaseException {
         Meeting meeting = findBy(uuid);
         return toDto(meeting);
+    }
+
+    public List<Meeting> findAll(){
+        return meetingRepository.findAll();
     }
 
     public Meeting getWithAnswersBy(UUID uuid) {

@@ -35,6 +35,8 @@ public class Meeting {
     private String description;
     private String descriptionUrl;
     private String place;
+    private int orderMeeting;
+
     @ManyToOne
     private Department department;
 

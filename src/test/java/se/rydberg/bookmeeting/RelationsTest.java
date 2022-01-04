@@ -1,10 +1,7 @@
 package se.rydberg.bookmeeting;
 
 import org.hibernate.LazyInitializationException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,17 +59,27 @@ public class RelationsTest {
 
     @BeforeAll
     public void init() throws NotFoundInDatabaseException {
+        System.out.println("Kollar db");
+        System.out.println("antal avdelningar " + departmentService.getAll().size());
+        System.out.println("antal attendees " + attendeeService.findAll().size());
+        System.out.println("antal möten " + meetingService.findAll().size());
+       // clearDB();
         setupDepartment();
         setupAttendees();
         setupMeetings();
         mapDepartmentAttendees();
+        System.out.println("Kollar db");
+        System.out.println("antal avdelningar " + departmentService.getAll().size());
+        System.out.println("antal attendees " + attendeeService.findAll().size());
+        System.out.println("antal möten " + meetingService.findAll().size());
     }
+
 
 
 
     @Test
     public void shouldLoadRelationsInDb() throws NotFoundInDatabaseException {
-        Meeting meeting = new Meeting();
+        Meeting meeting = Meeting.builder().startDate(LocalDate.parse("2022-02-02")).build();
         meetingService.save(meeting);
         UUID id = meeting.getId();
         System.out.println("id: " + id);
@@ -104,7 +111,15 @@ public class RelationsTest {
         assertThat(fullSparare.getAttendees()).hasSize(2);
     }
 
+    @Test
+    public void departmentShouldHaveBothAttendeesAndMeetings() throws NotFoundInDatabaseException {
+        Department fullDepartment = departmentService.getDepartmentFull(departmentSparare.getId());
+        System.out.println("hittar meetings " + fullDepartment.getMeetings().size() + " antal deltagare " + fullDepartment.getAttendees().size());
+        assertThat(fullDepartment.getAttendees()).hasSize(2);
+        assertThat(fullDepartment.getMeetings()).hasSize(2);
+    }
 
+    @Disabled
     @Test
     public void shouldCreateBooking() throws NotFoundInDatabaseException {
         Meeting meeting = Meeting.builder().title("Möte 1").startDate(LocalDate.now()).build();
@@ -155,9 +170,9 @@ public class RelationsTest {
 
     private void setupMeetings() {
         System.out.println("Creating six meetings");
-        meetingSparare1 = Meeting.builder().title("Möte1 - spårare").startDate(LocalDate.now()).build();
+        meetingSparare1 = Meeting.builder().title("Möte1 - spårare").startDate(LocalDate.now()).department(departmentSparare).build();
         meetingService.save(meetingSparare1);
-        meetingSparare2 = Meeting.builder().title("Möte2 - spårare").startDate(LocalDate.now()).build();
+        meetingSparare2 = Meeting.builder().title("Möte2 - spårare").startDate(LocalDate.now()).department(departmentSparare).build();
         meetingService.save(meetingSparare2);
         meetingUpptackare1 = Meeting.builder().title("Möte1 - upptäckare").startDate(LocalDate.now()).build();
         meetingService.save(meetingUpptackare1);
@@ -196,5 +211,20 @@ public class RelationsTest {
 
         departmentAventyrare = Department.builder().name("Äventyrare").build();
         departmentService.save(departmentAventyrare);
+    }
+
+    private void clearDB() {
+        System.out.println("Antal avdelningar: " + departmentService.getAll().size());
+        departmentService.deleteById(departmentSparare.getId());
+        departmentService.deleteById(departmentUpptackare.getId());
+        departmentService.deleteById(departmentAventyrare.getId());
+
+        System.out.println("antal deltagare: " + attendeeService.findAll().size());
+        attendeeService.deleteById(attendeeSparare1.getId());
+        attendeeService.deleteById(attendeeSparare2.getId());
+        attendeeService.deleteById(attendeeUpptackare1.getId());
+        attendeeService.deleteById(attendeeUpptackare2.getId());
+        attendeeService.deleteById(attendeeAventyrare1.getId());
+        attendeeService.deleteById(attendeeAventyrare2.getId());
     }
 }

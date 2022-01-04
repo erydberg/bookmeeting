@@ -38,9 +38,18 @@ public class DepartmentService {
         return departmentRepository.getDepartmentWithAttendees(uuid);
     }
 
-    //public Department getDepartmentFull(UUID uuid) throws NotFoundInDatabaseException {
-    //    return departmentRepository.getFullDepartment(uuid);
-    //}
+    public Department getDepartmentFullOld(UUID uuid) throws NotFoundInDatabaseException {
+        Department departmentWithAttendees = departmentRepository.getDepartmentWithAttendees(uuid);
+        Department departmentWithMeetings = departmentRepository.getDepartmentWithMeetings(uuid);
+        System.out.println("antal attendees: " + departmentWithAttendees.getAttendees().size());
+        System.out.println("antal meetings: " + departmentWithMeetings.getMeetings().size());
+        departmentWithAttendees.addMeetings(departmentWithMeetings.getMeetings());
+        return departmentWithAttendees;
+    }
+
+    public Department getDepartmentFull(UUID uuid){
+        return departmentRepository.getFullDepartment(uuid);
+    }
 
     public Department getDepartmentWithMeetings(UUID uuid) throws NotFoundInDatabaseException {
         return departmentRepository.getDepartmentWithMeetings(uuid);
@@ -60,12 +69,7 @@ public class DepartmentService {
     }
 
     public void deleteById(UUID id){
-        try {
-            Department department = findBy(id);
-            delete(department);
-        } catch (NotFoundInDatabaseException e) {
-            e.printStackTrace();
-        }
+        departmentRepository.deleteById(id);
     }
 
     protected DepartmentDTO toDto(Department entity) {

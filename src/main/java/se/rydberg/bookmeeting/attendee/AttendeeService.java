@@ -2,6 +2,7 @@ package se.rydberg.bookmeeting.attendee;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import se.rydberg.bookmeeting.meeting.Meeting;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 import java.util.List;
@@ -20,6 +21,14 @@ public class AttendeeService {
 
     public MeetingAttendee save(MeetingAttendee attendee) {
         return attendeeRepository.save(attendee);
+    }
+
+    public void deleteById(UUID uuid){
+        attendeeRepository.deleteById(uuid);
+    }
+
+    public List<MeetingAttendee> findAll(){
+        return attendeeRepository.findAll();
     }
 
     public MeetingAttendee findBy(UUID uuid) throws NotFoundInDatabaseException {
