@@ -19,6 +19,7 @@ import se.rydberg.bookmeeting.meeting.MeetingService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -74,8 +75,6 @@ public class RelationsTest {
     }
 
 
-
-
     @Test
     public void shouldLoadRelationsInDb() throws NotFoundInDatabaseException {
         Meeting meeting = Meeting.builder().startDate(LocalDate.parse("2022-02-02")).build();
@@ -101,6 +100,8 @@ public class RelationsTest {
     //TODO fixa testet
     @Test
     public void shouldLoadSixAttendees(){
+
+
     }
 
     @Test
@@ -117,6 +118,13 @@ public class RelationsTest {
         assertThat(fullDepartment.getAttendees()).hasSize(2);
         assertThat(fullDepartment.getMeetings()).hasSize(2);
     }
+
+    @Test
+    public void fetchOnlyAttendeesForOneDepartment(){
+        List<MeetingAttendee> attendees = attendeeService.findAllByDepartment(departmentSparare.getId());
+        assertThat(attendees).hasSize(2);
+    }
+
 
     @Disabled
     @Test

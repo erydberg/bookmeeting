@@ -14,6 +14,7 @@ import se.rydberg.bookmeeting.department.DepartmentService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -37,7 +38,7 @@ public class AttendeeController {
 
     @GetMapping("/bydepartment/{id}")
     public String byDepartment(@PathVariable String id, Model model){
-        List<MeetingAttendeeDTO> attendees = attendeeService.findAllByDepartment(UUID.fromString(id));
+        List<MeetingAttendee> attendees = attendeeService.findAllByDepartment(UUID.fromString(id));
         model.addAttribute("attendees", attendees);
         return "attendee/attendee-bydepartment";
     }

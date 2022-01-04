@@ -6,6 +6,7 @@ import se.rydberg.bookmeeting.meeting.Meeting;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -35,9 +36,8 @@ public class AttendeeService {
         return attendeeRepository.findById(uuid).orElseThrow(()-> new NotFoundInDatabaseException("Hittar inte användaren i systemet."));
     }
 
-    public List<MeetingAttendeeDTO> findAllByDepartment(UUID id) {
-        List<MeetingAttendee> attendees = attendeeRepository.findAllAttendeeByDepartment(id);
-        return attendees.stream().map(attendee -> toDto(attendee)).collect(Collectors.toList());
+    public List<MeetingAttendee> findAllByDepartment(UUID id) {
+        return attendeeRepository.findAllAttendeeByDepartment(id);
     }
 
     protected MeetingAttendee toEntity(MeetingAttendeeDTO dto) {
