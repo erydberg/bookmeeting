@@ -1,14 +1,12 @@
 package se.rydberg.bookmeeting.attendee;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import se.rydberg.bookmeeting.meeting.Meeting;
-import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 @Service
 public class AttendeeService {
@@ -36,6 +34,12 @@ public class AttendeeService {
         return attendeeRepository.findById(uuid).orElseThrow(()-> new NotFoundInDatabaseException("Hittar inte användaren i systemet."));
     }
 
+    public MeetingAttendeeDTO findDTOBy(UUID id) throws NotFoundInDatabaseException {
+        MeetingAttendee attendee = findBy(id);
+        return toDto(attendee);
+    }
+
+
     public List<MeetingAttendee> findAllByDepartment(UUID id) {
         return attendeeRepository.findAllAttendeeByDepartment(id);
     }
@@ -55,4 +59,6 @@ public class AttendeeService {
             return null;
         }
     }
+
+
 }

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-
 @Controller
 @RequestMapping("/attendee")
 public class AttendeeController {
@@ -30,23 +29,55 @@ public class AttendeeController {
     }
 
     @GetMapping("")
-    public String start(Model model){
+    public String start(Model model) {
         List<DepartmentDTO> departments = departmentService.getAllDTOs();
         model.addAttribute("departments", departments);
         return "attendee/attendee-start-admin";
     }
 
+    @PostMapping("/save")
+    public String saveAttendee(@Valid MeetingAttendee attendee, BindingResult bindingResult, Model model,
+            RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute(
+                    "error_message",
+                    "Det saknas tyvärr lite uppgifter eller så är något ifyllt på fel sätt");
+            model.addAttribute("attendee", attendee);
+            return "attendee/attendee-edit";
+        }
+        return "";
+    }
+
+    @GetMapping("/new")
+    public String create(Model model) {
+        addDepartments(model);
+        MeetingAttendeeDTO attendee = new MeetingAttendeeDTO();
+        model.addAttribute("attendee", attendee);
+        return "attendee/attendee-edit";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editAttendee(Model model, @PathVariable String id) {
+        try {
+            addDepartments(model);
+            MeetingAttendeeDTO attendee = attendeeService.findDTOBy(UUID.fromString(id));
+            model.addAttribute("attendee", attendee);
+            return "attendee/attendee-edit";
+        } catch (Exception e) {
+            model.addAttribute("error_message", e.getMessage());
+            return "error/general_error";
+        }
+    }
+
     @GetMapping("/bydepartment/{id}")
-    public String byDepartment(@PathVariable String id, Model model){
+    public String byDepartment(@PathVariable String id, Model model) {
         List<MeetingAttendee> attendees = attendeeService.findAllByDepartment(UUID.fromString(id));
         model.addAttribute("attendees", attendees);
         return "attendee/attendee-bydepartment";
     }
 
-    @PostMapping("/save")
-    public String saveAttendee(@Valid MeetingAttendee attendee, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
-
-        return "";
+    private void addDepartments(Model model) {
+        List<DepartmentDTO> departments = departmentService.getAllDTOs();
+        model.addAttribute("departments", departments);
     }
-
 }

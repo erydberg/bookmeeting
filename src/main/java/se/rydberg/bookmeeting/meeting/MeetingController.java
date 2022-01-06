@@ -76,8 +76,6 @@ public class MeetingController {
             model.addAttribute("meeting", meetingDto);
             return "meeting/meeting-edit";
         }
-        // todo fixa så vi inte skriver över sparat data i relationer
-        // alltså hämta från db och sedan uppdatera fält
         if (meetingDto.getId() != null) {
             try {
                 Meeting backendMeeting = meetingService.findBy(meetingDto.getId());
