@@ -17,6 +17,7 @@ import se.rydberg.bookmeeting.answer.MeetingAnswer;
 import se.rydberg.bookmeeting.answer.MeetingAnswerService;
 import se.rydberg.bookmeeting.attendee.AttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
+import se.rydberg.bookmeeting.attendee.MeetingAttendeeDTO;
 import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.meeting.Meeting;
@@ -120,7 +121,7 @@ public class RelationsTest {
 
     @Test
     public void fetchOnlyAttendeesForOneDepartment(){
-        List<MeetingAttendee> attendees = attendeeService.findAllByDepartment(departmentSparare.getId());
+        List<MeetingAttendeeDTO> attendees = attendeeService.findAllByDepartment(departmentSparare.getId());
         assertThat(attendees).hasSize(2);
     }
 

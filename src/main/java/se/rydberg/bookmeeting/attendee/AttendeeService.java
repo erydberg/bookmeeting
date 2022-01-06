@@ -2,10 +2,12 @@ package se.rydberg.bookmeeting.attendee;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 @Service
@@ -22,22 +24,22 @@ public class AttendeeService {
         return attendeeRepository.save(attendee);
     }
 
-
     public MeetingAttendeeDTO saveDTO(MeetingAttendeeDTO dto) {
         MeetingAttendee attendee = toEntity(dto);
         return toDto(save(attendee));
     }
 
-    public void deleteById(UUID uuid){
+    public void deleteById(UUID uuid) {
         attendeeRepository.deleteById(uuid);
     }
 
-    public List<MeetingAttendee> findAll(){
+    public List<MeetingAttendee> findAll() {
         return attendeeRepository.findAll();
     }
 
     public MeetingAttendee findBy(UUID uuid) throws NotFoundInDatabaseException {
-        return attendeeRepository.findById(uuid).orElseThrow(()-> new NotFoundInDatabaseException("Hittar inte användaren i systemet."));
+        return attendeeRepository.findById(uuid)
+                .orElseThrow(() -> new NotFoundInDatabaseException("Hittar inte användaren i systemet."));
     }
 
     public MeetingAttendeeDTO findDTOBy(UUID id) throws NotFoundInDatabaseException {
@@ -45,9 +47,12 @@ public class AttendeeService {
         return toDto(attendee);
     }
 
-
-    public List<MeetingAttendee> findAllByDepartment(UUID id) {
-        return attendeeRepository.findAllAttendeeByDepartment(id);
+    @Transactional(readOnly = true)
+    public List<MeetingAttendeeDTO> findAllByDepartment(UUID id) {
+        return attendeeRepository.findAllAttendeeByDepartment(id)
+                .stream()
+                .map(meetingAttendee -> toDto(meetingAttendee))
+                .collect(Collectors.toList());
     }
 
     protected MeetingAttendee toEntity(MeetingAttendeeDTO dto) {

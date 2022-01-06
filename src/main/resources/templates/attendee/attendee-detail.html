@@ -26,5 +26,8 @@
     <p th:text="${attendee.email}"></p>
     <p th:text="${attendee.status.getDisplayValue()}"></p>
 </div>
+<div>
+    <a th:href="@{'/attendee/delete/' + ${attendee.id}}">Ta bort</a>
+</div>
 </body>
 </html>

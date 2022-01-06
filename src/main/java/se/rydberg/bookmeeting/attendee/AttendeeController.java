@@ -1,5 +1,10 @@
 package se.rydberg.bookmeeting.attendee;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,15 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import se.rydberg.bookmeeting.department.Department;
+
 import se.rydberg.bookmeeting.department.DepartmentDTO;
 import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
-
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/attendee")
@@ -36,19 +36,17 @@ public class AttendeeController {
         return "attendee/attendee-start-admin";
     }
 
-
     @GetMapping("/detail/{id}")
-    public String viewDetail(@PathVariable String id, Model model){
+    public String viewDetail(@PathVariable String id, Model model) {
         try {
             MeetingAttendeeDTO attendee = attendeeService.findDTOBy(UUID.fromString(id));
             model.addAttribute("attendee", attendee);
             return "attendee/attendee-detail";
-        }catch (Exception e){
+        } catch (Exception e) {
             model.addAttribute("error_message", "Kunde inte hitta deltagaren");
             return "error/general_error";
         }
     }
-
 
     @PostMapping("/save")
     public String saveAttendee(@Valid MeetingAttendeeDTO attendee, BindingResult bindingResult, Model model,
@@ -68,7 +66,7 @@ public class AttendeeController {
             }
         }
         MeetingAttendeeDTO savedAttendee = attendeeService.saveDTO(attendee);
-        redirectAttributes.addFlashAttribute("message", "Sparat " + savedAttendee.getName() );
+        redirectAttributes.addFlashAttribute("message", "Sparat " + savedAttendee.getName());
 
         return "redirect:/attendee/detail/" + savedAttendee.getId();
     }
@@ -94,11 +92,26 @@ public class AttendeeController {
         }
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteAttendee(@PathVariable String id, RedirectAttributes redirectAttributes){
+        attendeeService.deleteById(UUID.fromString(id));
+        redirectAttributes.addFlashAttribute("message", "Deltagare borttagen");
+        return "redirect:/attendee";
+    }
+
     @GetMapping("/bydepartment/{id}")
     public String byDepartment(@PathVariable String id, Model model) {
-        List<MeetingAttendee> attendees = attendeeService.findAllByDepartment(UUID.fromString(id));
-        model.addAttribute("attendees", attendees);
-        return "attendee/attendee-bydepartment";
+        try {
+            DepartmentDTO department = departmentService.findDTOBy(UUID.fromString(id));
+            model.addAttribute("department", department);
+            List<MeetingAttendeeDTO> attendees = attendeeService.findAllByDepartment(UUID.fromString(id));
+            model.addAttribute("attendees", attendees);
+            return "attendee/attendee-bydepartment";
+
+        } catch (Exception e) {
+            model.addAttribute("error_message", "Kan inte hitta avdelningen och dess deltagare");
+            return "error/general_error";
+        }
     }
 
     private void addDepartments(Model model) {

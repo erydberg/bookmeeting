@@ -1,0 +1,21 @@
+
+All access för icke inloggade
+/public
+
+
+Admin-access
+/admin -> start
+
+Mötesadmin
+/admin/meeting
+/admin/meeting/new
+/admin/meeting/detail/id
+/admin/meeting/delete/id
+
+
+/admin/attendee
+/admin/department
+
+
+Under utveckling
+/utv - genererar upp ett antal poster i databasen

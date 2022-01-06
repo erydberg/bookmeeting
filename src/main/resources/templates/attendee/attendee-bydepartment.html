@@ -13,14 +13,19 @@
 </span>
     <h1 th:text="'Scouter för avdelning ' + ${department.name}">Scouter för avdelning</h1>
 </div>
-
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
 <div class="notepad">
     <ul class="list">
-        <li  th:each="attendee: ${attendees}">
+        <li th:each="attendee: ${attendees}">
             <a th:href="@{'/attendee/detail/' + ${attendee.id}}" th:text="${attendee.name}"></a>
+            <span th:text="' (' + ${attendee.status.getDisplayValue() + ')'}"></span>
         </li>
     </ul>
 </div>
-
 </body>
 </html>

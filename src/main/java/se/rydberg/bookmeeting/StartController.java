@@ -3,6 +3,8 @@ package se.rydberg.bookmeeting;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import se.rydberg.bookmeeting.attendee.AttendeeService;
+import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.department.DepartmentService;
 
@@ -11,9 +13,11 @@ import se.rydberg.bookmeeting.department.DepartmentService;
 public class StartController {
 
     private final DepartmentService departmentService;
+    private final AttendeeService attendeeService;
 
-    public StartController(DepartmentService departmentService) {
+    public StartController(DepartmentService departmentService, AttendeeService attendeeService) {
         this.departmentService = departmentService;
+        this.attendeeService = attendeeService;
     }
 
     @GetMapping("")
@@ -34,6 +38,18 @@ public class StartController {
         departmentService.save(department4);
 
         System.out.println("Sparat en dev-uppsättning av avdelningar");
+
+        MeetingAttendee attendeeSparare = MeetingAttendee.builder().name("Kalle spårare").email("test@mail.se").status(Status.ACTIVE).build();
+        MeetingAttendee attendeeSparare2 = MeetingAttendee.builder().name("Stina spårare").email("erik@mail.se").status(Status.ACTIVE).build();
+
+        attendeeService.save(attendeeSparare);
+        attendeeService.save(attendeeSparare2);
+
+        department1.addAttendee(attendeeSparare);
+        department1.addAttendee(attendeeSparare2);
+
+        departmentService.save(department1);
+
         return "utv-start";
     }
 
