@@ -7,9 +7,7 @@ import se.rydberg.bookmeeting.answer.MeetingAnswer;
 import se.rydberg.bookmeeting.department.Department;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -24,7 +22,7 @@ public class MeetingAttendee {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-    @Column(name = "id",unique=true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private UUID id;
     @Column(length = 100)
     private String name;
@@ -36,17 +34,17 @@ public class MeetingAttendee {
     private Department department;
 
     @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MeetingAnswer> meetingAnswers = new ArrayList<>();
+    private Set<MeetingAnswer> meetingAnswers = new LinkedHashSet<>();
 
-    public void addMeetingAnswer(MeetingAnswer answer){
-        if(meetingAnswers == null){
-            meetingAnswers = new ArrayList<>();
+    public void addMeetingAnswer(MeetingAnswer answer) {
+        if (meetingAnswers == null) {
+            meetingAnswers = new LinkedHashSet<>();
         }
         meetingAnswers.add(answer);
         answer.setAttendee(this);
     }
 
-    public void removeMeetingAnswer(MeetingAnswer answer){
+    public void removeMeetingAnswer(MeetingAnswer answer) {
         meetingAnswers.remove(answer);
         answer.setAttendee(null);
     }

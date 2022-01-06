@@ -22,6 +22,12 @@ public class AttendeeService {
         return attendeeRepository.save(attendee);
     }
 
+
+    public MeetingAttendeeDTO saveDTO(MeetingAttendeeDTO dto) {
+        MeetingAttendee attendee = toEntity(dto);
+        return toDto(save(attendee));
+    }
+
     public void deleteById(UUID uuid){
         attendeeRepository.deleteById(uuid);
     }
@@ -59,6 +65,4 @@ public class AttendeeService {
             return null;
         }
     }
-
-
 }

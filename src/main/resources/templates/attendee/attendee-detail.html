@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title th:text="'Deltagare - ' + ${attendee.name}">Deltagare</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/attendee'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/attendee/edit/' + ${attendee.id}}"><img th:src="@{/styles/edit2.png}"></a>
+       <a class="toolitem" th:href="@{'/attendee/new'}"><img th:src="@{/styles/user.png}"></a>
+</span>
+    <h1>Deltagare</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<div class="form-box">
+    <p th:text="${attendee.name}"></p>
+    <p th:text="${attendee.department.name}"></p>
+    <p th:text="${attendee.email}"></p>
+    <p th:text="${attendee.status.getDisplayValue()}"></p>
+</div>
+</body>
+</html>

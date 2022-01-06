@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.department.DepartmentDTO;
 import se.rydberg.bookmeeting.department.DepartmentService;
+import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,8 +36,22 @@ public class AttendeeController {
         return "attendee/attendee-start-admin";
     }
 
+
+    @GetMapping("/detail/{id}")
+    public String viewDetail(@PathVariable String id, Model model){
+        try {
+            MeetingAttendeeDTO attendee = attendeeService.findDTOBy(UUID.fromString(id));
+            model.addAttribute("attendee", attendee);
+            return "attendee/attendee-detail";
+        }catch (Exception e){
+            model.addAttribute("error_message", "Kunde inte hitta deltagaren");
+            return "error/general_error";
+        }
+    }
+
+
     @PostMapping("/save")
-    public String saveAttendee(@Valid MeetingAttendee attendee, BindingResult bindingResult, Model model,
+    public String saveAttendee(@Valid MeetingAttendeeDTO attendee, BindingResult bindingResult, Model model,
             RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(
@@ -45,7 +60,17 @@ public class AttendeeController {
             model.addAttribute("attendee", attendee);
             return "attendee/attendee-edit";
         }
-        return "";
+        if (attendee.getId() != null) {
+            try {
+                MeetingAttendee backendAttendee = attendeeService.findBy(attendee.getId());
+                attendee.setMeetingAnswers(backendAttendee.getMeetingAnswers());
+            } catch (NotFoundInDatabaseException e) {
+            }
+        }
+        MeetingAttendeeDTO savedAttendee = attendeeService.saveDTO(attendee);
+        redirectAttributes.addFlashAttribute("message", "Sparat " + savedAttendee.getName() );
+
+        return "redirect:/attendee/detail/" + savedAttendee.getId();
     }
 
     @GetMapping("/new")

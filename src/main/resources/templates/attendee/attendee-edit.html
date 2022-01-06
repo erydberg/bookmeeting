@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Redigera deltagare</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/attendee'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/attendee/new'}"><img th:src="@{/styles/user.png}"></a>
+</span>
+    <h1>Redigera deltagare</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<form id="frmEditMeeting" method="post" class="form-general" th:action="@{/attendee/save}" th:object="${attendee}">
+    <div class="form-box">
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="name">Deltagare</label>
+        <input class="input-long" type="text" id="name" placeholder="Skriv in deltagarens namn" th:field="*{name}">
+        <label for="email">E-postadress till den som ska svara på om deltagaren kommer eller inte</label>
+        <input class="input-long" type="text" id="email" placeholder="Skriv in e-postadress" th:field="*{email}">
+
+        <div>
+        <span th:each="statusType:${T(se.rydberg.bookmeeting.Status).values()}">
+            <input type="radio" th:field="*{status}" th:value="${statusType}">
+            <label class="label_normal" th:for="${#ids.prev('status')}" th:text="${statusType.displayValue}">Status</label>
+        </span>
+        </div>
+
+        <div class="category-select">
+            <select name="department" id="department" th:field="*{department}">
+                <option value="">Välj avdelning...</option>
+                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}">
+                    Värde
+                </option>
+            </select>
+        </div>
+        <div class="submit-area">
+            <button type="submit">Spara</button>
+            <a th:if="${!#strings.isEmpty(attendee.id)}" th:href="@{'/attendee/detail/' + ${attendee.id}}"> | Avbryt</a>
+        </div>
+        </p>
+    </div>
+</form>
+</body>
+</html>
