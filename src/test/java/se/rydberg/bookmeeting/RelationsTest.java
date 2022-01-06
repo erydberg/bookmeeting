@@ -1,11 +1,18 @@
 package se.rydberg.bookmeeting;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
+
 import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import se.rydberg.bookmeeting.answer.MeetingAnswer;
 import se.rydberg.bookmeeting.answer.MeetingAnswerService;
 import se.rydberg.bookmeeting.attendee.AttendeeService;
@@ -13,16 +20,9 @@ import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.meeting.Meeting;
-import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 import se.rydberg.bookmeeting.meeting.MeetingService;
+import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = BookmeetingApplication.class)
@@ -97,11 +97,10 @@ public class RelationsTest {
         assertThat(meetings).hasSize(6);
     }
 
-    //TODO fixa testet
     @Test
     public void shouldLoadSixAttendees(){
-
-
+        List<MeetingAttendee> attendees = attendeeService.findAll();
+        assertThat(attendees).hasSize(6);
     }
 
     @Test
