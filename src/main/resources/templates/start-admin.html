@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Administration - Scoutmöten</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>För dig som ledare på avdelningen</h1>
+</div>
+<div class="notepad">
+    <ul class="list">
+        <li class="nav-item">
+            <a th:href="@{'/lists/'}">Anmälningar till möten-Ej klar</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/admin/meeting/'}">Lägg till/ta bort möten</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/admin/attendee/'}">Lägg till/ta bort scouter</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/admin/department/'}">Lägg till/ta bort avdelningar</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/admin/users/'}">Lägg till/ta bort ledare</a>
+        </li>
+        <li class="nav-item">
+            <form method="POST" th:action="@{/logout}">
+                <button type="submit" class="link-button">Logga ut</button>
+            </form>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

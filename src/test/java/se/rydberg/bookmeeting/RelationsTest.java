@@ -120,6 +120,12 @@ public class RelationsTest {
     }
 
     @Test
+    public void shouldFetchMeetingsForSpecificDepartment(){
+        List<Meeting> meetings = meetingService.allMeetingsForDepartment(departmentSparare.getId());
+        assertThat(meetings).hasSize(2);
+    }
+
+    @Test
     public void fetchOnlyAttendeesForOneDepartment(){
         List<MeetingAttendeeDTO> attendees = attendeeService.findAllByDepartment(departmentSparare.getId());
         assertThat(attendees).hasSize(2);

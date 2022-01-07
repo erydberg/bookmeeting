@@ -8,19 +8,18 @@
 
 <div class="nav-box">
 <span class="toolbar">
-    <a class="toolitem" th:href="@{'/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
+    <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
-    <h1 sec:authentication="name">Hantera möten</h1>
+    <h1>Välj avdelning för att gå vidare</h1>
 </div>
-För att anmäla dig - klicka på länken i ditt mail eller klista in id-et för din scout där hemma.
-<p>
-    Här kan man tänka sig att man får ange något som gör att vi kan hämta korrekt användare istället för att använda länken.
-</p>
-<ul>
-    <li>e-postadress</li>
-    <li>uuid</li>
-    <li>mobilnummer</li>
+<ul class="notepad">
+    <li th:each="department: ${departments}">
+        <a th:href="@{'/admin/meeting/bydepartment/' + ${department.id}}" th:text="${department.name}"></a>
+    </li>
 </ul>
+
+<p>
+</p>
 
 </body>
 </html>

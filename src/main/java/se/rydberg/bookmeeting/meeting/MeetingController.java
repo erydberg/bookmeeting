@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("meeting")
+@RequestMapping("/admin/meeting")
 public class MeetingController {
     private final MeetingService meetingService;
     private final DepartmentService departmentService;
@@ -27,7 +27,8 @@ public class MeetingController {
     }
 
     @GetMapping("")
-    public String start() {
+    public String start(Model model) {
+        addDepartments(model);
         return "meeting/meeting-start";
     }
 
@@ -91,7 +92,7 @@ public class MeetingController {
                 Meeting savedMeeting = meetingService.save(backendMeeting);
                 model.addAttribute("meeting", savedMeeting);
                 redirectAttributes.addFlashAttribute("message", "Mötet uppdaterat");
-                return "redirect:/meeting/detail/" + savedMeeting.getId();
+                return "redirect:/admin/meeting/detail/" + savedMeeting.getId();
             } catch (NotFoundInDatabaseException e) {
                 model.addAttribute("error_message", "Kan inte hitta det sparade mötet att uppdatera.");
                 return "error/general_error";
@@ -101,8 +102,17 @@ public class MeetingController {
             model.addAttribute("meeting", savedMeetingDTO);
             redirectAttributes.addFlashAttribute("message", "Mötestillfället är sparat.");
             String id = String.valueOf(savedMeetingDTO.getId());
-            return "redirect:/meeting/detail/" + id;
+            return "redirect:/admin/meeting/detail/" + id;
         }
+    }
 
+    @GetMapping("/bydepartment/{id}")
+    public String getByDepartment(@PathVariable String id, Model model){
+        return "";
+    }
+
+    private void addDepartments(Model model) {
+        List<DepartmentDTO> departments = departmentService.getAllDTOs();
+        model.addAttribute("departments", departments);
     }
 }

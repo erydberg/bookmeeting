@@ -17,8 +17,8 @@
 <div class="notepad">
     <ul class="list">
         <li  th:each="department: ${departments}">
-            <a th:href="@{'/department/detail/' + ${department.id}}" th:text="${department.name}"></a>
-            <a th:href="@{'/department/delete/' + ${department.id}}" class="del" onclick="return (confirm('Vill du ta bort avdelningen?'))"/><img th:src="@{/styles/delete.png}"></a>
+            <a th:href="@{'/admin/department/detail/' + ${department.id}}" th:text="${department.name}"></a>
+            <a th:href="@{'/admin/department/delete/' + ${department.id}}" class="del" onclick="return (confirm('Vill du ta bort avdelningen?'))"/><img th:src="@{/styles/delete.png}"></a>
         </li>
     </ul>
 </div>

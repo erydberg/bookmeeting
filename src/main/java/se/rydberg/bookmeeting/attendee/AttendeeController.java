@@ -19,7 +19,7 @@ import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 @Controller
-@RequestMapping("/attendee")
+@RequestMapping("/admin/attendee")
 public class AttendeeController {
     private final AttendeeService attendeeService;
     private final DepartmentService departmentService;
@@ -68,7 +68,7 @@ public class AttendeeController {
         MeetingAttendeeDTO savedAttendee = attendeeService.saveDTO(attendee);
         redirectAttributes.addFlashAttribute("message", "Sparat " + savedAttendee.getName());
 
-        return "redirect:/attendee/detail/" + savedAttendee.getId();
+        return "redirect:/admin/attendee/detail/" + savedAttendee.getId();
     }
 
     @GetMapping("/new")
@@ -94,9 +94,23 @@ public class AttendeeController {
 
     @GetMapping("/delete/{id}")
     public String deleteAttendee(@PathVariable String id, RedirectAttributes redirectAttributes){
-        attendeeService.deleteById(UUID.fromString(id));
-        redirectAttributes.addFlashAttribute("message", "Deltagare borttagen");
-        return "redirect:/attendee";
+        try {
+            MeetingAttendee toDelete = attendeeService.findBy(UUID.fromString(id));
+            UUID departmentId = null;
+            if(toDelete.getDepartment()!=null){
+                departmentId = toDelete.getDepartment().getId();
+            }
+            attendeeService.delete(toDelete);
+            redirectAttributes.addFlashAttribute("message", "Deltagare borttagen");
+            if(departmentId!=null){
+                return "redirect:/admin/attendee/bydepartment/" + departmentId;
+            }else{
+                return "redirect:/admin/attendee";
+            }
+        } catch (NotFoundInDatabaseException e) {
+            redirectAttributes.addFlashAttribute("error_message", "Det gick inte att ta bort deltagaren");
+            return "error/general_error";
+        }
     }
 
     @GetMapping("/bydepartment/{id}")

@@ -23,17 +23,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/styles/**").permitAll()
                 //normal users - well not now-perhaps public?
-                .antMatchers("/attendee/**").permitAll()
                 //to change to admin-user
-                .antMatchers("/meeting/**").permitAll()
-                .antMatchers("/department/**").permitAll()
+                .antMatchers("/admin/**").permitAll()
 
                 //admin users
                 .antMatchers("/h2-console/**").permitAll()
                 .and()
                 .authorizeRequests()
                     .antMatchers("/menu/**").hasRole("USER")
-                    .antMatchers("/admin/**").hasRole("ADMIN")
+                  //  .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

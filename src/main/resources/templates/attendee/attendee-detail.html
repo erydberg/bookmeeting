@@ -8,9 +8,9 @@
 <body>
 <div class="nav-box">
 <span class="toolbar">
-       <a class="toolitem" th:href="@{'/attendee'}"><img th:src="@{/styles/back.png}"></a>
-       <a class="toolitem" th:href="@{'/attendee/edit/' + ${attendee.id}}"><img th:src="@{/styles/edit2.png}"></a>
-       <a class="toolitem" th:href="@{'/attendee/new'}"><img th:src="@{/styles/user.png}"></a>
+       <a class="toolitem" th:href="@{'/admin/attendee'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/admin/attendee/edit/' + ${attendee.id}}"><img th:src="@{/styles/edit2.png}"></a>
+       <a class="toolitem" th:href="@{'/admin/attendee/new'}"><img th:src="@{/styles/user.png}"></a>
 </span>
     <h1>Deltagare</h1>
 </div>
@@ -27,7 +27,7 @@
     <p th:text="${attendee.status.getDisplayValue()}"></p>
 </div>
 <div>
-    <a th:href="@{'/attendee/delete/' + ${attendee.id}}">Ta bort</a>
+    <a th:href="@{'/admin/attendee/delete/' + ${attendee.id}}">Ta bort</a>
 </div>
 </body>
 </html>

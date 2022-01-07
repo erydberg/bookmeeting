@@ -17,7 +17,7 @@ import java.util.UUID;
 import static java.lang.String.format;
 
 @Controller
-@RequestMapping("department")
+@RequestMapping("/admin/department")
 public class DepartmentController {
     private final DepartmentService departmentService;
 
@@ -78,7 +78,7 @@ public class DepartmentController {
                 departmentService.save(backendDepartment);
                 model.addAttribute("department", backendDepartment);
                 redirectAttributes.addFlashAttribute("message", "Ändringarna sparade");
-                return "redirect:/department/detail/" + backendDepartment.getId();
+                return "redirect:/admin/department/detail/" + backendDepartment.getId();
             } catch (NotFoundInDatabaseException e) {
                 model.addAttribute("error_message", "Kan inte hitta det sparade mötet att uppdatera. Försök igen.");
                 return "error/general_error";
@@ -87,7 +87,7 @@ public class DepartmentController {
             DepartmentDTO savedDepartment = departmentService.saveDTO(departmentDto);
             model.addAttribute("department", savedDepartment);
             redirectAttributes.addFlashAttribute("message", "Avdelning sparad");
-            return "redirect:/department/detail/" + savedDepartment.getId();
+            return "redirect:/admin/department/detail/" + savedDepartment.getId();
         }
     }
 
@@ -102,7 +102,7 @@ public class DepartmentController {
             redirectAttributes
                     .addFlashAttribute("message", format("Avdelning %s är borttagen", departmentToRemove.getName()));
             departmentService.deleteById(UUID.fromString(id));
-            return "redirect:/department";
+            return "redirect:/admin/department";
         } catch (NotFoundInDatabaseException e) {
             model.addAttribute("error_message", "Ingen avdelning hittad att ta bort.");
             return "error/general_error";

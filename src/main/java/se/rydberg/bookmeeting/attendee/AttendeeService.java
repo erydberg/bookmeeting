@@ -33,6 +33,10 @@ public class AttendeeService {
         attendeeRepository.deleteById(uuid);
     }
 
+    public void delete(MeetingAttendee attendee){
+        attendeeRepository.delete(attendee);
+    }
+
     public List<MeetingAttendee> findAll() {
         return attendeeRepository.findAll();
     }

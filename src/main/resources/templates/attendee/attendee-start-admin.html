@@ -7,7 +7,7 @@
 <body>
 <div class="nav-box">
 <span class="toolbar">
-    <a class="toolitem" th:href="@{'/attendee/new'}"><img th:src="@{/styles/newlist.png}"></a>
+    <a class="toolitem" th:href="@{'/admin/attendee/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
     <h1>Välj avdelning</h1>
 </div>
@@ -20,7 +20,7 @@
 <div class="notepad">
     <ul class="list">
         <li th:each="department: ${departments}">
-            <a th:href="@{'/attendee/bydepartment/' + ${department.id}}" th:text="${department.name}"></a>
+            <a th:href="@{'/admin/attendee/bydepartment/' + ${department.id}}" th:text="${department.name}"></a>
         </li>
     </ul>
 </div>

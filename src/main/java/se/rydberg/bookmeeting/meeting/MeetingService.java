@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +35,10 @@ public class MeetingService {
     public MeetingDTO findDTOBy(UUID uuid) throws NotFoundInDatabaseException {
         Meeting meeting = findBy(uuid);
         return toDto(meeting);
+    }
+
+    public List<Meeting> allMeetingsForDepartment(UUID departmentId){
+        return meetingRepository.getMeetingsForDepartment(departmentId);
     }
 
     public List<Meeting> findAll(){

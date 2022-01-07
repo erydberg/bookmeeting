@@ -1,12 +1,16 @@
 package se.rydberg.bookmeeting;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import se.rydberg.bookmeeting.attendee.AttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.department.Department;
+import se.rydberg.bookmeeting.department.DepartmentDTO;
 import se.rydberg.bookmeeting.department.DepartmentService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -21,8 +25,14 @@ public class StartController {
     }
 
     @GetMapping("")
-    public String start(){
+    public String start()
+    {
         return "start";
+    }
+
+    @GetMapping("/admin")
+    public String startAdmin(){
+        return "start-admin";
     }
 
     @GetMapping("/utv")
@@ -52,10 +62,4 @@ public class StartController {
 
         return "utv-start";
     }
-
-
-
-
-
-
 }

@@ -8,8 +8,8 @@
 
 <div class="nav-box">
 <span class="toolbar">
-    <a class="toolitem" th:href="@{'/attendee'}"><img th:src="@{/styles/back.png}"></a>
-    <a class="toolitem" th:href="@{'/attendee/new'}"><img th:src="@{/styles/user.png}"></a>
+    <a class="toolitem" th:href="@{'/admin/attendee'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/admin/attendee/new'}"><img th:src="@{/styles/user.png}"></a>
 </span>
     <h1 th:text="'Scouter för avdelning ' + ${department.name}">Scouter för avdelning</h1>
 </div>
@@ -22,8 +22,9 @@
 <div class="notepad">
     <ul class="list">
         <li th:each="attendee: ${attendees}">
-            <a th:href="@{'/attendee/detail/' + ${attendee.id}}" th:text="${attendee.name}"></a>
+            <a th:href="@{'/admin/attendee/detail/' + ${attendee.id}}" th:text="${attendee.name}"></a>
             <span th:text="' (' + ${attendee.status.getDisplayValue() + ')'}"></span>
+            <a th:href="@{'/admin/attendee/delete/' + ${attendee.id}}" class="del" onclick="return (confirm('Vill du ta bort deltagaren?'))"/><img th:src="@{/styles/delete.png}"></a>
         </li>
     </ul>
 </div>

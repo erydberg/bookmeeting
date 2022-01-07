@@ -8,8 +8,8 @@
 <body>
 <div class="nav-box">
 <span class="toolbar">
-       <a class="toolitem" th:href="@{'/meeting'}"><img th:src="@{/styles/back.png}"></a>
-       <a class="toolitem" th:href="@{'/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
+       <a class="toolitem" th:href="@{'/admin/meeting'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
     <h1>Planerat möte</h1>
 </div>
@@ -19,7 +19,7 @@
 <div class="successblock" th:if="${message}">
     <p th:text="${message}"></p>
 </div>
-<form id="frmEditMeeting" method="post" class="form-general" th:action="@{/meeting/save}" th:object="${meeting}">
+<form id="frmEditMeeting" method="post" class="form-general" th:action="@{/admin/meeting/save}" th:object="${meeting}">
     <div class="form-box">
         <input type="hidden" id="id" th:field="*{id}">
         <label for="title">Möte</label>
@@ -55,7 +55,7 @@
 
             <div class="submit-area">
                 <button type="submit">Spara</button>
-                <a th:if="${!#strings.isEmpty(meeting.id)}" th:href="@{'/meeting/detail/' + ${meeting.id}}"> | Avbryt</a>
+                <a th:if="${!#strings.isEmpty(meeting.id)}" th:href="@{'/admin/meeting/detail/' + ${meeting.id}}"> | Avbryt</a>
             </div>
             </p>
         </div>
