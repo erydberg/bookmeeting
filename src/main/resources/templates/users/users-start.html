@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Användare - Scoutmöten</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/admin'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/admin/users/new'}"><img th:src="@{/styles/user.png}"></a>
+</span>
+    <h1>Användare/ledare</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<div class="notepad">
+    <ul class="list">
+            <li  th:each="user: ${users}">
+                <a th:href="@{'/admin/users/view/' + ${user.id}}" th:text="${user.username}"></a>
+                <a th:href="@{'/admin/users/delete/' + ${user.id}}" class="del" onclick="return (confirm('Vill du ta bort användaren?'))"/><img th:src="@{/styles/delete.png}"></a>
+            </li>
+    </ul>
+</div>
+</body>
+</html>
