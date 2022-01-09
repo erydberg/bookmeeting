@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Mötesadministration - Scoutmöten</title>
+</head>
+<body>
+
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Test svar</h1>
+</div>
+Ordningen - välj användare sedan visas alla möten för den användarens department
+<h2 th:text="${attendee.name}"></h2>
+<p th:text="${department.name}"></p>
+<p th:text="${attendee.department.name}"></p>
+
+<ul class="notepad">
+    <li th:each="meeting: ${meetings}">
+        <a th:href="@{'/bookmeeting/signup/' + ${attendee.id}} + '/to/' + ${meeting.id}" th:text="${meeting.title}"></a>
+    </li>
+</ul>
+
+<p>
+</p>
+
+</body>
+</html>

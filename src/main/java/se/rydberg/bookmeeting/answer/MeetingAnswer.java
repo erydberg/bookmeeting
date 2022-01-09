@@ -12,8 +12,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "meetinganswer")
 public class MeetingAnswer {

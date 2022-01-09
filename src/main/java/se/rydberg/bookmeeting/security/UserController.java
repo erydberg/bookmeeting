@@ -59,8 +59,6 @@ public class UserController {
             model.addAttribute("error_message", "Kan inte hitta användare att redigera");
             return "error/general_error";
         }
-
-
     }
 
     @GetMapping("/delete/{id}")
