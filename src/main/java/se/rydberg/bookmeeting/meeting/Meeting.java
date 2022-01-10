@@ -3,6 +3,7 @@ package se.rydberg.bookmeeting.meeting;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
+import se.rydberg.bookmeeting.Status;
 import se.rydberg.bookmeeting.answer.MeetingAnswer;
 import se.rydberg.bookmeeting.department.Department;
 
@@ -32,6 +33,8 @@ public class Meeting {
     private String description;
     private String descriptionUrl;
     private String place;
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ACTIVE;
 
     @ManyToOne
     private Department department;

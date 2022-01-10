@@ -29,6 +29,7 @@
         <span th:text="${meeting.endDate}"></span>
         <span th:text="${meeting.endTime}"></span>
     </div>
+    <p th:text="${meeting.status.getDisplayValue()}"></p>
     <div>
         <span th:text="${meeting.place}"></span>
     </div>

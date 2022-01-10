@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Boka möten - Scoutmöten</title>
+</head>
+<body>
+
+<div class="nav-box">
+<span class="toolbar">
+</span>
+    <h1>Kommer eller inte kommer - det är frågan!</h1>
+</div>
+<h2 th:text="${attendee.name}"></h2>
+<p th:text="${attendee.department.name}"></p>
+Det är kul att vara på scouterna! Det är alltid bra att veta om du/din scout kommer så klicka i om du kommer eller inte. Du kan komma tillbaka till sidan och ändra dig. Tänk på att vissa möten har en sista anmälningsdag och att alla möten kanske inte syns i den här listan.
+
+<ul class="notepad">
+    <li th:each="meeting: ${meetings}">
+        <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}" th:text="${meeting.startDate + ' ' + meeting.title}"></a> |
+        <a th:href="@{'/bookmeeting/signup/' + ${attendee.id}} + '/to/' + ${meeting.id}">Ja,kommer!</a> |
+        <a th:href="@{'/bookmeeting/decline/' + ${attendee.id}} + '/to/' + ${meeting.id}">Missar tyvärr</a>
+    </li>
+</ul>
+
+<p>
+</p>
+
+</body>
+</html>

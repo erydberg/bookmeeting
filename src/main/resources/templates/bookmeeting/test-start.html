@@ -12,14 +12,12 @@
 </span>
     <h1>Test svar</h1>
 </div>
-Ordningen - välj användare sedan visas alla möten för den användarens department
-<h2 th:text="${attendee.name}"></h2>
-<p th:text="${department.name}"></p>
-<p th:text="${attendee.department.name}"></p>
+testar - visar alla deltagare
 
 <ul class="notepad">
-    <li th:each="meeting: ${meetings}">
-        <a th:href="@{'/bookmeeting/signup/' + ${attendee.id}} + '/to/' + ${meeting.id}" th:text="${meeting.title}"></a>
+    <li th:each="attendee: ${attendees}">
+        <a th:href="@{'/bookmeeting/attendee/' + ${attendee.id}}"
+           th:text="${attendee.name}"></a>
     </li>
 </ul>
 

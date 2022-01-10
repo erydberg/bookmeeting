@@ -131,6 +131,12 @@ public class RelationsTest {
         assertThat(attendees).hasSize(2);
     }
 
+    @Test
+    public void fetchActiveMeetingsForDepartment(){
+        List<Meeting> activeMeetings = meetingService.allActiveMeetingsForDepartment(departmentAventyrare.getId());
+        assertThat(activeMeetings).hasSize(1);
+    }
+
 
     @Disabled
     @Test
@@ -187,13 +193,13 @@ public class RelationsTest {
         meetingService.save(meetingSparare1);
         meetingSparare2 = Meeting.builder().title("Möte2 - spårare").startDate(LocalDate.now()).department(departmentSparare).build();
         meetingService.save(meetingSparare2);
-        meetingUpptackare1 = Meeting.builder().title("Möte1 - upptäckare").startDate(LocalDate.now()).build();
+        meetingUpptackare1 = Meeting.builder().title("Möte1 - upptäckare").startDate(LocalDate.now()).department(departmentUpptackare).build();
         meetingService.save(meetingUpptackare1);
-        meetingUpptackare2 = Meeting.builder().title("Möte2 - upptäckare").startDate(LocalDate.now()).build();
+        meetingUpptackare2 = Meeting.builder().title("Möte2 - upptäckare").startDate(LocalDate.now()).department(departmentUpptackare).build();
         meetingService.save(meetingUpptackare2);
-        meetingAventyrare1 = Meeting.builder().title("Möte1 - Äventyrare").startDate(LocalDate.now()).build();
+        meetingAventyrare1 = Meeting.builder().title("Möte1 - Äventyrare").startDate(LocalDate.now()).department(departmentAventyrare).build();
         meetingService.save(meetingAventyrare1);
-        meetingAventyrare2 = Meeting.builder().title("Möte2 - Äventyrare").startDate(LocalDate.now()).build();
+        meetingAventyrare2 = Meeting.builder().title("Möte2 - Äventyrare").status(Status.ACTIVE).startDate(LocalDate.now()).department(departmentAventyrare).build();
         meetingService.save(meetingAventyrare2);
     }
 

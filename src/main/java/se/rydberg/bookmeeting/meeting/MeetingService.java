@@ -41,6 +41,10 @@ public class MeetingService {
         return meetingRepository.getMeetingsForDepartment(departmentId);
     }
 
+    public List<Meeting> allActiveMeetingsForDepartment(UUID departmentId){
+        return meetingRepository.getActiveMeetingsForDepartment(departmentId);
+    }
+
     public List<Meeting> findAll(){
         return meetingRepository.findAll();
     }

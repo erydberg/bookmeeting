@@ -1,6 +1,7 @@
 package se.rydberg.bookmeeting.meeting;
 
 import lombok.*;
+import se.rydberg.bookmeeting.Status;
 import se.rydberg.bookmeeting.answer.MeetingAnswer;
 import se.rydberg.bookmeeting.department.Department;
 
@@ -32,6 +33,7 @@ public class MeetingDTO {
     private String place;
     private Set<MeetingAnswer> meetingAnswers;
     private Department department;
+    private Status status;
 
     public String formattedDescription(){
         return description.replaceAll("(\r\n|\n)", "<br>");
