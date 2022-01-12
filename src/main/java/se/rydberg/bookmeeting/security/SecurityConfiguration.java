@@ -23,6 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/utv").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/styles/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 //normal users - well not now-perhaps public?
                 //to change to admin-user
                 .antMatchers("/admin/**").permitAll()

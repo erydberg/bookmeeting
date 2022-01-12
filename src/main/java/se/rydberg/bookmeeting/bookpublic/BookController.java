@@ -70,7 +70,7 @@ public class BookController {
     }
 
     //TODO ska göras om till putmapping och mer rest-lösning
-    @GetMapping("/signup/{attendeeId}/to/{meetingId}")
+    @PutMapping("/signup/{attendeeId}/to/{meetingId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String signUp(@PathVariable String attendeeId, @PathVariable String meetingId){
         try {
@@ -89,7 +89,7 @@ public class BookController {
     }
 
     //TODO ska göras om till putmapping och mer rest-lösning
-    @GetMapping("/decline/{attendeeId}/to/{meetingId}")
+    @PutMapping("/decline/{attendeeId}/to/{meetingId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String decline(@PathVariable String attendeeId, @PathVariable String meetingId){
         try {

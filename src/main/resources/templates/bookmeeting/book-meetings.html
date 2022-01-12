@@ -3,6 +3,54 @@
 <head>
     <th:block th:include="fragments/header :: header"></th:block>
     <title>Boka möten - Scoutmöten</title>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:inline="javascript"> var path = /*[[@{/}]]*/ ''; </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var attendeeid = /*[[${attendee.id}]]*/ null;
+        var signupurl = /*[[@{'/bookmeeting/signup/'}]]*/ null;
+        var declineurl = /*[[@{'/bookmeeting/decline/'}]]*/ null;
+
+        $(document).ready(function () {
+            $('input:radio').change(function () {
+                if ($(this).prop("checked")) {
+                    //do the stuff that you would do when 'checked'
+                    let idvalue = $(this).prop('id');
+                    let meetingid = idvalue.substring(0,idvalue.indexOf("_"));
+                    signUp(meetingid);
+                    return;
+                }
+                //Here do the stuff you want to do when 'unchecked'
+                var idvalue = $(this).prop('id');
+                decline(idvalue);
+            });
+        });
+
+        function signUp(meetingId) {
+        alert('signup ' + meetingId);
+            jQuery.ajax({
+                url: signupurl + attendeeid + '/to/' + meetingId,
+                type: 'PUT',
+
+                success: function (data) {
+                    //You handle the response here like displaying in required div etc.
+                    //markera och ge en tumme upp?
+                },
+                error: function (errorData) {
+                    alert("Det gick inte att anmäla att du kommer till mötet");
+                }
+            });
+        }
+
+        function reloadPage() {
+            window.location = window.location.pathname;
+        }
+
+        /*]]>*/
+
+
+    </script>
+
 </head>
 <body>
 
@@ -13,13 +61,19 @@
 </div>
 <h2 th:text="${attendee.name}"></h2>
 <p th:text="${attendee.department.name}"></p>
-Det är kul att vara på scouterna! Det är alltid bra att veta om du/din scout kommer så klicka i om du kommer eller inte. Du kan komma tillbaka till sidan och ändra dig. Tänk på att vissa möten har en sista anmälningsdag och att alla möten kanske inte syns i den här listan.
+Det är kul att vara på scouterna! Det är alltid bra att veta om du/din scout kommer så klicka i om du kommer eller inte.
+Du kan komma tillbaka till sidan och ändra dig. Tänk på att vissa möten har en sista anmälningsdag och att alla möten
+kanske inte syns i den här listan.
 
 <ul class="notepad">
     <li th:each="meeting: ${meetings}">
-        <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}" th:text="${meeting.startDate + ' ' + meeting.title}"></a> |
-        <a th:href="@{'/bookmeeting/signup/' + ${attendee.id}} + '/to/' + ${meeting.id}">Ja,kommer!</a> |
-        <a th:href="@{'/bookmeeting/decline/' + ${attendee.id}} + '/to/' + ${meeting.id}">Missar tyvärr</a>
+        <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}"
+           th:text="${meeting.startDate + ' ' + meeting.title}"></a>
+        <input type="radio" th:id="${meeting.id + '_yes'}" name="meeting_id1" value="Kommer">
+        <label th:for="${meeting.id + '_yes'}">Kommer text</label>
+        <input type="radio" th:id="${meeting.id + '_no'}" name="meeting_id1" value="Kommer inte">
+        <label th:for="${meeting.id + '_no'}">Kommer ej text</label>
+
     </li>
 </ul>
 
