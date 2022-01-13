@@ -59,6 +59,10 @@ public class AttendeeService {
                 .collect(Collectors.toList());
     }
 
+    public MeetingAttendee getWithAnswers(UUID id){
+        return attendeeRepository.findAttendeeWithAnswers(id);
+    }
+
     protected MeetingAttendee toEntity(MeetingAttendeeDTO dto) {
         if (dto != null) {
             return modelMapper.map(dto, MeetingAttendee.class);

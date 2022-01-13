@@ -34,6 +34,7 @@ public class MeetingDTO {
     private Set<MeetingAnswer> meetingAnswers;
     private Department department;
     private Status status;
+    private LocalDate lastBookDate;
 
     public String formattedDescription(){
         return description.replaceAll("(\r\n|\n)", "<br>");

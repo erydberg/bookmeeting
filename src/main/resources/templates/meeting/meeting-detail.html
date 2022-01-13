@@ -8,9 +8,9 @@
 <body>
 <div class="nav-box">
 <span class="toolbar">
-       <a class="toolitem" th:href="@{'/admin/meeting'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/admin/meeting'}"><img th:src="@{/styles/back.png}"></a>
     <a class="toolitem" th:href="@{'/admin/meeting/edit/' + ${meeting.id}}"><img th:src="@{/styles/edit2.png}"></a>
-       <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
+    <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
     <h1>Planerat möte</h1>
 </div>
@@ -29,6 +29,7 @@
         <span th:text="${meeting.endDate}"></span>
         <span th:text="${meeting.endTime}"></span>
     </div>
+    <p th:text="${'Sista anmälningsdag: meeting.lastBookDate}"></p>
     <p th:text="${meeting.status.getDisplayValue()}"></p>
     <div>
         <span th:text="${meeting.place}"></span>

@@ -33,7 +33,7 @@ public class MeetingAttendee {
     @ManyToOne
     private Department department;
 
-    @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<MeetingAnswer> meetingAnswers = new LinkedHashSet<>();
 
     public void addMeetingAnswer(MeetingAnswer answer) {

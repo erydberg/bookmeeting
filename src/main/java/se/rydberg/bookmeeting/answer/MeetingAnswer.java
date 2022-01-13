@@ -2,11 +2,14 @@ package se.rydberg.bookmeeting.answer;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.meeting.Meeting;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -28,6 +31,10 @@ public class MeetingAnswer {
     private MeetingAttendee attendee;
     @ManyToOne
     private Meeting meeting;
+    @CreationTimestamp
+    private LocalDateTime createDateTime;
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;
 
     @Override
     public boolean equals(Object o) {

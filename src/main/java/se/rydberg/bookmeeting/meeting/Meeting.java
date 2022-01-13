@@ -35,6 +35,7 @@ public class Meeting {
     private String place;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
+    private LocalDate lastBookDate;
 
     @ManyToOne
     private Department department;

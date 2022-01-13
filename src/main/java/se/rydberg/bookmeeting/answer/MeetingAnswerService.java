@@ -2,7 +2,10 @@ package se.rydberg.bookmeeting.answer;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -13,6 +16,10 @@ public class MeetingAnswerService {
     public MeetingAnswerService(MeetingAnswerRepository meetingAnswerRepository, ModelMapper modelMapper) {
         this.meetingAnswerRepository = meetingAnswerRepository;
         this.modelMapper = modelMapper;
+    }
+
+    public Optional<MeetingAnswer> findBy(UUID attendeeId, UUID meetingId){
+        return meetingAnswerRepository.getAnswerForAttendeeAndMeeting(attendeeId, meetingId);
     }
 
     public MeetingAnswer save(MeetingAnswer answer) {
