@@ -141,7 +141,7 @@ public class RelationsTest {
     }
 
     @Test
-    public void loadAttendeeWithBookings(){
+    public void loadAttendeeWithBookings() throws NotFoundInDatabaseException {
         MeetingAttendee attendeeSaved = attendeeService.getWithAnswers(attendeeSparare1.getId());
         assertThat(attendeeSaved.getMeetingAnswers()).hasSize(2);
     }

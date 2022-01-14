@@ -36,6 +36,9 @@ public class MeetingAnswer {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
 
+    public boolean isNotComing(){
+        return !coming;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

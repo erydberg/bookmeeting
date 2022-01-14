@@ -1,6 +1,7 @@
 package se.rydberg.bookmeeting.attendee;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,5 @@ public interface AttendeeRepository extends JpaRepository<MeetingAttendee, UUID>
     List<MeetingAttendee> findAllAttendeeByDepartment(UUID departmentId);
 
     @Query("SELECT attendee FROM MeetingAttendee as attendee left JOIN FETCH attendee.meetingAnswers WHERE attendee.id =(:id)")
-    MeetingAttendee findAttendeeWithAnswers(@Param("id") UUID id);
+    Optional<MeetingAttendee> findAttendeeWithAnswers(@Param("id") UUID id);
 }

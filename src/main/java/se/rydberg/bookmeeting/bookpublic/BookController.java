@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/bookmeeting")
@@ -30,8 +31,7 @@ public class BookController {
     private final MeetingAnswerService answerService;
 
     public BookController(MeetingService meetingService, DepartmentService departmentService,
-            AttendeeService attendeeService, MeetingAnswerRepository answerRepository,
-            MeetingAnswerService answerService) {
+            AttendeeService attendeeService, MeetingAnswerService answerService) {
         this.meetingService = meetingService;
         this.departmentService = departmentService;
         this.attendeeService = attendeeService;
@@ -54,8 +54,18 @@ public class BookController {
             return "error/general_error";
         }
         try {
-            MeetingAttendeeDTO attendee = attendeeService.findDTOBy(UUID.fromString(id));
+            MeetingAttendeeDTO attendee = attendeeService.getDTOWithAnswers(UUID.fromString(id));
             List<Meeting> meetings = meetingService.allActiveMeetingsForDepartment(attendee.getDepartment().getId());
+            List<String> acceptedMeetings = attendee.getMeetingAnswers()
+                    .stream().filter(meetingAnswer -> meetingAnswer.isComing()).map(meetingAnswer -> meetingAnswer.getMeeting().getId().toString()).collect(Collectors.toList());
+            model.addAttribute("acceptedMeetings", acceptedMeetings);
+            System.out.println("acceptedMeetings");
+            acceptedMeetings.forEach(s -> System.out.println(s));
+            List<String> declinedMeetings = attendee.getMeetingAnswers()
+                    .stream().filter(meetingAnswer -> meetingAnswer.isNotComing()).map(meetingAnswer -> meetingAnswer.getMeeting().getId().toString()).collect(Collectors.toList());
+            System.out.println("declinedMeetings");
+            declinedMeetings.forEach(s -> System.out.println(s));
+            model.addAttribute("declinedMeetings", declinedMeetings);
             model.addAttribute("attendee", attendee);
             model.addAttribute("meetings", meetings);
             return "bookmeeting/book-meetings";

@@ -66,6 +66,7 @@
         /*]]>*/
 
 
+
     </script>
 
 </head>
@@ -77,26 +78,28 @@
     <h1>Kommer eller kommer inte - det är frågan!</h1>
 </div>
 <div class="form-box">
-<h2 th:text="${attendee.name}"></h2>
-<p th:text="${Avdelning ' + attendee.department.name}"></p>
-Det är kul att vara på scouterna! Det är alltid bra att veta om du/din scout kommer så svara nedan.
-Du kan komma tillbaka till sidan och ändra dig. Tänk på att vissa möten har en sista anmälningsdag och att alla möten
-kanske inte syns i den här listan.
+    <h2 th:text="${attendee.name}"></h2>
+    <p th:text="${'Avdelning ' + attendee.department.name}"></p>
+    Det är kul att vara på scouterna! Det är alltid bra att veta om du/din scout kommer så svara nedan.
+    Du kan komma tillbaka till sidan och ändra dig. Tänk på att vissa möten har en sista anmälningsdag och att alla
+    möten kanske inte syns i den här listan.
 
-<ul class="notepad">
-    <li th:each="meeting: ${meetings}">
-        <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}"
-           th:text="${meeting.startDate + ' ' + meeting.title}"></a>
-        <span class="radio-toolbar">
-        <input type="radio" th:id="${meeting.id + '_yes'}" th:name="${meeting.id}" value="Kommer">
-        <label th:for="${meeting.id + '_yes'}">Kommer!</label>
-        <input type="radio" th:id="${meeting.id + '_no'}" th:name="${meeting.id}" value="Kommer inte">
-        <label th:for="${meeting.id + '_no'}">Kommer ej</label>
-        </span>
-    </li>
-</ul>
-<p>
-</p>
+    <div class="notepad">
+        <ul class="list">
+            <li th:each="meeting: ${meetings}">
+                <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}"
+                   th:text="${meeting.startDate + ' ' + meeting.title}"></a>
+                <span class="radio-toolbar">
+                    <input type="radio" th:id="${meeting.id + '_yes'}" th:name="${meeting.id}" th:checked="${#lists.contains(acceptedMeetings, meeting.id.toString())}" value="Kommer">
+                    <label th:for="${meeting.id + '_yes'}">Kommer!</label>
+                    <input type="radio" th:id="${meeting.id + '_no'}" th:name="${meeting.id}" th:checked="${#lists.contains(declinedMeetings, meeting.id.toString())}" value="Kommer inte">
+                    <label th:for="${meeting.id + '_no'}">Kommer ej</label>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <p>
+    </p>
 </div>
 </body>
 </html>

@@ -33,7 +33,7 @@ public class AttendeeService {
         attendeeRepository.deleteById(uuid);
     }
 
-    public void delete(MeetingAttendee attendee){
+    public void delete(MeetingAttendee attendee) {
         attendeeRepository.delete(attendee);
     }
 
@@ -59,8 +59,13 @@ public class AttendeeService {
                 .collect(Collectors.toList());
     }
 
-    public MeetingAttendee getWithAnswers(UUID id){
-        return attendeeRepository.findAttendeeWithAnswers(id);
+    public MeetingAttendee getWithAnswers(UUID id) throws NotFoundInDatabaseException {
+        return attendeeRepository.findAttendeeWithAnswers(id)
+                .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta deltagaren i systemet."));
+    }
+
+    public MeetingAttendeeDTO getDTOWithAnswers(UUID id) throws NotFoundInDatabaseException {
+        return toDto(getWithAnswers(id));
     }
 
     protected MeetingAttendee toEntity(MeetingAttendeeDTO dto) {
