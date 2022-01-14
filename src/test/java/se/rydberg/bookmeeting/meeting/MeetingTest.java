@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import se.rydberg.bookmeeting.Status;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -62,5 +63,24 @@ public class MeetingTest {
         assertThat(entity.getStartTime()).isEqualTo(dto.getStartTime());
         assertThat(entity.getEndDate()).isEqualTo(dto.getEndDate());
         assertThat(entity.getEndTime()).isEqualTo(dto.getEndTime());
+    }
+
+    @Test
+    public void shouldBeBookable(){
+        Meeting meeting = Meeting.builder()
+                .status(Status.ACTIVE)
+                .startDate(LocalDate.now().plusDays(0)).build();
+        assertThat(meeting.isBookable()).isTrue();
+    }
+
+
+    @Test
+    public void shouldNotBeBookableSinceNotActive(){
+        Meeting meeting = Meeting.builder()
+                .status(Status.INACTIVE)
+                .startDate(LocalDate.parse("2022-02-01")).build();
+
+        assertThat(meeting.isBookable()).isFalse();
+
     }
 }

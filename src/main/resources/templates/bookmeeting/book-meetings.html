@@ -89,6 +89,7 @@
             <li th:each="meeting: ${meetings}">
                 <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}"
                    th:text="${meeting.startDate + ' ' + meeting.title}"></a>
+                <span th:if="${meeting.lastBookDate != null && meeting.lastBookDate."
                 <span class="radio-toolbar">
                     <input type="radio" th:id="${meeting.id + '_yes'}" th:name="${meeting.id}" th:checked="${#lists.contains(acceptedMeetings, meeting.id.toString())}" value="Kommer">
                     <label th:for="${meeting.id + '_yes'}">Kommer!</label>

@@ -23,7 +23,7 @@ public class Meeting {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-    @Column(name = "id",unique=true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private UUID id;
     private LocalDate startDate;
     private LocalTime startTime;
@@ -54,6 +54,25 @@ public class Meeting {
     public void removeMeetingAnswer(MeetingAnswer answer) {
         meetingAnswers.remove(answer);
         answer.setMeeting(null);
+    }
+
+    public boolean isBookable() {
+        if (status == Status.INACTIVE) {
+            return false;
+        }
+        if (lastBookDate == null && LocalDate.now().isBefore(startDate)) {
+            return true;
+        }
+        if (lastBookDate == null && LocalDate.now().isAfter(startDate)) {
+            return false;
+        }
+        if (lastBookDate != null && LocalDate.now().isBefore(lastBookDate)) {
+            return true;
+        }
+        if (lastBookDate != null && LocalDate.now().isAfter(lastBookDate)) {
+            return false;
+        }
+        return false;
     }
 
     @Override
