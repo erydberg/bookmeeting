@@ -24,6 +24,8 @@ public class Department {
     @Column(name = "id",unique=true, nullable = false)
     private UUID id;
     private String name;
+    private String departmentEmail;
+    private String departmentEmailPassword;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
     @ToString.Exclude

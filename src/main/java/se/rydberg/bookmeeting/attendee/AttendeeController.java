@@ -55,6 +55,7 @@ public class AttendeeController {
             model.addAttribute(
                     "error_message",
                     "Det saknas tyvärr lite uppgifter eller så är något ifyllt på fel sätt");
+            addDepartments(model);
             model.addAttribute("attendee", attendee);
             return "attendee/attendee-edit";
         }

@@ -93,6 +93,11 @@ a:focus {
 a:active {
     color: #000000;
 }
+
+.text-small {
+    font-size: small;
+}
+
 .form-general {
     background: none repeat scroll 0 0 #F6F3EC;
     border-bottom: 1px solid #E0D8C1;

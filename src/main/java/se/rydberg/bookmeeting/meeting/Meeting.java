@@ -60,19 +60,23 @@ public class Meeting {
         if (status == Status.INACTIVE) {
             return false;
         }
-        if (lastBookDate == null && LocalDate.now().isBefore(startDate)) {
+        if (lastBookDate == null && LocalDate.now().isBefore(startDate.plusDays(1))) {
             return true;
         }
         if (lastBookDate == null && LocalDate.now().isAfter(startDate)) {
             return false;
         }
-        if (lastBookDate != null && LocalDate.now().isBefore(lastBookDate)) {
+        if (lastBookDate != null && LocalDate.now().isBefore(lastBookDate.plusDays(1))) {
             return true;
         }
         if (lastBookDate != null && LocalDate.now().isAfter(lastBookDate)) {
             return false;
         }
         return false;
+    }
+
+    public boolean isNotBookable(){
+        return !isBookable();
     }
 
     @Override

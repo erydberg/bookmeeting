@@ -24,6 +24,10 @@
         <input type="hidden" id="id" th:field="*{id}">
         <label for="title">Avdelning</label>
         <input class="input-long" type="text" id="title" placeholder="Skriv in avdelningens namn" th:field="*{name}">
+        <label for="email">Avdelningens e-postadress (behöver vara gmail om utskick ska fungera.)</label>
+        <input class="input-long" type="email" id="email" th:field="*{departmentEmail}">
+        <label for="email">Lösenord för e-postkontot (behöver vara gmail om utskick ska fungera.)</label>
+        <input class="input-long" type="email" id="password" th:field="*{departmentEmailPassword}">
 
         <div class="submit-area">
             <button type="submit">Spara</button>

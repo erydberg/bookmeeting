@@ -8,16 +8,19 @@
 
 <div class="nav-box">
 <span class="toolbar">
+    <a class="toolitem" th:href="@{'/admin'}"><img th:src="@{/styles/back.png}"></a>
     <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
-    <h1>Välj avdelning för att gå vidare</h1>
+    <h1>Lägg upp nya möten</h1>
 </div>
-<ul class="notepad">
+<div class="notepad">
+    <p>Klicka antingen på nytt möte direkt upp till höger eller välj avdelning för att se och ändra befintliga möten.</p>
+<ul class="list">
     <li th:each="department: ${departments}">
         <a th:href="@{'/admin/meeting/bydepartment/' + ${department.id}}" th:text="${department.name}"></a>
     </li>
 </ul>
-
+</div>
 <p>
 </p>
 

@@ -75,8 +75,11 @@ public class DepartmentController {
             try {
                 Department backendDepartment = departmentService.findBy(departmentDto.getId());
                 backendDepartment.setName(departmentDto.getName());
+                backendDepartment.setDepartmentEmail(departmentDto.getDepartmentEmail());
+                backendDepartment.setDepartmentEmailPassword(departmentDto.getDepartmentEmailPassword());
                 departmentService.save(backendDepartment);
                 model.addAttribute("department", backendDepartment);
+
                 redirectAttributes.addFlashAttribute("message", "Ändringarna sparade");
                 return "redirect:/admin/department/detail/" + backendDepartment.getId();
             } catch (NotFoundInDatabaseException e) {

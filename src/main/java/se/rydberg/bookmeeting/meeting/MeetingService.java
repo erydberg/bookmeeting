@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class MeetingService {
@@ -39,6 +40,11 @@ public class MeetingService {
 
     public List<Meeting> allMeetingsForDepartment(UUID departmentId){
         return meetingRepository.getMeetingsForDepartment(departmentId);
+    }
+
+    public List<MeetingDTO> allMeetingsDTOForDepartment(UUID departmentId){
+        return allMeetingsForDepartment(departmentId).stream()
+                .map(meeting -> toDto(meeting)).collect(Collectors.toList());
     }
 
     public List<Meeting> allActiveMeetingsForDepartment(UUID departmentId){

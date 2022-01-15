@@ -66,11 +66,44 @@ public class MeetingTest {
     }
 
     @Test
-    public void shouldBeBookable(){
+    public void shouldBeBookableTheSameDay(){
         Meeting meeting = Meeting.builder()
                 .status(Status.ACTIVE)
                 .startDate(LocalDate.now().plusDays(0)).build();
         assertThat(meeting.isBookable()).isTrue();
+    }
+
+    @Test
+    public void shouldBeBookableTheDayBefore(){
+        Meeting meeting = Meeting.builder()
+                .status(Status.ACTIVE)
+                .startDate(LocalDate.now().plusDays(1)).build();
+        assertThat(meeting.isBookable()).isTrue();
+    }
+
+    @Test
+    public void shouldNotBeBookableDayAfter(){
+        Meeting meeting = Meeting.builder()
+                .status(Status.ACTIVE)
+                .startDate(LocalDate.now().minusDays(1)).build();
+        assertThat(meeting.isBookable()).isFalse();
+    }
+
+    @Test
+    public void shouldBeBookableByLastBookDayToday(){
+        Meeting meeting = Meeting.builder()
+                .status(Status.ACTIVE)
+                .lastBookDate(LocalDate.now())
+                .build();
+        assertThat(meeting.isBookable()).isTrue();
+    }
+
+    @Test
+    public void shouldNotBeBookableByLastBookDayYesterday(){
+        Meeting meeting = Meeting.builder()
+                .status(Status.ACTIVE)
+                .lastBookDate(LocalDate.now().minusDays(1)).build();
+        assertThat(meeting.isBookable()).isFalse();
     }
 
 

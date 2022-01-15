@@ -44,8 +44,7 @@ public class MeetingController {
     @GetMapping("/edit/{id}")
     public String editMeeting(Model model, @PathVariable String id) {
         try {
-            List<DepartmentDTO> departments = departmentService.getAllDTOs();
-            model.addAttribute("departments", departments);
+            addDepartments(model);
             MeetingDTO meetingDTO = meetingService.findDTOBy(UUID.fromString(id));
             model.addAttribute("meeting", meetingDTO);
             return "meeting/meeting-edit";
@@ -75,6 +74,7 @@ public class MeetingController {
                     "error_message",
                     "Det saknas tyvärr lite information för att kunna spara mötestillfället.");
             model.addAttribute("meeting", meetingDto);
+            addDepartments(model);
             return "meeting/meeting-edit";
         }
         if (meetingDto.getId() != null) {
@@ -86,7 +86,8 @@ public class MeetingController {
                 backendMeeting.setEndDate(meetingDto.getEndDate());
                 backendMeeting.setEndTime(meetingDto.getEndTime());
                 backendMeeting.setStartDate(meetingDto.getStartDate());
-                backendMeeting.setEndTime(meetingDto.getEndTime());
+                backendMeeting.setStartTime(meetingDto.getStartTime());
+                backendMeeting.setLastBookDate(meetingDto.getLastBookDate());
                 backendMeeting.setPlace(meetingDto.getPlace());
                 backendMeeting.setTitle(meetingDto.getTitle());
                 Meeting savedMeeting = meetingService.save(backendMeeting);
@@ -107,8 +108,17 @@ public class MeetingController {
     }
 
     @GetMapping("/bydepartment/{id}")
-    public String getByDepartment(@PathVariable String id, Model model){
-        return "";
+    public String getByDepartment(@PathVariable String id, Model model) {
+        try {
+            DepartmentDTO department = departmentService.findDTOBy(UUID.fromString(id));
+            model.addAttribute("department", department);
+            List<MeetingDTO> meetings = meetingService.allMeetingsDTOForDepartment(UUID.fromString(id));
+            model.addAttribute("meetings", meetings);
+            return "meeting/meeting-bydepartment";
+        } catch (NotFoundInDatabaseException e) {
+            model.addAttribute("error_message", "Kan inte hitta allt i systemet.");
+            return "error/general_error";
+        }
     }
 
     private void addDepartments(Model model) {

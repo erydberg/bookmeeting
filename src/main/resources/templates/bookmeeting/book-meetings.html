@@ -62,11 +62,7 @@
         function reloadPage() {
             window.location = window.location.pathname;
         }
-
         /*]]>*/
-
-
-
     </script>
 
 </head>
@@ -89,12 +85,18 @@
             <li th:each="meeting: ${meetings}">
                 <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}"
                    th:text="${meeting.startDate + ' ' + meeting.title}"></a>
-                <span th:if="${meeting.lastBookDate != null && meeting.lastBookDate."
-                <span class="radio-toolbar">
+                <span th:if="${meeting.isBookable()}" class="radio-toolbar">
                     <input type="radio" th:id="${meeting.id + '_yes'}" th:name="${meeting.id}" th:checked="${#lists.contains(acceptedMeetings, meeting.id.toString())}" value="Kommer">
                     <label th:for="${meeting.id + '_yes'}">Kommer!</label>
                     <input type="radio" th:id="${meeting.id + '_no'}" th:name="${meeting.id}" th:checked="${#lists.contains(declinedMeetings, meeting.id.toString())}" value="Kommer inte">
                     <label th:for="${meeting.id + '_no'}">Kommer ej</label>
+                </span>
+                <span class="text-small" th:if="${meeting.isNotBookable()}" th:text="${'(Kan inte boka eller ändra din anmälan)'}"></span>
+                <span th:if="${meeting.isNotBookable()}" th:each="meetinganswer: ${attendee.meetingAnswers}">
+                    <span th:if="${meetinganswer.meeting.id eq meeting.id}">
+                        <span th:if="${meetinganswer.coming}" th:text="'Kommer'"></span>
+                        <span th:if="${!meetinganswer.coming}" th:text="'Kommer ej'"></span>
+                    </span>
                 </span>
             </li>
         </ul>

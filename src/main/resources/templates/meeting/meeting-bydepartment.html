@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Mötesadministration - Scoutmöten</title>
+</head>
+<body>
+
+<div class="nav-box">
+<span class="toolbar">
+     <a class="toolitem" th:href="@{'/'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1 th:text="${'Möten för avdelning ' + department.name}"></h1>
+</div>
+
+<div class="notepad">
+    <ul class="list">
+        <li  th:each="meeting: ${meetings}">
+            <a th:href="@{'/admin/meeting/edit/' + ${meeting.id}}" th:text="${meeting.title}"></a>
+            <a th:href="@{'/admin/meeting/delete/' + ${meeting.id}}" class="del" onclick="return (confirm('Vill du ta bort mötet?'))"/><img th:src="@{/styles/delete.png}"></a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
