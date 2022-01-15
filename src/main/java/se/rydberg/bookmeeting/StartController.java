@@ -11,6 +11,7 @@ import se.rydberg.bookmeeting.meeting.Meeting;
 import se.rydberg.bookmeeting.meeting.MeetingService;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Controller
 @RequestMapping("/")
@@ -75,6 +76,9 @@ public class StartController {
         Meeting meeting1 = Meeting.builder()
                 .startDate(LocalDate.parse("2022-01-10"))
                 .title("möte 1")
+                .endDate(LocalDate.parse("2022-01-10"))
+                .startTime(LocalTime.NOON)
+                .endTime(LocalTime.NOON.plusHours(2))
                 .status(Status.ACTIVE)
                 .department(department1)
                 .build();
@@ -82,6 +86,9 @@ public class StartController {
 
         Meeting meeting2 = Meeting.builder()
                 .startDate(LocalDate.parse("2022-02-10"))
+                .endDate(LocalDate.parse("2022-02-10"))
+                .startTime(LocalTime.NOON)
+                .endTime(LocalTime.NOON.plusHours(2))
                 .title("möte 2")
                 .status(Status.ACTIVE)
                 .department(department1)
@@ -90,6 +97,9 @@ public class StartController {
 
         Meeting meeting3 = Meeting.builder()
                 .startDate(LocalDate.parse("2022-03-10"))
+                .endDate(LocalDate.parse("2022-03-11"))
+                .startTime(LocalTime.NOON.minusHours(2))
+                .endTime(LocalTime.NOON.plusHours(4))
                 .title("möte 3")
                 .status(Status.ACTIVE)
                 .department(department1)
