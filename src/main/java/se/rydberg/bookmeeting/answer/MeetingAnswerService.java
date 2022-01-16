@@ -23,6 +23,7 @@ public class MeetingAnswerService {
     }
 
     public MeetingAnswer save(MeetingAnswer answer) {
+        answer.setCounter(answer.getCounter() + 1);
         return meetingAnswerRepository.save(answer);
     }
 

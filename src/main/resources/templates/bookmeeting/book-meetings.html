@@ -63,6 +63,7 @@
             window.location = window.location.pathname;
         }
         /*]]>*/
+
     </script>
 
 </head>
@@ -81,25 +82,32 @@
     möten kanske inte syns i den här listan.
 
     <div class="notepad">
-        <ul class="list">
-            <li th:each="meeting: ${meetings}">
-                <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}"
-                   th:text="${meeting.startDate + ' ' + meeting.title}"></a>
-                <span th:if="${meeting.isBookable()}" class="radio-toolbar">
-                    <input type="radio" th:id="${meeting.id + '_yes'}" th:name="${meeting.id}" th:checked="${#lists.contains(acceptedMeetings, meeting.id.toString())}" value="Kommer">
+        <table class="list">
+            <tr th:each="meeting: ${meetings}">
+                <td>
+                    <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}"
+                       th:text="${meeting.startDate + ' ' + meeting.title}"></a>
+                </td>
+                <td th:if="${meeting.isBookable()}" class="radio-toolbar">
+                    <input type="radio" th:id="${meeting.id + '_yes'}" th:name="${meeting.id}"
+                           th:checked="${#lists.contains(acceptedMeetings, meeting.id.toString())}" value="Kommer">
                     <label th:for="${meeting.id + '_yes'}">Kommer!</label>
-                    <input type="radio" th:id="${meeting.id + '_no'}" th:name="${meeting.id}" th:checked="${#lists.contains(declinedMeetings, meeting.id.toString())}" value="Kommer inte">
+                    <input type="radio" th:id="${meeting.id + '_no'}" th:name="${meeting.id}"
+                           th:checked="${#lists.contains(declinedMeetings, meeting.id.toString())}" value="Kommer inte">
                     <label th:for="${meeting.id + '_no'}">Kommer ej</label>
-                </span>
-                <span class="text-small" th:if="${meeting.isNotBookable()}" th:text="${'(Kan inte boka eller ändra din anmälan)'}"></span>
+                </td>
+                <td th:if="${meeting.isNotBookable()}">
                 <span th:if="${meeting.isNotBookable()}" th:each="meetinganswer: ${attendee.meetingAnswers}">
                     <span th:if="${meetinganswer.meeting.id eq meeting.id}">
-                        <span th:if="${meetinganswer.coming}" th:text="'Kommer'"></span>
-                        <span th:if="${!meetinganswer.coming}" th:text="'Kommer ej'"></span>
+                        <br>
+                        <span th:if="${meetinganswer.coming}" th:text="'Kommer '"></span>
+                        <span th:if="${!meetinganswer.coming}" th:text="'Kommer ej '"></span>
                     </span>
                 </span>
-            </li>
-        </ul>
+                    <span class="text-small">(Kan inte boka eller ändra din anmälan)</span>
+                </td>
+            </tr>
+        </table>
     </div>
     <p>
     </p>

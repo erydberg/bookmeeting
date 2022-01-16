@@ -35,6 +35,7 @@ public class MeetingAnswer {
     private LocalDateTime createDateTime;
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
+    private int counter;
 
     public boolean isNotComing(){
         return !coming;
