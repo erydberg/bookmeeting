@@ -7,6 +7,7 @@ import se.rydberg.bookmeeting.attendee.AttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.department.DepartmentService;
+import se.rydberg.bookmeeting.mail.MailService;
 import se.rydberg.bookmeeting.meeting.Meeting;
 import se.rydberg.bookmeeting.meeting.MeetingService;
 
@@ -20,12 +21,14 @@ public class StartController {
     private final DepartmentService departmentService;
     private final AttendeeService attendeeService;
     private final MeetingService meetingService;
+    private final MailService mailService;
 
     public StartController(DepartmentService departmentService, AttendeeService attendeeService,
-            MeetingService meetingService) {
+                           MeetingService meetingService, MailService mailService) {
         this.departmentService = departmentService;
         this.attendeeService = attendeeService;
         this.meetingService = meetingService;
+        this.mailService = mailService;
     }
 
     @GetMapping("")
@@ -105,6 +108,32 @@ public class StartController {
                 .department(department1)
                 .build();
         meetingService.save(meeting3);
+
+        Meeting meeting4 = Meeting.builder()
+                .startDate(LocalDate.parse("2022-04-10"))
+                .endDate(LocalDate.parse("2022-04-11"))
+                .startTime(LocalTime.NOON.minusHours(2))
+                .endTime(LocalTime.NOON.plusHours(4))
+                .title("möte 4 - ett långtitlat möte")
+                .status(Status.ACTIVE)
+                .department(department1)
+                .build();
+        meetingService.save(meeting4);
+
+        Meeting meeting5 = Meeting.builder()
+                .startDate(LocalDate.now().plusMonths(3))
+                .endDate(LocalDate.now().plusMonths(3))
+                .startTime(LocalTime.NOON.minusHours(2))
+                .endTime(LocalTime.NOON.plusHours(4))
+                .title("möte 5 - ett långtitlat möte")
+                .status(Status.ACTIVE)
+                .department(department1)
+                .build();
+        meetingService.save(meeting5);
+
+        //sending mail
+        //mailService.sendMail("erydberg@gmail.com", "aventyrarna@harrydascout.se", "Testar från nya systmet", "Detta är brödtexten \n testar en radbrytning. Kanske <br> ska köra på html");
+
 
         return "utv-start";
     }

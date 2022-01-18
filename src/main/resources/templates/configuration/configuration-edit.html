@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Redigera inställningar</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/admin/'}"><img th:src="@{/styles/back.png}"></a>
+</span>
+    <h1>Inställningar</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<form id="frmEditDepartment" method="post" class="form-general" th:action="@{/admin/config/save}" th:object="${configuration}">
+    <div class="form-box">
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="email">E-post som skickar ut mail till alla</label>
+        <input class="input-long" type="email" id="email" th:field="*{email}">
+        <label for="emailpassword">Lösenord för e-postkontot (behöver vara gmail med app-lösenord.)</label>
+        <input class="input-long" type="password" id="emailpassword" th:field="*{emailpassword}">
+
+        <div class="submit-area">
+            <button type="submit">Spara</button>
+        </div>
+        </p>
+    </div>
+</form>
+</body>
+</html>

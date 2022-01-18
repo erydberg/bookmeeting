@@ -12,7 +12,7 @@
     <a class="toolitem" th:href="@{'/admin/meeting/edit/' + ${meeting.id}}"><img th:src="@{/styles/edit2.png}"></a>
     <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
-    <h1>Planerat möte</h1>
+    <h1 th:text="$['Planerat möte för '+ meeting.department.name}">Planerat möte</h1>
 </div>
 <div class="errorblock" th:if="${error_message}">
     <p th:text="${error_message}"></p>
