@@ -27,7 +27,7 @@ public class ConfigurationService {
     public ConfigurationDTO loadConfiguration(){
         List<Configuration> configurations = configurationRepository.findAll();
         if(configurations.isEmpty()){
-            return ConfigurationDTO.builder().build();
+            return ConfigurationDTO.builder().email("").emailkey("").build();
         }else{
             return toDto(configurations.get(0));
         }

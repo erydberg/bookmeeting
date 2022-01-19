@@ -20,5 +20,5 @@ public class Configuration {
     @Column(name = "id", unique = true, nullable = false)
     private UUID id;
     private String email;
-    private String emailpassword;
+    private String emailkey;
 }

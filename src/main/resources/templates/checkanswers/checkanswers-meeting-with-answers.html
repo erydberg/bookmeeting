@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title th:text="${meeting.startDate + ' - ' + meeting.department.name + ' - kolla anmälningar - Scoutmöten'}">Kolla anmälningar - Scoutmöten</title>
+</head>
+<body>
+
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/admin'}"><img th:src="@{/styles/back.png}"></a>
+</span>
+    <h1 th:text="${meeting.startDate + ' - ' + meeting.department.name}"></h1>
+</div>
+<div class="form-box">
+    <p th:text="${'Antal deltagare: ' + attendees.size()}"></p>
+    <p th:text="${'Antal som svarat: ' + meeting.meetingAnswers.size()}"></p>
+    <p th:text="${'Antal som svarat kommer ' }"></p>
+    <p th:text="${'Antal som svarat kommer ej ' }"></p>
+    <p th:text="${'Antal som inte svarat ' }"></p>
+
+<div class="notepad">
+<table class="list">
+    <tr><th>Deltagare</th><th>Svar</th></tr>
+    <tr th:each="attendee: ${attendees}">
+        <td th:text="${attendee.name}">
+        </td>
+        <td>
+     <span th:each="answer: ${meeting.meetingAnswers}">
+                <span th:if="${answer.attendee.id eq attendee.id && answer.coming}" th:text="'Kommer'"></span>
+                <span th:if="${answer.attendee.id eq attendee.id && !answer.coming}" th:text="'Kommer ej'"></span>
+            </span>
+
+        </td>
+
+    </tr>
+</table>
+</div>
+<p>
+</p>
+</div>
+</body>
+</html>

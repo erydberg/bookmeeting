@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import se.rydberg.bookmeeting.attendee.AttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
+import se.rydberg.bookmeeting.configuration.ConfigurationDTO;
+import se.rydberg.bookmeeting.configuration.ConfigurationService;
 import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.mail.MailService;
@@ -21,14 +23,14 @@ public class StartController {
     private final DepartmentService departmentService;
     private final AttendeeService attendeeService;
     private final MeetingService meetingService;
-    private final MailService mailService;
+    private final ConfigurationService configurationService;
 
     public StartController(DepartmentService departmentService, AttendeeService attendeeService,
-                           MeetingService meetingService, MailService mailService) {
+                           MeetingService meetingService, ConfigurationService configurationService) {
         this.departmentService = departmentService;
         this.attendeeService = attendeeService;
         this.meetingService = meetingService;
-        this.mailService = mailService;
+        this.configurationService = configurationService;
     }
 
     @GetMapping("")
@@ -130,10 +132,6 @@ public class StartController {
                 .department(department1)
                 .build();
         meetingService.save(meeting5);
-
-        //sending mail
-        //mailService.sendMail("erydberg@gmail.com", "aventyrarna@harrydascout.se", "Testar från nya systmet", "Detta är brödtexten \n testar en radbrytning. Kanske <br> ska köra på html");
-
 
         return "utv-start";
     }

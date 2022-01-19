@@ -14,4 +14,6 @@ public interface AttendeeRepository extends JpaRepository<MeetingAttendee, UUID>
 
     @Query("SELECT attendee FROM MeetingAttendee as attendee left JOIN FETCH attendee.meetingAnswers WHERE attendee.id =(:id)")
     Optional<MeetingAttendee> findAttendeeWithAnswers(@Param("id") UUID id);
+
+
 }

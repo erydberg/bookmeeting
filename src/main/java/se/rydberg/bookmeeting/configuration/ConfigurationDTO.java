@@ -16,5 +16,5 @@ import lombok.*;
 public class ConfigurationDTO {
     private UUID id;
     private String email;
-    private String emailpassword;
+    private String emailkey;
 }

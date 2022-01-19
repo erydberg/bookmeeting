@@ -24,7 +24,6 @@ public class ConfigurationController {
     public String start(Model model){
         ConfigurationDTO configuration = configurationService.loadConfiguration();
         model.addAttribute("configuration", configuration);
-        System.out.println("hämtat lösen: " + configuration.getEmailpassword());
         return "configuration/configuration-edit";
     }
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Kolla anmälningar - Scoutmöten</title>
+</head>
+<body>
+
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/admin'}"><img th:src="@{/styles/back.png}"></a>
+</span>
+    <h1>Kolla anmälningar</h1>
+</div>
+<div class="form-box">
+<div class="notepad">
+    <p>Välj möte för att se och anmälningar.</p>
+<ul class="list">
+    <li th:each="meeting: ${meetings}">
+        <a th:href="@{'/admin/checkanswers/bymeeting/' + ${meeting.id}}" th:text="${meeting.title}"></a>
+    </li>
+</ul>
+</div>
+<p>
+</p>
+</div>
+</body>
+</html>
