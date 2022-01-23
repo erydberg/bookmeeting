@@ -15,11 +15,16 @@ import se.rydberg.bookmeeting.answer.MeetingAnswerService;
 import se.rydberg.bookmeeting.attendee.AttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.attendee.MeetingAttendeeDTO;
+import se.rydberg.bookmeeting.configuration.ConfigurationDTO;
+import se.rydberg.bookmeeting.configuration.ConfigurationService;
+import se.rydberg.bookmeeting.department.DepartmentDTO;
 import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.meeting.Meeting;
 import se.rydberg.bookmeeting.meeting.MeetingDTO;
 import se.rydberg.bookmeeting.meeting.MeetingService;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/bookmeeting")
@@ -28,13 +33,38 @@ public class BookController {
     private final DepartmentService departmentService;
     private final AttendeeService attendeeService;
     private final MeetingAnswerService answerService;
+    private final ConfigurationService configurationService;
 
     public BookController(MeetingService meetingService, DepartmentService departmentService,
-            AttendeeService attendeeService, MeetingAnswerService answerService) {
+                          AttendeeService attendeeService, MeetingAnswerService answerService, ConfigurationService configurationService) {
         this.meetingService = meetingService;
         this.departmentService = departmentService;
         this.attendeeService = attendeeService;
         this.answerService = answerService;
+        this.configurationService = configurationService;
+    }
+
+    @GetMapping("")
+    public String startBooking(Model model){
+        ConfigurationDTO configuration = configurationService.loadConfiguration();
+        model.addAttribute("configuration", configuration);
+        AttendeeReminder reminder = new AttendeeReminder();
+        model.addAttribute("reminder", reminder);
+        List<DepartmentDTO> departments = departmentService.getAllDTOs();
+        model.addAttribute("departments", departments);
+        return "bookmeeting/book-start";
+    }
+
+    @PostMapping("/findattendee")
+    public String findAttendeeForBooking(@Valid AttendeeReminder attendeeReminder, Model model){
+        try {
+            MeetingAttendeeDTO attendee = attendeeService.findByEmailNameDepartment(attendeeReminder.getEmail(), attendeeReminder.getName(), attendeeReminder.getDepartment().getId());
+            return "redirect:/bookmeeting/attendee/" + attendee.getId();
+        } catch (NotFoundInDatabaseException e) {
+            model.addAttribute("reminder", attendeeReminder);
+            model.addAttribute("error_message", "Kan inte hitta någon deltagare med detta namn och denna e-postadress. Kontrollera att du fyllt i rätt och kontakta din ledare om det inte fungerar.");
+            return "bookmeeting/book-start";
+        }
     }
 
     @GetMapping("/meetinginfo/{id}")

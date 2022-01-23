@@ -52,6 +52,18 @@ public class AttendeeService {
     }
 
     @Transactional(readOnly = true)
+    public MeetingAttendeeDTO findByEmailName(String email, String name) throws NotFoundInDatabaseException {
+        return toDto(attendeeRepository.findByEmailName(email,name)
+                .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta deltagaren i systemet.")));
+    }
+
+    @Transactional(readOnly = true)
+    public MeetingAttendeeDTO findByEmailNameDepartment(String email, String name, UUID id) throws NotFoundInDatabaseException {
+        return toDto(attendeeRepository.findByEmailNameDepartment(email,name, id)
+                .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta deltagaren i systemet.")));
+    }
+
+    @Transactional(readOnly = true)
     public List<MeetingAttendeeDTO> findAllByDepartment(UUID id) {
         return attendeeRepository.findAllAttendeeByDepartment(id)
                 .stream()

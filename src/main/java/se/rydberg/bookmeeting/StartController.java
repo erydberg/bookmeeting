@@ -1,6 +1,8 @@
 package se.rydberg.bookmeeting;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import se.rydberg.bookmeeting.attendee.AttendeeService;
@@ -9,9 +11,12 @@ import se.rydberg.bookmeeting.configuration.ConfigurationDTO;
 import se.rydberg.bookmeeting.configuration.ConfigurationService;
 import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.department.DepartmentService;
-import se.rydberg.bookmeeting.mail.MailService;
 import se.rydberg.bookmeeting.meeting.Meeting;
 import se.rydberg.bookmeeting.meeting.MeetingService;
+import se.rydberg.bookmeeting.security.Role;
+import se.rydberg.bookmeeting.security.RoleService;
+import se.rydberg.bookmeeting.security.User;
+import se.rydberg.bookmeeting.security.UserService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,17 +29,23 @@ public class StartController {
     private final AttendeeService attendeeService;
     private final MeetingService meetingService;
     private final ConfigurationService configurationService;
+    private final RoleService roleService;
+    private final UserService userService;
 
     public StartController(DepartmentService departmentService, AttendeeService attendeeService,
-                           MeetingService meetingService, ConfigurationService configurationService) {
+                           MeetingService meetingService, ConfigurationService configurationService, RoleService roleService, UserService userService) {
         this.departmentService = departmentService;
         this.attendeeService = attendeeService;
         this.meetingService = meetingService;
         this.configurationService = configurationService;
+        this.roleService = roleService;
+        this.userService = userService;
     }
 
     @GetMapping("")
-    public String start() {
+    public String start(Model model) {
+        ConfigurationDTO configuration = configurationService.loadConfiguration();
+        model.addAttribute("configuration", configuration);
         return "start";
     }
 
@@ -91,6 +102,7 @@ public class StartController {
                 .endTime(LocalTime.NOON.plusHours(2))
                 .status(Status.ACTIVE)
                 .department(department1)
+                .description("Terminens första möte och vi vandrar ut i skogen och letar spårtecken i snön.")
                 .build();
         meetingService.save(meeting1);
 
@@ -114,6 +126,7 @@ public class StartController {
                 .endTime(LocalTime.NOON.plusHours(4))
                 .lastBookDate(LocalDate.now().plusWeeks(2).minusDays(2))
                 .title("Hajk")
+                .description("Vi ger oss ut på vinterhajk! Se länk med packlista.")
                 .status(Status.ACTIVE)
                 .department(department1)
                 .build();
@@ -141,6 +154,17 @@ public class StartController {
                 .build();
         meetingService.save(meeting5);
 
+        if(userService.getAllUsers().isEmpty()) {
+            System.out.println("Lägger till en första användare");
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String losen = "{bcrypt}" + bCryptPasswordEncoder.encode("losen");
+            Role userRole = new Role("ROLE_USER");
+            roleService.save(userRole);
+
+            User user = User.builder().username("admin").password(losen).enabled(true).build();
+            user.addRole(userRole);
+            userService.save(user);
+        }
         return "utv-start";
     }
 }

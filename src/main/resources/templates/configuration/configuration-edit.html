@@ -25,6 +25,12 @@
         <input class="input-long" type="email" id="email" th:field="*{email}">
         <label for="emailkey">Lösenord för e-postkontot (behöver vara gmail med app-lösenord.) Om inte avdelningen har ett konfigurerat konto i sina inställningar kommer denna e-postadress att användas för utskick till deltagarna.</label>
         <input class="input-long" type="text" id="emailkey" th:field="*{emailkey}">
+        <label for="domain">Adressen till systemet (för att generera rätt url i länkar i mail) Avsluta med /.</label>
+        <input class="input-long" type="text" id="domain" th:field="*{domain}">
+        <div>
+            <label for="startDescription">Text på startsidan</label>
+            <textarea id="startDescription" rows="10" cols="50" th:field="*{startDescription}"></textarea>
+        </div>
         <div class="submit-area">
             <button type="submit">Spara</button>
         </div>

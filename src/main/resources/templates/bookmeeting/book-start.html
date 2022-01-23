@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Scoutmöten</title>
+</head>
+<body>
+
+<div class="nav-box">
+    <h1>Kommer - kommer inte</h1>
+</div>
+<form id="frmSendForAddress" method="post" class="form-general" th:action="@{/bookmeeting/findattendee}"
+      th:object="${reminder}">
+    <div class="form-box">
+        <div>Vanligtvis har du fått ett mail med en länk. Här kan du fylla i några
+            uppgifter och komma vidare direkt.
+        </div>
+        <label for="name">Deltagare</label>
+        <input class="input-long" type="text" id="name" placeholder="Skriv in deltagarens för och efternamn" th:field="*{name}">
+        <label for="email">E-postadress till den som ska svara på om deltagaren kommer eller inte</label>
+        <input class="input-long" type="text" id="email" placeholder="Skriv in e-postadress" th:field="*{email}">
+
+        <div class="category-select">
+            <select name="department" id="department" th:field="*{department}">
+                <option value="">Välj avdelning...</option>
+                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}">
+                    Värde
+                </option>
+            </select>
+        </div>
+
+        <div class="submit-area">
+            <button type="submit">Vidare</button>
+        </div>
+        </p>
+    </div>
+</form>
+</body>
+</html>

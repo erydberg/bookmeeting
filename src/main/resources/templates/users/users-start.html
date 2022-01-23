@@ -22,7 +22,7 @@
 <div class="notepad">
     <ul class="list">
             <li  th:each="user: ${users}">
-                <a th:href="@{'/admin/users/view/' + ${user.id}}" th:text="${user.username}"></a>
+                <a th:href="@{'/admin/users/edit/' + ${user.id}}" th:text="${user.username}"></a>
                 <a th:href="@{'/admin/users/delete/' + ${user.id}}" class="del" onclick="return (confirm('Vill du ta bort användaren?'))"/><img th:src="@{/styles/delete.png}"></a>
             </li>
     </ul>

@@ -21,4 +21,8 @@ public class Configuration {
     private UUID id;
     private String email;
     private String emailkey;
+    private String domain;
+    @Column(name = "startdesc", length = 1000)
+    private String startDescription;
+    private String bookDescription;
 }

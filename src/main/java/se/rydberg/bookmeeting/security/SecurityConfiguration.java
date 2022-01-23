@@ -26,14 +26,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js/**").permitAll()
                 //normal users - well not now-perhaps public?
                 //to change to admin-user
-                .antMatchers("/admin/**").permitAll()
+                //.antMatchers("/admin/**").permitAll()
 
                 //admin users
                 .antMatchers("/h2-console/**").permitAll()
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/menu/**").hasRole("USER")
-                  //  .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/admin/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

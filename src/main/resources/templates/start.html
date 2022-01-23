@@ -7,31 +7,26 @@
 <body>
 
 <div class="nav-box">
-<span class="toolbar">
-    <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
-</span>
-    <h1 sec:authentication="name">För dig som ledare på avdelningen</h1>
+    <h1>Kommer - kommer inte</h1>
 </div>
-<div class="notepad">
-    <ul class="list">
-        <li class="nav-item">
-            <a th:href="@{'/lists/'}">Anmälningar till möten</a>
-        </li>
-        <li class="nav-item">
-            <a th:href="@{'/meeting/'}">Administration möten</a>
-        </li>
-        <li class="nav-item">
-            <a th:href="@{'/category/'}">Lägg till/ta bort scouter</a>
-        </li>
-        <li class="nav-item">
-            <a th:href="@{'/users/'}">Lägg till/ta bort användare</a>
-        </li>
-        <li class="nav-item">
-            <form method="POST" th:action="@{/logout}">
-                <button type="submit" class="link-button">Logga ut</button>
-            </form>
-        </li>
-    </ul>
+<div class="form-box">
+    <div class="description" th:if="${configuration?.startDescription}"
+         th:utext=${configuration.formattedDescription()}></div>
+    <div class="notepad">
+        <ul class="list">
+            <li class="nav-item">
+                <a th:href="@{'/bookmeeting/'}">Anmälningar till möten</a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{'/admin/'}">Administration möten</a>
+            </li>
+            <li class="nav-item">
+                <form method="POST" th:action="@{/logout}">
+                    <button type="submit" class="link-button">Logga ut</button>
+                </form>
+            </li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>

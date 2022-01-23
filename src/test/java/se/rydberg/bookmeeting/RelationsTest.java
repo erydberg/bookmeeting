@@ -152,6 +152,19 @@ public class RelationsTest {
         assertThat(answer).isPresent();
     }
 
+    @Test
+    public void shouldReturnUserSearchWithEmailAndName() throws NotFoundInDatabaseException {
+        MeetingAttendeeDTO attendee = attendeeService.findByEmailName("daniel@mail.se", "Daniel spårare");
+        assertThat(attendee.getName()).isEqualTo("Daniel spårare");
+    }
+
+    @Test
+    public void shouldReturnUserSearchWithEmailAndNameAndDepartment() throws NotFoundInDatabaseException {
+        MeetingAttendeeDTO attendee = attendeeService.findByEmailNameDepartment("daniel@mail.se", "Daniel spårare", departmentSparare.getId());
+        assertThat(attendee.getName()).isEqualTo("Daniel spårare");
+    }
+
+
     @Disabled
     @Test
     public void shouldCreateBooking() throws NotFoundInDatabaseException {
@@ -243,7 +256,10 @@ public class RelationsTest {
 
     private void setupAttendees() {
         System.out.println("Creating six attendees");
-        attendeeSparare1 = MeetingAttendee.builder().name("Daniel spårare").build();
+        attendeeSparare1 = MeetingAttendee.builder()
+                .name("Daniel spårare")
+                .email("daniel@mail.se")
+                .build();
         attendeeService.save(attendeeSparare1);
         attendeeSparare2 = MeetingAttendee.builder().name("Agnes spårare").build();
         attendeeService.save(attendeeSparare2);

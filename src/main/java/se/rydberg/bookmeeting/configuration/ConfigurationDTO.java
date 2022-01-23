@@ -17,4 +17,15 @@ public class ConfigurationDTO {
     private UUID id;
     private String email;
     private String emailkey;
+    private String domain;
+    private String startDescription;
+    private String bookDescription;
+
+    public String formattedStartDescription() {
+        return startDescription.replaceAll("(\r\n|\n)", "<br>");
+    }
+
+    public String formattedBookDescription() {
+        return bookDescription.replaceAll("(\r\n|\n)", "<br>");
+    }
 }

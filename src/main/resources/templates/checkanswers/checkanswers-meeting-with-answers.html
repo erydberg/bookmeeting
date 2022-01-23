@@ -10,13 +10,13 @@
 <span class="toolbar">
     <a class="toolitem" th:href="@{'/admin'}"><img th:src="@{/styles/back.png}"></a>
 </span>
-    <h1 th:text="${meeting.startDate + ' - ' + meeting.department.name}"></h1>
+    <h1 th:text="${meeting.startDate + ' - ' + meeting.title + ' - ' + meeting.department.name}"></h1>
 </div>
 <div class="form-box">
     <ul>
         <li th:text="${'Antal deltagare på avdelningen: ' + attendees.size()}"></li>
         <li th:text="${'Antal som svarat kommer ' + meeting.answeredComing()}"></li>
-        <li th:text="${'Antal som svarat kommer ' + meeting.answeredNotComing()}"></li>
+        <li th:text="${'Antal som svarat kommer ej ' + meeting.answeredNotComing()}"></li>
     </ul>
 
 <div class="notepad">

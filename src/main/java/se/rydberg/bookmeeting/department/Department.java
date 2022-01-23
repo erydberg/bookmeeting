@@ -26,6 +26,7 @@ public class Department {
     private String name;
     private String departmentEmail;
     private String departmentEmailPassword;
+    @Column(name = "description", length = 1000)
     private String description;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)

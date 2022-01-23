@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 public interface AttendeeRepository extends JpaRepository<MeetingAttendee, UUID> {
     @Query("SELECT attendee FROM MeetingAttendee as attendee where attendee.department.id = :departmentId order by attendee.name asc")
@@ -15,5 +16,10 @@ public interface AttendeeRepository extends JpaRepository<MeetingAttendee, UUID>
     @Query("SELECT attendee FROM MeetingAttendee as attendee left JOIN FETCH attendee.meetingAnswers WHERE attendee.id =(:id)")
     Optional<MeetingAttendee> findAttendeeWithAnswers(@Param("id") UUID id);
 
+    @Query("SELECT attendee FROM MeetingAttendee as attendee where attendee.email =(:email) and attendee.name =(:name)")
+    Optional<MeetingAttendee> findByEmailName(@Param("email") String email, @Param("name") String name);
+
+    @Query("SELECT attendee FROM MeetingAttendee as attendee where attendee.email =(:email) and attendee.name =(:name) and attendee.department.id =(:department)")
+    Optional<MeetingAttendee> findByEmailNameDepartment(@Param("email") String email, @Param("name") String name, @Param("department") UUID id);
 
 }

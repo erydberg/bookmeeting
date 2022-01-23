@@ -17,19 +17,12 @@
 </div>
 <form id="frmEditMail" method="post" class="form-general" th:action="@{/admin/mail/send}" th:object="${departmentmail}">
     <div class="form-box">
-        <p>Skriv det du vill få med i en text till dina scouter. Varje deltagare kommer få ett mail med din text samt en länk till den "personliga" anmälningssidan där de kan klicka om de kommer eller inte kommer på upplagda möten.</p>
-        <input type="hidden" id="id" th:field="*{id}">
+        <input type="hidden" id="departmentId" th:field="*{departmentId}">
+        <p>Skriv det du vill få med i en text till dina scouter. Varje deltagare kommer få ett mail med din text samt en
+            länk till den "personliga" anmälningssidan där de kan klicka om de kommer eller inte kommer på upplagda
+            möten.</p>
         <label for="title">Ämne/titel på mailet</label>
         <input class="input-long" type="text" id="title" th:field="*{subject}">
-
-        <div class="category-select">
-            <select name="department" id="department" th:field="*{department}">
-                <option value="">Välj avdelning...</option>
-                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}">
-                    Värde
-                </option>
-            </select>
-        </div>
         <div>
             <div>
                 <label for="description">Texten i mailet</label>

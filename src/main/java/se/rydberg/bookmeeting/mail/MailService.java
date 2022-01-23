@@ -1,31 +1,60 @@
 package se.rydberg.bookmeeting.mail;
 
+import static java.lang.String.format;
+
+import java.util.Properties;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-import java.util.Properties;
-
-import static java.lang.String.format;
+import se.rydberg.bookmeeting.Status;
+import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 
 public class MailService {
     private final JavaMailSender mailSender;
+    private final String sender;
+    private final String domainurl;
 
-    public MailService(String sender, String key){
+    public MailService(String sender, String key, String domainurl) {
         this.mailSender = setupMailSender(sender, key);
+        this.sender = sender;
+        this.domainurl = domainurl;
     }
 
-    public void sendMail(String from, String to, String subject, String body) {
-        MimeMessagePreparator preparator = mimeMessage -> {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-            message.setTo(to);
-            message.setFrom(from);
-            message.setSubject(subject);
-            message.setText(body, true);
-        };
-        mailSender.send(preparator);
-        System.out.println(format("Mail sent to: %s", to));
+    public void sendDepartmentMail(DepartmentMail departmentMail) {
+        departmentMail.getDepartment()
+                .getAttendees().stream()
+                .filter(attendee -> attendee.getStatus().equals(Status.ACTIVE))
+                .forEach(
+                        attendee -> send(
+                                sender,
+                                attendee.getEmail(),
+                                departmentMail.getSubject(),
+                                addLinkToRegister(attendee, departmentMail.formattedDescription())));
+    }
+
+    private String addLinkToRegister(MeetingAttendee attendee, String text) {
+        return text + "<p><a href=\"" + domainurl + "bookmeeting/attendee/" + attendee.getId() + "\">Fyll i om du kommer eller inte</a>";
+    }
+
+    public void send(String from, String to, String subject, String body) {
+        try {
+            MimeMessagePreparator preparator = mimeMessage -> {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(to);
+                message.setFrom(from);
+                message.setSubject(subject);
+                message.setText(body, true);
+            };
+            Thread.sleep(10);
+            mailSender.send(preparator);
+            System.out.println(format("Mail sent to: %s", to));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public JavaMailSender setupMailSender(String email, String password) {
