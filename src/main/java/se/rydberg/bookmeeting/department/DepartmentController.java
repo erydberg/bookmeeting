@@ -77,6 +77,7 @@ public class DepartmentController {
                 backendDepartment.setName(departmentDto.getName());
                 backendDepartment.setDepartmentEmail(departmentDto.getDepartmentEmail());
                 backendDepartment.setDepartmentEmailPassword(departmentDto.getDepartmentEmailPassword());
+                backendDepartment.setDescription(departmentDto.getDescription());
                 departmentService.save(backendDepartment);
                 model.addAttribute("department", backendDepartment);
 

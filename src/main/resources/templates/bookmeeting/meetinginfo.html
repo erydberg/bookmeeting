@@ -6,14 +6,6 @@
     <title th:text="'Möte - ' + ${meeting.title}"></title>
 </head>
 <body>
-<div class="nav-box">
-<span class="toolbar">
-    <a class="toolitem" th:href="@{'/admin/meeting'}"><img th:src="@{/styles/back.png}"></a>
-    <a class="toolitem" th:href="@{'/admin/meeting/edit/' + ${meeting.id}}"><img th:src="@{/styles/edit2.png}"></a>
-    <a class="toolitem" th:href="@{'/admin/meeting/new'}"><img th:src="@{/styles/newlist.png}"></a>
-</span>
-    <h1 th:text="${'Planerat möte för '+ meeting.department.name}">Planerat möte</h1>
-</div>
 <div class="errorblock" th:if="${error_message}">
     <p th:text="${error_message}"></p>
 </div>
@@ -22,7 +14,7 @@
 </div>
 
 <div class="form-box">
-    <h2 th:text="${meeting.title}"></h2>
+    <h1 th:text="${meeting.title}"></h1>
     <div>
         <span th:text="${meeting.startDate}"></span>
         <span th:text="${meeting.startTime}"></span> -
@@ -36,7 +28,7 @@
     </div>
 
     <div th:if="${meeting.department}" th:text="${meeting.department.name}"></div>
-    <div class="description" th:if="${meeting?.description}"
+    <div class="description"
          th:utext=${meeting.formattedDescription()}></div>
     <a th:if="${!#strings.isEmpty(meeting.descriptionUrl)}" th:href="${meeting.descriptionUrl}">Mer information</a>
 </div>

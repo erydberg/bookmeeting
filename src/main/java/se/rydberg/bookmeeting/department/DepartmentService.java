@@ -34,6 +34,10 @@ public class DepartmentService {
                 .orElseThrow(() -> new NotFoundInDatabaseException("Kunde inte hitta avdelningen i systemet."));
     }
 
+    public DepartmentDTO findDtoBy(UUID uuid) throws NotFoundInDatabaseException {
+        return toDto(findBy(uuid));
+    }
+
     public Department getDepartmentWithAttendees(UUID uuid) throws NotFoundInDatabaseException {
         return departmentRepository.getDepartmentWithAttendees(uuid);
     }

@@ -10,6 +10,7 @@
         var attendeeid = /*[[${attendee.id}]]*/ null;
         var signupurl = /*[[@{'/bookmeeting/signup/'}]]*/ null;
         var declineurl = /*[[@{'/bookmeeting/decline/'}]]*/ null;
+        var moreinfourl = /*[[@{'/bookmeeting/meetinginfo/'}]]*/ null;
 
         $(document).ready(function () {
             $('input:radio').change(function () {
@@ -27,6 +28,12 @@
                 //Here do the stuff you want to do when 'unchecked'
                 alert('varför hamnar vi här');
             });
+
+              $(document).ready(function(){
+             $('.list').on('click', '.toggleshow', function() {
+               $('#info' + $(this).data('id')).toggle("slide");
+             });
+         });
         });
 
         function signUp(meetingId) {
@@ -77,16 +84,20 @@
 <div class="form-box">
     <h2 th:text="${attendee.name}"></h2>
     <p th:text="${'Avdelning ' + attendee.department.name}"></p>
-    Det är kul att vara på scouterna! Det är alltid bra att veta om du/din scout kommer så svara nedan.
-    Du kan komma tillbaka till sidan och ändra dig. Tänk på att vissa möten har en sista anmälningsdag och att alla
-    möten kanske inte syns i den här listan.
 
+    <p th:if="${attendee?.department?.description}" th:text="${attendee.department.formattedDescription()}"></p>
     <div class="notepad">
         <table class="list">
             <tr th:each="meeting: ${meetings}">
                 <td>
-                    <a th:href="@{'/bookmeeting/meetinginfo/' + ${meeting.id}}"
-                       th:text="${meeting.startDate + ' ' + meeting.title}"></a>
+                    <span class="toggleshow" th:data-id="${meeting.id}"
+                       th:text="${meeting.getBestDisplayStartAndEndDayAndTime() + ' ' + meeting.title}"></span>
+                    <div th:id="${'info' + meeting.id}" style="display:none;" class="text-medium">
+                        <br th:if="${meeting?.lastBookDate}" th:text="${'Sista anmälningsdag: ' + meeting.lastBookDate}">
+                        <br th:if="${meeting?.place}" th:text="${'Plats: ' + meeting.place}">
+                        <br th:if="${meeting?.description}" th:text="${meeting.formattedDescription()}">
+                        <a th:if="${meeting?.descriptionUrl}" th:href="${meeting.descriptionUrl}" target="_blank">Mer information</a>
+                    </div>
                 </td>
                 <td th:if="${meeting.isBookable()}" class="radio-toolbar">
                     <input type="radio" th:id="${meeting.id + '_yes'}" th:name="${meeting.id}"

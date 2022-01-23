@@ -26,6 +26,7 @@ public class Department {
     private String name;
     private String departmentEmail;
     private String departmentEmailPassword;
+    private String description;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = false)
     @ToString.Exclude
@@ -68,6 +69,10 @@ public class Department {
             meetings.clear();
         }
         meetings = setOfMeetings;
+    }
+
+    public String formattedDescription() {
+        return description.replaceAll("(\r\n|\n)", "<br>");
     }
 
     @Override

@@ -45,7 +45,11 @@ public class StartController {
 
     @GetMapping("/utv")
     public String devSetup() {
-        Department department1 = Department.builder().name("Spårare").build();
+        Department department1 = Department.builder()
+                .name("Spårare")
+                .description("Det är bra när vi vet om du kommer! SMS till avdelningsledarna om du blir sjuk")
+                .departmentEmail("spararna@scouterna.se")
+                .build();
         Department department2 = Department.builder().name("Upptäckare").build();
         Department department3 = Department.builder().name("Äventyrare").build();
         Department department4 = Department.builder().name("Utmanare").build();
@@ -69,19 +73,20 @@ public class StartController {
                 .department(department1)
                 .status(Status.ACTIVE)
                 .build();
-
+        MeetingAttendee attendeeSparare3 = MeetingAttendee.builder()
+                .name("Lotta spårare")
+                .email("erik@mail.se")
+                .department(department1)
+                .status(Status.ACTIVE)
+                .build();
         attendeeService.save(attendeeSparare);
         attendeeService.save(attendeeSparare2);
-
-        // department1.addAttendee(attendeeSparare);
-        // department1.addAttendee(attendeeSparare2);
-
-        // departmentService.save(department1);
+        attendeeService.save(attendeeSparare3);
 
         Meeting meeting1 = Meeting.builder()
-                .startDate(LocalDate.parse("2022-01-10"))
-                .title("möte 1")
-                .endDate(LocalDate.parse("2022-01-10"))
+                .startDate(LocalDate.now().minusWeeks(1))
+                .title("möte 1 - livlina")
+                .endDate(LocalDate.now().minusWeeks(1))
                 .startTime(LocalTime.NOON)
                 .endTime(LocalTime.NOON.plusHours(2))
                 .status(Status.ACTIVE)
@@ -90,30 +95,33 @@ public class StartController {
         meetingService.save(meeting1);
 
         Meeting meeting2 = Meeting.builder()
-                .startDate(LocalDate.parse("2022-02-10"))
-                .endDate(LocalDate.parse("2022-02-10"))
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(1))
                 .startTime(LocalTime.NOON)
                 .endTime(LocalTime.NOON.plusHours(2))
-                .title("möte 2")
+                .title("möte 2 - knopar")
+                .description("På detta möte kommer vi jobba med flera olika knopar")
+                .descriptionUrl("http://scouterna.se")
                 .status(Status.ACTIVE)
                 .department(department1)
                 .build();
         meetingService.save(meeting2);
 
         Meeting meeting3 = Meeting.builder()
-                .startDate(LocalDate.parse("2022-03-10"))
-                .endDate(LocalDate.parse("2022-03-11"))
+                .startDate(LocalDate.now().plusWeeks(2))
+                .endDate(LocalDate.now().plusMonths(2).plusDays(1))
                 .startTime(LocalTime.NOON.minusHours(2))
                 .endTime(LocalTime.NOON.plusHours(4))
-                .title("möte 3")
+                .lastBookDate(LocalDate.now().plusWeeks(2).minusDays(2))
+                .title("Hajk")
                 .status(Status.ACTIVE)
                 .department(department1)
                 .build();
         meetingService.save(meeting3);
 
         Meeting meeting4 = Meeting.builder()
-                .startDate(LocalDate.parse("2022-04-10"))
-                .endDate(LocalDate.parse("2022-04-11"))
+                .startDate(LocalDate.now().plusWeeks(4))
+                .endDate(LocalDate.now().plusWeeks(4))
                 .startTime(LocalTime.NOON.minusHours(2))
                 .endTime(LocalTime.NOON.plusHours(4))
                 .title("möte 4 - ett långtitlat möte")
@@ -123,7 +131,7 @@ public class StartController {
         meetingService.save(meeting4);
 
         Meeting meeting5 = Meeting.builder()
-                .startDate(LocalDate.now().plusMonths(3))
+                .startDate(LocalDate.now().plusWeeks(5))
                 .endDate(LocalDate.now().plusMonths(3))
                 .startTime(LocalTime.NOON.minusHours(2))
                 .endTime(LocalTime.NOON.plusHours(4))

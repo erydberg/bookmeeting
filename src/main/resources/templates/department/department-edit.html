@@ -28,7 +28,8 @@
         <input class="input-long" type="email" id="email" th:field="*{departmentEmail}">
         <label for="email">Lösenord för e-postkontot (behöver vara gmail om utskick ska fungera.)</label>
         <input class="input-long" type="email" id="password" th:field="*{departmentEmailPassword}">
-
+        <label for="description">Text som visas för deltagarna när de ska svara om de kommer eller inte.</label>
+        <textarea id="description" rows="10" cols="50" th:field="*{description}"></textarea>
         <div class="submit-area">
             <button type="submit">Spara</button>
             <a th:if="${!#strings.isEmpty(department.id)}" th:href="@{'/admin/department/detail/' + ${department.id}}"> |

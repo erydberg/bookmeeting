@@ -114,6 +114,34 @@ public class MeetingTest {
                 .startDate(LocalDate.parse("2022-02-01")).build();
 
         assertThat(meeting.isBookable()).isFalse();
+    }
 
+    @Test
+    public void isSameDay(){
+        MeetingDTO meeting = MeetingDTO.builder()
+                .startDate(LocalDate.now())
+                .startTime(LocalTime.NOON)
+                .endDate(LocalDate.now())
+                .endTime(LocalTime.NOON.plusHours(2))
+                .build();
+        assertThat(meeting.isMoreThanOneDay()).isFalse();
+    }
+
+    @Test
+    public void isMoreDays(){
+        MeetingDTO meeting = MeetingDTO.builder().startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).startTime(LocalTime.NOON).endTime(LocalTime.NOON.plusHours(2)).build();
+        assertThat(meeting.isMoreThanOneDay()).isTrue();
+    }
+
+    @Test
+    public void shouldPrintOneDayTimeInfo(){
+        MeetingDTO meeting = MeetingDTO.builder().startDate(LocalDate.now()).endDate(LocalDate.now()).startTime(LocalTime.NOON).endTime(LocalTime.NOON.plusHours(2)).build();
+        assertThat(meeting.getBestDisplayStartAndEndDayAndTime()).isEqualTo("2022-01-23 kl. 12:00 - 14:00");
+
+    }
+    @Test
+    public void shouldPrintTwoDaysTimeInfo(){
+        MeetingDTO meeting = MeetingDTO.builder().startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).startTime(LocalTime.NOON).endTime(LocalTime.NOON.plusHours(2)).build();
+        assertThat(meeting.getBestDisplayStartAndEndDayAndTime()).isEqualTo("2022-01-23 kl. 12:00 - 2022-01-24 kl. 14:00");
     }
 }

@@ -13,16 +13,18 @@
     <h1>Kolla anmälningar</h1>
 </div>
 <div class="form-box">
-<div class="notepad">
-    <p>Välj möte för att se och anmälningar.</p>
-<ul class="list">
-    <li th:each="meeting: ${meetings}">
-        <a th:href="@{'/admin/checkanswers/bymeeting/' + ${meeting.id}}" th:text="${meeting.title}"></a>
-    </li>
-</ul>
-</div>
-<p>
-</p>
+    <div class="notepad">
+        <p>Välj möte för att se och anmälningar.</p>
+        <a th:href="@{'/admin/mail/createto/' + ${department.id}}">Skicka mail till alla på avdelningen</a>
+
+        <ul class="list">
+            <li th:each="meeting: ${meetings}">
+                <a th:href="@{'/admin/checkanswers/bymeeting/' + ${meeting.id}}" th:text="${meeting.title}"></a>
+            </li>
+        </ul>
+    </div>
+    <p>
+    </p>
 </div>
 </body>
 </html>

@@ -17,6 +17,7 @@ import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.attendee.MeetingAttendeeDTO;
 import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.meeting.Meeting;
+import se.rydberg.bookmeeting.meeting.MeetingDTO;
 import se.rydberg.bookmeeting.meeting.MeetingService;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
@@ -34,6 +35,18 @@ public class BookController {
         this.departmentService = departmentService;
         this.attendeeService = attendeeService;
         this.answerService = answerService;
+    }
+
+    @GetMapping("/meetinginfo/{id}")
+    public String viewMeetingInfo(@PathVariable String id, Model model){
+        try {
+            MeetingDTO meeting = meetingService.findDTOBy(UUID.fromString(id));
+            model.addAttribute("meeting", meeting);
+            return "bookmeeting/meetinginfo";
+        } catch (NotFoundInDatabaseException e) {
+            model.addAttribute("error_message", "Kan inte hitta mer info om mötet.");
+            return "bookmeeting/meetinginfo";
+        }
     }
 
     @GetMapping("/test")

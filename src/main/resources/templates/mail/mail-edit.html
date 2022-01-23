@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Skicka mail</title>
+</head>
+<body>
+<div class="nav-box">
+    <h1>Skicka mail till alla på avdelningen</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<form id="frmEditMail" method="post" class="form-general" th:action="@{/admin/mail/send}" th:object="${departmentmail}">
+    <div class="form-box">
+        <p>Skriv det du vill få med i en text till dina scouter. Varje deltagare kommer få ett mail med din text samt en länk till den "personliga" anmälningssidan där de kan klicka om de kommer eller inte kommer på upplagda möten.</p>
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="title">Ämne/titel på mailet</label>
+        <input class="input-long" type="text" id="title" th:field="*{subject}">
+
+        <div class="category-select">
+            <select name="department" id="department" th:field="*{department}">
+                <option value="">Välj avdelning...</option>
+                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}">
+                    Värde
+                </option>
+            </select>
+        </div>
+        <div>
+            <div>
+                <label for="description">Texten i mailet</label>
+                <textarea id="description" rows="10" cols="50" th:field="*{description}"></textarea>
+            </div>
+
+            <div class="submit-area">
+                <button type="submit">Skicka</button>
+            </div>
+            </p>
+        </div>
+    </div>
+</form>
+</body>
+</html>

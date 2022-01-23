@@ -10,7 +10,9 @@ import se.rydberg.bookmeeting.department.Department;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -78,6 +80,40 @@ public class Meeting {
     public boolean isNotBookable(){
         return !isBookable();
     }
+
+    public int answeredComing(){
+        return (int)meetingAnswers.stream().filter(meetingAnswer -> meetingAnswer.isComing()).count();
+    }
+
+    public int answeredNotComing(){
+        return (int)meetingAnswers.stream().filter(meetingAnswer -> meetingAnswer.isNotComing()).count();
+    }
+
+    public boolean isMoreThanOneDay() {
+        return !startDate.equals(endDate);
+    }
+
+    public String getBestDisplayStartAndEndDayAndTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        StringBuilder timeInformation = new StringBuilder();
+        timeInformation.append(startDate);
+        timeInformation.append(" kl. ");
+        timeInformation.append(startTime.format(dtf));
+        timeInformation.append(" - ");
+        if (isMoreThanOneDay()) {
+            timeInformation.append(endDate);
+            timeInformation.append(" kl. ");
+        }
+        timeInformation.append(endTime.format(dtf));
+
+        return timeInformation.toString();
+    }
+
+
+    public String formattedDescription() {
+        return description.replaceAll("(\r\n|\n)", "<br>");
+    }
+
 
     @Override
     public boolean equals(Object o) {

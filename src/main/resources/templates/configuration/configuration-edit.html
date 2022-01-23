@@ -23,7 +23,7 @@
         <input type="hidden" id="id" th:field="*{id}">
         <label for="email">E-post som skickar ut mail till alla</label>
         <input class="input-long" type="email" id="email" th:field="*{email}">
-        <label for="emailkey">Lösenord för e-postkontot (behöver vara gmail med app-lösenord.)</label>
+        <label for="emailkey">Lösenord för e-postkontot (behöver vara gmail med app-lösenord.) Om inte avdelningen har ett konfigurerat konto i sina inställningar kommer denna e-postadress att användas för utskick till deltagarna.</label>
         <input class="input-long" type="text" id="emailkey" th:field="*{emailkey}">
         <div class="submit-area">
             <button type="submit">Spara</button>

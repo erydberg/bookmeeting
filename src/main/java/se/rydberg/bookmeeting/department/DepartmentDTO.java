@@ -24,4 +24,9 @@ public class DepartmentDTO {
     @Email (message = "E-postadressen behöver vara korrekt.")
     private String departmentEmail;
     private String departmentEmailPassword;
+    private String description;
+
+    public String formattedDescription() {
+        return description.replaceAll("(\r\n|\n)", "<br>");
+    }
 }

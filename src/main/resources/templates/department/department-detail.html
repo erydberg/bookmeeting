@@ -25,6 +25,11 @@
 <div class="form-box">
     <h2 th:text="${department.name}"></h2>
     <p th:text="'E-postadress: ' + ${department.departmentEmail}"></p>
+    <div class="description" th:if="${department?.description}"
+         th:utext=${department.formattedDescription()}></div>
+    <div>
+
+    </div>
 </div>
 </body>
 </html>
