@@ -9,6 +9,12 @@
 <div class="nav-box">
     <h1>Kommer - kommer inte</h1>
 </div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
 <form id="frmSendForAddress" method="post" class="form-general" th:action="@{/bookmeeting/findattendee}"
       th:object="${reminder}">
     <div class="form-box">
