@@ -164,6 +164,18 @@ public class RelationsTest {
         assertThat(attendee.getName()).isEqualTo("Daniel spårare");
     }
 
+    @Test
+    public void shouldReturnUserSearchWithEmailAndNameAndDepartmentAllLowerCase() throws NotFoundInDatabaseException {
+        MeetingAttendeeDTO attendee = attendeeService.findByEmailNameDepartment("daniel@mail.se", "daniel spårare", departmentSparare.getId());
+        assertThat(attendee.getName()).isEqualTo("Daniel spårare");
+    }
+
+    @Test
+    public void shouldTrimWhenSaveAttendee(){
+        MeetingAttendee attendeeToTrim = MeetingAttendee.builder().name("Benjamin Andersson  ").build();
+        MeetingAttendee attendeeToTrimSaved = attendeeService.save(attendeeToTrim);
+        assertThat(attendeeToTrimSaved.getName()).isEqualTo("Benjamin Andersson");
+    }
 
     @Disabled
     @Test

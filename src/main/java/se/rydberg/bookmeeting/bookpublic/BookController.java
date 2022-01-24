@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import se.rydberg.bookmeeting.answer.MeetingAnswer;
@@ -56,11 +57,20 @@ public class BookController {
     }
 
     @PostMapping("/findattendee")
-    public String findAttendeeForBooking(@Valid AttendeeReminder attendeeReminder, Model model){
+    public String findAttendeeForBooking(@Valid AttendeeReminder attendeeReminder, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("error_message", "Du behöver fylla i alla uppgifter innan du kan gå vidare");
+            model.addAttribute("reminder", attendeeReminder);
+            List<DepartmentDTO> departments = departmentService.getAllDTOs();
+            model.addAttribute("departments", departments);
+            return "bookmeeting/book-start";
+        }
         try {
             MeetingAttendeeDTO attendee = attendeeService.findByEmailNameDepartment(attendeeReminder.getEmail(), attendeeReminder.getName(), attendeeReminder.getDepartment().getId());
             return "redirect:/bookmeeting/attendee/" + attendee.getId();
         } catch (NotFoundInDatabaseException e) {
+            List<DepartmentDTO> departments = departmentService.getAllDTOs();
+            model.addAttribute("departments", departments);
             model.addAttribute("reminder", attendeeReminder);
             model.addAttribute("error_message", "Kan inte hitta någon deltagare med detta namn och denna e-postadress. Kontrollera att du fyllt i rätt och kontakta din ledare om det inte fungerar.");
             return "bookmeeting/book-start";

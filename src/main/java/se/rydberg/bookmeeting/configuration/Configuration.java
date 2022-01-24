@@ -24,5 +24,6 @@ public class Configuration {
     private String domain;
     @Column(name = "startdesc", length = 1000)
     private String startDescription;
+    @Column(name = "bookdesc", length = 1000)
     private String bookDescription;
 }

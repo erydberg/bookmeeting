@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.*;
@@ -22,10 +23,20 @@ public class ConfigurationDTO {
     private String bookDescription;
 
     public String formattedStartDescription() {
-        return startDescription.replaceAll("(\r\n|\n)", "<br>");
+        if(StringUtils.isNotEmpty(bookDescription)) {
+            return startDescription.replaceAll("(\r\n|\n)", "<br>");
+        }else{
+            return "";
+        }
+
     }
 
     public String formattedBookDescription() {
-        return bookDescription.replaceAll("(\r\n|\n)", "<br>");
+        if(StringUtils.isNotEmpty(bookDescription)){
+            return bookDescription.replaceAll("(\r\n|\n)", "<br>");
+        }else{
+            return "";
+        }
+
     }
 }

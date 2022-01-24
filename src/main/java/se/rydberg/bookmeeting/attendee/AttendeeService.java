@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class AttendeeService {
     }
 
     public MeetingAttendee save(MeetingAttendee attendee) {
+        attendee.setName(trim(attendee.getName()));
+        attendee.setEmail(trim(attendee.getEmail()));
         return attendeeRepository.save(attendee);
     }
 
@@ -59,7 +62,7 @@ public class AttendeeService {
 
     @Transactional(readOnly = true)
     public MeetingAttendeeDTO findByEmailNameDepartment(String email, String name, UUID id) throws NotFoundInDatabaseException {
-        return toDto(attendeeRepository.findByEmailNameDepartment(email,name, id)
+        return toDto(attendeeRepository.findByEmailNameDepartment(trim(email),trim(name), id)
                 .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta deltagaren i systemet.")));
     }
 
@@ -93,6 +96,14 @@ public class AttendeeService {
             return modelMapper.map(entity, MeetingAttendeeDTO.class);
         } else {
             return null;
+        }
+    }
+
+    protected String trim(String value){
+        if(StringUtils.isNotEmpty(value)){
+            return value.trim();
+        }else{
+            return "";
         }
     }
 }

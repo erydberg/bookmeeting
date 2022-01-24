@@ -7,7 +7,7 @@
 <body>
 
 <div class="nav-box">
-    <h1>Kommer - kommer inte</h1>
+    <h1>Hitta din deltagare</h1>
 </div>
 <div class="errorblock" th:if="${error_message}">
     <p th:text="${error_message}"></p>
@@ -18,15 +18,14 @@
 <form id="frmSendForAddress" method="post" class="form-general" th:action="@{/bookmeeting/findattendee}"
       th:object="${reminder}">
     <div class="form-box">
-        <div>Vanligtvis har du fått ett mail med en länk. Här kan du fylla i några
-            uppgifter och komma vidare direkt.
-        </div>
+        <div th:text="${configuration.formattedBookDescription()}">Här kan du ange uppgifter för att komma vidare och kunna ange om deltagaren kommer eller inte.</div>
         <label for="name">Deltagare</label>
         <input class="input-long" type="text" id="name" placeholder="Skriv in deltagarens för och efternamn" th:field="*{name}">
         <label for="email">E-postadress till den som ska svara på om deltagaren kommer eller inte</label>
         <input class="input-long" type="text" id="email" placeholder="Skriv in e-postadress" th:field="*{email}">
 
         <div class="category-select">
+            <label for="department">Väl den avdelning scouten tillhör.</label>
             <select name="department" id="department" th:field="*{department}">
                 <option value="">Välj avdelning...</option>
                 <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}">

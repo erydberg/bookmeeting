@@ -19,7 +19,6 @@ public class ConfigurationController {
         this.configurationService = configurationService;
     }
 
-
     @GetMapping("")
     public String start(Model model){
         ConfigurationDTO configuration = configurationService.loadConfiguration();

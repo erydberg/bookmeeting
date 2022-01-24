@@ -135,13 +135,13 @@ public class MeetingTest {
 
     @Test
     public void shouldPrintOneDayTimeInfo(){
-        MeetingDTO meeting = MeetingDTO.builder().startDate(LocalDate.now()).endDate(LocalDate.now()).startTime(LocalTime.NOON).endTime(LocalTime.NOON.plusHours(2)).build();
+        MeetingDTO meeting = MeetingDTO.builder().startDate(LocalDate.parse("2022-01-23")).endDate(LocalDate.parse("2022-01-23")).startTime(LocalTime.parse("12:00")).endTime(LocalTime.parse("14:00")).build();
         assertThat(meeting.getBestDisplayStartAndEndDayAndTime()).isEqualTo("2022-01-23 kl. 12:00 - 14:00");
 
     }
     @Test
     public void shouldPrintTwoDaysTimeInfo(){
-        MeetingDTO meeting = MeetingDTO.builder().startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).startTime(LocalTime.NOON).endTime(LocalTime.NOON.plusHours(2)).build();
+        MeetingDTO meeting = MeetingDTO.builder().startDate(LocalDate.parse("2022-01-23")).endDate(LocalDate.parse("2022-01-24")).startTime(LocalTime.parse("12:00")).endTime(LocalTime.parse("14:00")).build();
         assertThat(meeting.getBestDisplayStartAndEndDayAndTime()).isEqualTo("2022-01-23 kl. 12:00 - 2022-01-24 kl. 14:00");
     }
 }

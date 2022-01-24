@@ -1,6 +1,7 @@
 package se.rydberg.bookmeeting.bookpublic;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +18,6 @@ public class AttendeeReminder {
     private String email;
     @NotEmpty(message = "Du behöver fylla i deltagarens för och efternamn")
     private String name;
+    @NotNull
     private Department department;
 }
