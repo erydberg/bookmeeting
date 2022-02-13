@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 @Table(name = "user")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_sequence")
+    @SequenceGenerator(name = "user_sequence", sequenceName = "USER_SEQUENCE")
     @Column(name = "id",unique=true, nullable = false)
-    private UUID id;
+    private Long id;
     @NonNull
     @Column(nullable = false, unique = true)
     private String username;

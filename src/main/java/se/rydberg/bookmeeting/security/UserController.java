@@ -52,7 +52,7 @@ public class UserController {
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable String id, Model model){
         try {
-            UserDTO user = userService.findDTOby(UUID.fromString(id));
+            UserDTO user = userService.findDTOby(Long.parseLong(id));
             model.addAttribute("user", user);
             return "users/user-edit";
         } catch (NotFoundInDatabaseException e) {
@@ -63,7 +63,7 @@ public class UserController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable String id){
-        userService.delete(UUID.fromString(id));
+        userService.delete(Long.parseLong(id));
         return "redirect:/users";
     }
 }

@@ -24,13 +24,13 @@ public class UserService implements UserDetailsService {
         this.roleService = roleService;
     }
 
-    public User findBy(UUID id) throws NotFoundInDatabaseException {
+    public User findBy(Long id) throws NotFoundInDatabaseException {
         Optional<User> user = userRepository.findById(id);
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta användaren med det id-et"));
     }
 
-    public UserDTO findDTOby(UUID id) throws NotFoundInDatabaseException {
+    public UserDTO findDTOby(Long id) throws NotFoundInDatabaseException {
         User user = findBy(id);
         return toDto(user);
     }
@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
         return user.get();
     }
 
-    public void delete(UUID id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 

@@ -19,14 +19,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
+                //normal users - well not now-perhaps public?
                 .antMatchers("/bookmeeting/**").permitAll()
                 .antMatchers("/utv").permitAll()
+                .antMatchers("/setup").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/styles/**").permitAll()
                 .antMatchers("/js/**").permitAll()
-                //normal users - well not now-perhaps public?
-                //to change to admin-user
-                //.antMatchers("/admin/**").permitAll()
 
                 //admin users
                 .antMatchers("/h2-console/**").permitAll()

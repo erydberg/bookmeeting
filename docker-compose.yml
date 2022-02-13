@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  book-mysql:
+    hostname: book-mysql
+    image: mysql/mysql-server:8.0.23
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=book
+      - MYSQL_USER=myapp-user
+      - MYSQL_PASSWORD=password
+      - TZ=UTC
+    ports:
+      - "3307:3306"
+    networks:
+      - bookmeeting
+    #volumes:
+    #  - ./db/data:/var/lib/mysql
+
+  book-app:
+    image: rydberg/bookmeeting:0.0.1-SNAPSHOT
+    restart: on-failure
+    depends_on:
+      - book-mysql
+    ports:
+      - 8200:8080
+    networks:
+      - bookmeeting
+    environment:
+      - DATABASE_HOST=book-mysql
+      - DATABASE_USER=myapp-user
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=book
+      - DATABASE_PORT=3306
+      - TZ=UTC
+      - SPRING_PROFILES_ACTIVE=prod
+networks:
+  bookmeeting: {}
+

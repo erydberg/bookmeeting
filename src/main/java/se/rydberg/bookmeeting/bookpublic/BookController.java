@@ -156,11 +156,9 @@ public class BookController {
             Optional<MeetingAnswer> savedAnswer = answerService
                     .findBy(UUID.fromString(attendeeId), UUID.fromString(meetingId));
             if (savedAnswer.isPresent()) {
-                System.out.println("hittar ett svar - uppdaterar");
                 savedAnswer.get().setComing(false);
                 answerService.save(savedAnswer.get());
             } else {
-                System.out.println("skapar nytt svar");
                 MeetingAttendee attendee = attendeeService.findBy(UUID.fromString(attendeeId));
                 Meeting meeting = meetingService.getWithAnswersBy(UUID.fromString(meetingId));
                 MeetingAnswer answer = MeetingAnswer.builder()

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.rydberg.bookmeeting.attendee.AttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.configuration.ConfigurationDTO;
@@ -52,6 +53,15 @@ public class StartController {
     @GetMapping("/admin")
     public String startAdmin() {
         return "start-admin";
+    }
+
+    @GetMapping("/setup")
+    public String setup(){
+        if(generateFirstUser("admin", "losen")){
+            return "redirect:/admin/config";
+        }else{
+            return "start";
+        }
     }
 
     @GetMapping("/utv")
@@ -154,17 +164,28 @@ public class StartController {
                 .build();
         meetingService.save(meeting5);
 
-        if(userService.getAllUsers().isEmpty()) {
-            System.out.println("Lägger till en första användare");
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            String losen = "{bcrypt}" + bCryptPasswordEncoder.encode("losen");
-            Role userRole = new Role("ROLE_USER");
-            roleService.save(userRole);
+        generateFirstUser("admin", "losen");
+        return "utv-start";
+    }
 
-            User user = User.builder().username("admin").password(losen).enabled(true).build();
+    private boolean generateFirstUser(String userName, String password) {
+        if(userService.getAllUsers().isEmpty()) {
+            System.out.println("Lägger till en första admin-användare");
+            Role userRole = roleService.getByName("ROLE_USER");
+            if(userRole==null){
+                userRole = new Role("ROLE_USER");
+                roleService.save(userRole);
+            }
+
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String losen = "{bcrypt}" + bCryptPasswordEncoder.encode(password);
+
+            User user = User.builder().username(userName).password(losen).enabled(true).build();
             user.addRole(userRole);
             userService.save(user);
+            return true;
+        } else {
+            return false;
         }
-        return "utv-start";
     }
 }

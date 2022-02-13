@@ -28,7 +28,6 @@ public class ConfigurationDTO {
         }else{
             return "";
         }
-
     }
 
     public String formattedBookDescription() {
