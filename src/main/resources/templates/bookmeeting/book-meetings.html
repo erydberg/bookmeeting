@@ -25,8 +25,6 @@
                     }
                     return;
                 }
-                //Here do the stuff you want to do when 'unchecked'
-                alert('varför hamnar vi här');
             });
 
               $(document).ready(function(){
@@ -42,8 +40,9 @@
                 type: 'PUT',
 
                 success: function (data) {
-                    //You handle the response here like displaying in required div etc.
-                    //markera och ge en tumme upp?
+                    $('#saved_' + meetingId).fadeIn('slow', function(){
+                        $('#saved_' + meetingId).delay(2000).fadeOut();
+                    });
                 },
                 error: function (errorData) {
                     alert("Det gick inte att anmäla att du kommer till mötet");
@@ -57,8 +56,9 @@
                 type: 'PUT',
 
                 success: function (data) {
-                    //You handle the response here like displaying in required div etc.
-                    //markera och ge en tumme upp?
+                    $('#saved_' + meetingId).fadeIn('slow', function(){
+                        $('#saved_' + meetingId).delay(2000).fadeOut();
+                    });
                 },
                 error: function (errorData) {
                     alert("Det gick inte att anmäla att du kommer till mötet");
@@ -106,6 +106,7 @@
                     <input type="radio" th:id="${meeting.id + '_no'}" th:name="${meeting.id}"
                            th:checked="${#lists.contains(declinedMeetings, meeting.id.toString())}" value="Kommer inte">
                     <label th:for="${meeting.id + '_no'}">Kommer ej</label>
+                    <div th:id="${'saved_' + meeting.id}" style="display:none;">Sparat!</div>
                 </td>
                 <td th:if="${meeting.isNotBookable()}">
                 <span th:if="${meeting.isNotBookable()}" th:each="meetinganswer: ${attendee.meetingAnswers}">

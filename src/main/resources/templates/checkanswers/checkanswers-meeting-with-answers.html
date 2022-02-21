@@ -3,6 +3,60 @@
 <head>
     <th:block th:include="fragments/header :: header"></th:block>
     <title th:text="${meeting.startDate + ' ' + meeting.title + ' - ' + meeting.department.name + ' - kolla anmälningar - Scoutmöten'}">Kolla anmälningar - Scoutmöten</title>
+
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:inline="javascript"> var path = /*[[@{/}]]*/ ''; </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var meetingid = /*[[${meeting.id}]]*/ null;
+        var attendedurl = /*[[@{'/admin/checkanswers/attendee/'}]]*/ null;
+
+        $(document).ready(function () {
+            $('input:checkbox').change(function () {
+                if ($(this).prop("checked")) {
+                    //do the stuff that you would do when 'checked'
+                    let userid = $(this).data('attendeeid');
+                    markAttended(userid);
+                    return;
+                }
+                //Here do the stuff you want to do when 'unchecked'
+                 let userid = $(this).data('attendeeid');
+                    markDidNotAttend(userid);
+                    return;
+            });
+        });
+
+        function markAttended(attendeeid) {
+            jQuery.ajax({
+                url: attendedurl + attendeeid + '/attended/' + meetingid,
+                type: 'PUT',
+
+                success: function (data) {
+                    //success
+                },
+                error: function (errorData) {
+                    alert("Det gick inte att spara deltagarstatus.");
+                }
+            });
+         }
+        function markDidNotAttend(attendeeid) {
+            jQuery.ajax({
+                url: attendedurl + attendeeid + '/skipped/' + meetingid,
+                type: 'PUT',
+
+                success: function (data) {
+                    //success
+                },
+                error: function (errorData) {
+                    alert("Det gick inte att spara deltagarstatus.");
+                }
+            });
+        }
+
+        /*]]>*/
+
+    </script>
+
 </head>
 <body>
 
@@ -21,7 +75,7 @@
 
 <div class="notepad">
 <table class="list">
-    <tr><th>Deltagare</th><th>Svar</th></tr>
+    <tr><th>Deltagare</th><th>Svar</th><th>Närvarande</th></tr>
     <tr th:each="attendee: ${attendees}">
         <td th:text="${attendee.name}">
         </td>
@@ -29,6 +83,17 @@
      <span th:each="answer: ${meeting.meetingAnswers}">
                 <span th:if="${answer.attendee.id eq attendee.id && answer.coming}" th:text="'Kommer'"></span>
                 <span th:if="${answer.attendee.id eq attendee.id && !answer.coming}" th:text="'Kommer ej'"></span>
+            </span>
+        </td>
+        <td>
+            <span th:each="answer: ${meeting.meetingAnswers}">
+                <span th:if="${answer.attendee.id eq attendee.id}">
+                    <input th:if="${answer.attended}" type="checkbox" checked="checked" th:data-attendeeid="${attendee.id}"/>
+                    <input th:if="${!answer.attended}" type="checkbox" th:data-attendeeid="${attendee.id}"/>
+                </span>
+            </span>
+            <span th:if="!${#lists.contains(answerids, attendee.id)}">
+                <input type="checkbox" th:data-attendeeid="${attendee.id}"/>
             </span>
         </td>
     </tr>

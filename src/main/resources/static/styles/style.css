@@ -163,6 +163,11 @@ select {
     padding-left: 10px;
 }
 
+#saved_message{
+    text-align: center;
+
+}
+
 .text, .radio, .checkbox, .select {
     margin: 0 0 6px;
 }

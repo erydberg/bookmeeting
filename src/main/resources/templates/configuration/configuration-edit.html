@@ -27,6 +27,9 @@
         <input class="input-long" type="text" id="emailkey" th:field="*{emailkey}">
         <label for="domain">Adressen till systemet (för att generera rätt url i länkar i mail) Avsluta med /.</label>
         <input class="input-long" type="text" id="domain" th:field="*{domain}">
+        <label for="allowOnlineParticipantForm">Tillåt att deltagare använder ett webbformulär för att fylla i uppgifter och komma till anmälningssidan.</label>
+        <input type="checkbox" id="allowOnlineParticipantForm" th:field="*{allowOnlineParticipantForm}"/>
+
         <div>
             <label for="startDescription">Text på startsidan</label>
             <textarea id="startDescription" rows="10" cols="50" th:field="*{startDescription}"></textarea>

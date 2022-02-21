@@ -21,6 +21,7 @@ public class ConfigurationDTO {
     private String domain;
     private String startDescription;
     private String bookDescription;
+    private boolean allowOnlineParticipantForm;
 
     public String formattedStartDescription() {
         if(StringUtils.isNotEmpty(bookDescription)) {

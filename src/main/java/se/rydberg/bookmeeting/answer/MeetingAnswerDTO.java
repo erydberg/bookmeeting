@@ -13,5 +13,6 @@ public class MeetingAnswerDTO {
     private Meeting meeting;
     private LocalDateTime createDateTime;
     private LocalDateTime updateDateTime;
+    private boolean attended;
 
 }

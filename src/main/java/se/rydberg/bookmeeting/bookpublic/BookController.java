@@ -37,7 +37,8 @@ public class BookController {
     private final ConfigurationService configurationService;
 
     public BookController(MeetingService meetingService, DepartmentService departmentService,
-                          AttendeeService attendeeService, MeetingAnswerService answerService, ConfigurationService configurationService) {
+            AttendeeService attendeeService, MeetingAnswerService answerService,
+            ConfigurationService configurationService) {
         this.meetingService = meetingService;
         this.departmentService = departmentService;
         this.attendeeService = attendeeService;
@@ -46,19 +47,27 @@ public class BookController {
     }
 
     @GetMapping("")
-    public String startBooking(Model model){
+    public String startBooking(Model model) {
         ConfigurationDTO configuration = configurationService.loadConfiguration();
         model.addAttribute("configuration", configuration);
-        AttendeeReminder reminder = new AttendeeReminder();
-        model.addAttribute("reminder", reminder);
-        List<DepartmentDTO> departments = departmentService.getAllDTOs();
-        model.addAttribute("departments", departments);
-        return "bookmeeting/book-start";
+        if (configuration.isAllowOnlineParticipantForm()) {
+            AttendeeReminder reminder = new AttendeeReminder();
+            model.addAttribute("reminder", reminder);
+            List<DepartmentDTO> departments = departmentService.getAllDTOs();
+            model.addAttribute("departments", departments);
+            return "bookmeeting/book-start";
+        } else {
+            model.addAttribute(
+                    "error_message",
+                    "Funktionen att fylla i uppgifter och leta fram en deltagare är inte aktiverad. Titta i din mail eller kontakta din ledare för att få en länk att använda.");
+            return "error/general_error";
+        }
     }
 
     @PostMapping("/findattendee")
-    public String findAttendeeForBooking(@Valid AttendeeReminder attendeeReminder, BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
+    public String findAttendeeForBooking(@Valid AttendeeReminder attendeeReminder, BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("error_message", "Du behöver fylla i alla uppgifter innan du kan gå vidare");
             model.addAttribute("reminder", attendeeReminder);
             List<DepartmentDTO> departments = departmentService.getAllDTOs();
@@ -66,19 +75,24 @@ public class BookController {
             return "bookmeeting/book-start";
         }
         try {
-            MeetingAttendeeDTO attendee = attendeeService.findByEmailNameDepartment(attendeeReminder.getEmail(), attendeeReminder.getName(), attendeeReminder.getDepartment().getId());
+            MeetingAttendeeDTO attendee = attendeeService.findByEmailNameDepartment(
+                    attendeeReminder.getEmail(),
+                    attendeeReminder.getName(),
+                    attendeeReminder.getDepartment().getId());
             return "redirect:/bookmeeting/attendee/" + attendee.getId();
         } catch (NotFoundInDatabaseException e) {
             List<DepartmentDTO> departments = departmentService.getAllDTOs();
             model.addAttribute("departments", departments);
             model.addAttribute("reminder", attendeeReminder);
-            model.addAttribute("error_message", "Kan inte hitta någon deltagare med detta namn och denna e-postadress. Kontrollera att du fyllt i rätt och kontakta din ledare om det inte fungerar.");
+            model.addAttribute(
+                    "error_message",
+                    "Kan inte hitta någon deltagare med detta namn och denna e-postadress. Kontrollera att du fyllt i rätt och kontakta din ledare om det inte fungerar.");
             return "bookmeeting/book-start";
         }
     }
 
     @GetMapping("/meetinginfo/{id}")
-    public String viewMeetingInfo(@PathVariable String id, Model model){
+    public String viewMeetingInfo(@PathVariable String id, Model model) {
         try {
             MeetingDTO meeting = meetingService.findDTOBy(UUID.fromString(id));
             model.addAttribute("meeting", meeting);
@@ -121,7 +135,9 @@ public class BookController {
             model.addAttribute("meetings", meetings);
             return "bookmeeting/book-meetings";
         } catch (NotFoundInDatabaseException e) {
-            model.addAttribute("error_message", "Ingen deltagare hittad i systemet. Kolla så du fick med dig hela länken.");
+            model.addAttribute(
+                    "error_message",
+                    "Ingen deltagare hittad i systemet. Kolla så du fick med dig hela länken.");
             return "error/general_error";
         }
     }

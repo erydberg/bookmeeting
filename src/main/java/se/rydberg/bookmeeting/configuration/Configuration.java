@@ -26,4 +26,5 @@ public class Configuration {
     private String startDescription;
     @Column(name = "bookdesc", length = 1000)
     private String bookDescription;
+    private boolean allowOnlineParticipantForm;
 }
