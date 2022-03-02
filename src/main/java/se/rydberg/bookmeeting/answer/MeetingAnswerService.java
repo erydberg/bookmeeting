@@ -1,12 +1,10 @@
 package se.rydberg.bookmeeting.answer;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
-import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
-
-import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MeetingAnswerService {

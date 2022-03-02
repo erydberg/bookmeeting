@@ -1,9 +1,10 @@
 package se.rydberg.bookmeeting.security;
 
-import lombok.*;
+import java.util.Collection;
 
 import javax.persistence.*;
-import java.util.Collection;
+
+import lombok.*;
 
 @Entity
 @NoArgsConstructor

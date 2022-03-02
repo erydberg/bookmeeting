@@ -2,10 +2,7 @@ package se.rydberg.bookmeeting.configuration;
 
 import java.util.UUID;
 
-import javax.persistence.*;
-
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.GenericGenerator;
 
 import lombok.*;
 
@@ -24,7 +21,7 @@ public class ConfigurationDTO {
     private boolean allowOnlineParticipantForm;
 
     public String formattedStartDescription() {
-        if(StringUtils.isNotEmpty(bookDescription)) {
+        if(StringUtils.isNotEmpty(startDescription)) {
             return startDescription.replaceAll("(\r\n|\n)", "<br>");
         }else{
             return "";

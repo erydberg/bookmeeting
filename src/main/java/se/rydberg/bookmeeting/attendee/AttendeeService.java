@@ -2,17 +2,17 @@ package se.rydberg.bookmeeting.attendee;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
+
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 @Service
 public class AttendeeService {
+    public static final String MSG_NO_ATTENDEE_FOUND = "Kan inte hitta deltagaren i systemet.";
     private final AttendeeRepository attendeeRepository;
     private final ModelMapper modelMapper;
 
@@ -56,14 +56,17 @@ public class AttendeeService {
 
     @Transactional(readOnly = true)
     public MeetingAttendeeDTO findByEmailName(String email, String name) throws NotFoundInDatabaseException {
-        return toDto(attendeeRepository.findByEmailName(email,name)
-                .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta deltagaren i systemet.")));
+        return toDto(
+                attendeeRepository.findByEmailName(email, name)
+                        .orElseThrow(() -> new NotFoundInDatabaseException(MSG_NO_ATTENDEE_FOUND)));
     }
 
     @Transactional(readOnly = true)
-    public MeetingAttendeeDTO findByEmailNameDepartment(String email, String name, UUID id) throws NotFoundInDatabaseException {
-        return toDto(attendeeRepository.findByEmailNameDepartment(trim(email),trim(name), id)
-                .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta deltagaren i systemet.")));
+    public MeetingAttendeeDTO findByEmailNameDepartment(String email, String name, UUID id)
+            throws NotFoundInDatabaseException {
+        return toDto(
+                attendeeRepository.findByEmailNameDepartment(trim(email), trim(name), id)
+                        .orElseThrow(() -> new NotFoundInDatabaseException(MSG_NO_ATTENDEE_FOUND)));
     }
 
     @Transactional(readOnly = true)
@@ -71,12 +74,12 @@ public class AttendeeService {
         return attendeeRepository.findAllAttendeeByDepartment(id)
                 .stream()
                 .map(meetingAttendee -> toDto(meetingAttendee))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public MeetingAttendee getWithAnswers(UUID id) throws NotFoundInDatabaseException {
         return attendeeRepository.findAttendeeWithAnswers(id)
-                .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta deltagaren i systemet."));
+                .orElseThrow(() -> new NotFoundInDatabaseException(MSG_NO_ATTENDEE_FOUND));
     }
 
     public MeetingAttendeeDTO getDTOWithAnswers(UUID id) throws NotFoundInDatabaseException {
@@ -99,10 +102,10 @@ public class AttendeeService {
         }
     }
 
-    protected String trim(String value){
-        if(StringUtils.isNotEmpty(value)){
+    protected String trim(String value) {
+        if (StringUtils.isNotEmpty(value)) {
             return value.trim();
-        }else{
+        } else {
             return "";
         }
     }

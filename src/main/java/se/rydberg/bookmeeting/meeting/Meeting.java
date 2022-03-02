@@ -1,18 +1,22 @@
 package se.rydberg.bookmeeting.meeting;
 
-import lombok.*;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.GenericGenerator;
-import se.rydberg.bookmeeting.Status;
-import se.rydberg.bookmeeting.answer.MeetingAnswer;
-import se.rydberg.bookmeeting.department.Department;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.persistence.*;
+
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
+
+import lombok.*;
+import se.rydberg.bookmeeting.Status;
+import se.rydberg.bookmeeting.answer.MeetingAnswer;
+import se.rydberg.bookmeeting.department.Department;
 
 @Getter
 @Setter
@@ -82,11 +86,11 @@ public class Meeting {
     }
 
     public int answeredComing(){
-        return (int)meetingAnswers.stream().filter(meetingAnswer -> meetingAnswer.isComing()).count();
+        return (int) meetingAnswers.stream().filter(MeetingAnswer::isComing).count();
     }
 
     public int answeredNotComing(){
-        return (int)meetingAnswers.stream().filter(meetingAnswer -> meetingAnswer.isNotComing()).count();
+        return (int) meetingAnswers.stream().filter(MeetingAnswer::isNotComing).count();
     }
 
     public boolean isMoreThanOneDay() {

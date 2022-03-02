@@ -20,6 +20,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 //normal users - well not now-perhaps public?
+                .antMatchers("/").permitAll()
                 .antMatchers("/bookmeeting/**").permitAll()
                 .antMatchers("/utv").permitAll()
                 .antMatchers("/setup").permitAll()

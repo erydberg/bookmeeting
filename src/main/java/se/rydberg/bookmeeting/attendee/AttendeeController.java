@@ -64,6 +64,7 @@ public class AttendeeController {
                 MeetingAttendee backendAttendee = attendeeService.findBy(attendee.getId());
                 attendee.setMeetingAnswers(backendAttendee.getMeetingAnswers());
             } catch (NotFoundInDatabaseException e) {
+
             }
         }
         MeetingAttendeeDTO savedAttendee = attendeeService.saveDTO(attendee);

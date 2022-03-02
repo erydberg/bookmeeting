@@ -3,7 +3,8 @@ package se.rydberg.bookmeeting.bookpublic;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,6 @@ import se.rydberg.bookmeeting.meeting.Meeting;
 import se.rydberg.bookmeeting.meeting.MeetingDTO;
 import se.rydberg.bookmeeting.meeting.MeetingService;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/bookmeeting")
@@ -68,10 +67,12 @@ public class BookController {
     public String findAttendeeForBooking(@Valid AttendeeReminder attendeeReminder, BindingResult bindingResult,
             Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error_message", "Du behöver fylla i alla uppgifter innan du kan gå vidare");
+            model.addAttribute("error_message", "Du behöver fylla i alla uppgifter innan du kan gå vidare.");
             model.addAttribute("reminder", attendeeReminder);
             List<DepartmentDTO> departments = departmentService.getAllDTOs();
             model.addAttribute("departments", departments);
+            ConfigurationDTO configuration = configurationService.loadConfiguration();
+            model.addAttribute("configuration", configuration);
             return "bookmeeting/book-start";
         }
         try {
@@ -123,13 +124,13 @@ public class BookController {
                     .stream()
                     .filter(meetingAnswer -> meetingAnswer.isComing())
                     .map(meetingAnswer -> meetingAnswer.getMeeting().getId().toString())
-                    .collect(Collectors.toList());
+                    .toList();
             model.addAttribute("acceptedMeetings", acceptedMeetings);
             List<String> declinedMeetings = attendee.getMeetingAnswers()
                     .stream()
                     .filter(meetingAnswer -> meetingAnswer.isNotComing())
                     .map(meetingAnswer -> meetingAnswer.getMeeting().getId().toString())
-                    .collect(Collectors.toList());
+                    .toList();
             model.addAttribute("declinedMeetings", declinedMeetings);
             model.addAttribute("attendee", attendee);
             model.addAttribute("meetings", meetings);

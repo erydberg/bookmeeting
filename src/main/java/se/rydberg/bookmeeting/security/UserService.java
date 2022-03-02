@@ -1,16 +1,16 @@
 package se.rydberg.bookmeeting.security;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -25,7 +25,6 @@ public class UserService implements UserDetailsService {
     }
 
     public User findBy(Long id) throws NotFoundInDatabaseException {
-        Optional<User> user = userRepository.findById(id);
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundInDatabaseException("Kan inte hitta användaren med det id-et"));
     }

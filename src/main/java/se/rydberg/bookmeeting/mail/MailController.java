@@ -1,6 +1,11 @@
 package se.rydberg.bookmeeting.mail;
 
-import org.apache.commons.lang3.StringUtils;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
+import java.util.UUID;
+
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,18 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import se.rydberg.bookmeeting.configuration.Configuration;
+
 import se.rydberg.bookmeeting.configuration.ConfigurationDTO;
 import se.rydberg.bookmeeting.configuration.ConfigurationService;
 import se.rydberg.bookmeeting.department.Department;
 import se.rydberg.bookmeeting.department.DepartmentDTO;
 import se.rydberg.bookmeeting.department.DepartmentService;
 import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
-
-import javax.validation.Valid;
-import java.util.UUID;
-
-import static org.apache.commons.lang3.StringUtils.*;
 
 @Controller
 @RequestMapping("/admin/mail")

@@ -7,7 +7,8 @@ public class NotFoundInDatabaseException extends Exception {
         this.message = msg;
     }
 
-    public String getMessage(){
+    @Override
+    public String getMessage() {
         return message;
     }
 }

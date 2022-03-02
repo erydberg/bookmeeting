@@ -15,6 +15,4 @@ public interface DepartmentRepository extends JpaRepository<Department, UUID> {
 
     @Query("SELECT d FROM Department d left JOIN FETCH d.attendees left JOIN FETCH d.meetings WHERE d.id = (:id)")
     Department getFullDepartment(@Param("id") UUID id);
-
-
 }

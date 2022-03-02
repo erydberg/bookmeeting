@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
-import java.util.UUID;
+import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -24,25 +23,26 @@ public class UserController {
     }
 
     @GetMapping("")
-    public String start(Model model){
+    public String start(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "users/users-start";
     }
 
     @GetMapping("/new")
-    public String newuser(Model model){
+    public String newuser(Model model) {
         UserDTO user = new UserDTO();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "users/user-edit";
     }
 
     @PostMapping("/save")
-    public String save(@Valid UserDTO userDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
-        if(bindingResult.hasErrors()){
+    public String save(@Valid UserDTO userDto, BindingResult bindingResult, Model model,
+            RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("error_message", "Inte allt klart för att spara användaren. Fyll i rätt uppgifter");
             model.addAttribute("user", userDto);
             return "users/user-edit";
-        }else{
+        } else {
             User savedUser = userService.savenew(userDto);
             redirectAttributes.addFlashAttribute("message", "Användare " + savedUser.getUsername() + " skapad.");
             return "redirect:/admin/users";
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editUser(@PathVariable String id, Model model){
+    public String editUser(@PathVariable String id, Model model) {
         try {
             UserDTO user = userService.findDTOby(Long.parseLong(id));
             model.addAttribute("user", user);
@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable String id){
+    public String delete(@PathVariable String id) {
         userService.delete(Long.parseLong(id));
         return "redirect:/users";
     }

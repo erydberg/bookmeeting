@@ -4,7 +4,6 @@ import static java.lang.String.format;
 
 import java.util.Properties;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -54,23 +53,24 @@ public class MailService {
             System.out.println(format("Mail sent to: %s", to));
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 
     public JavaMailSender setupMailSender(String email, String password) {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
+        JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
+        mailSenderImpl.setHost("smtp.gmail.com");
+        mailSenderImpl.setPort(587);
 
-        mailSender.setUsername(email);
-        mailSender.setPassword(password);
+        mailSenderImpl.setUsername(email);
+        mailSenderImpl.setPassword(password);
 
-        Properties props = mailSender.getJavaMailProperties();
+        Properties props = mailSenderImpl.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "false");
 
-        return mailSender;
+        return mailSenderImpl;
     }
 }

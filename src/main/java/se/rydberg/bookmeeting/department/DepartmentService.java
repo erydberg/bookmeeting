@@ -1,13 +1,13 @@
 package se.rydberg.bookmeeting.department;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import se.rydberg.bookmeeting.meeting.NotFoundInDatabaseException;
 
 @Service
 public class DepartmentService {
@@ -34,19 +34,18 @@ public class DepartmentService {
                 .orElseThrow(() -> new NotFoundInDatabaseException("Kunde inte hitta avdelningen i systemet."));
     }
 
-    public DepartmentDTO findDtoBy(UUID uuid) throws NotFoundInDatabaseException {
-        return toDto(findBy(uuid));
+    public DepartmentDTO findDTOBy(UUID id) throws NotFoundInDatabaseException {
+        Department entity = findBy(id);
+        return toDto(entity);
     }
 
-    public Department getDepartmentWithAttendees(UUID uuid) throws NotFoundInDatabaseException {
+    public Department getDepartmentWithAttendees(UUID uuid) {
         return departmentRepository.getDepartmentWithAttendees(uuid);
     }
 
-    public Department getDepartmentFullOld(UUID uuid) throws NotFoundInDatabaseException {
+    public Department getDepartmentFullOld(UUID uuid) {
         Department departmentWithAttendees = departmentRepository.getDepartmentWithAttendees(uuid);
         Department departmentWithMeetings = departmentRepository.getDepartmentWithMeetings(uuid);
-        System.out.println("antal attendees: " + departmentWithAttendees.getAttendees().size());
-        System.out.println("antal meetings: " + departmentWithMeetings.getMeetings().size());
         departmentWithAttendees.addMeetings(departmentWithMeetings.getMeetings());
         return departmentWithAttendees;
     }
@@ -55,13 +54,8 @@ public class DepartmentService {
         return departmentRepository.getFullDepartment(uuid);
     }
 
-    public Department getDepartmentWithMeetings(UUID uuid) throws NotFoundInDatabaseException {
+    public Department getDepartmentWithMeetings(UUID uuid) {
         return departmentRepository.getDepartmentWithMeetings(uuid);
-    }
-
-    public DepartmentDTO findDTOBy(UUID id) throws NotFoundInDatabaseException {
-        Department entity = findBy(id);
-        return toDto(entity);
     }
 
     public void delete(Department department){
@@ -98,6 +92,6 @@ public class DepartmentService {
 
     public List<DepartmentDTO> getAllDTOs() {
         return departmentRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream()
-                .map(department -> toDto(department)).collect(Collectors.toList());
+                .map(department -> toDto(department)).toList();
     }
 }

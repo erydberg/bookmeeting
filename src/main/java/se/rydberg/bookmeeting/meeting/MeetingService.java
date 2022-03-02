@@ -1,12 +1,11 @@
 package se.rydberg.bookmeeting.meeting;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class MeetingService {
@@ -44,7 +43,7 @@ public class MeetingService {
 
     public List<MeetingDTO> allMeetingsDTOForDepartment(UUID departmentId){
         return allMeetingsForDepartment(departmentId).stream()
-                .map(meeting -> toDto(meeting)).collect(Collectors.toList());
+                .map(meeting -> toDto(meeting)).toList();
     }
 
     public List<Meeting> allActiveMeetingsForDepartment(UUID departmentId){

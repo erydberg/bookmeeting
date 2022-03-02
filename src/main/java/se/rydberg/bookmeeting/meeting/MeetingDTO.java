@@ -38,7 +38,7 @@ public class MeetingDTO {
     private LocalDate lastBookDate;
 
     public String formattedDescription() {
-            return description.replaceAll("(\r\n|\n)", "<br>");
+        return description.replaceAll("(\r\n|\n)", "<br>");
     }
 
     public boolean isMoreThanOneDay() {

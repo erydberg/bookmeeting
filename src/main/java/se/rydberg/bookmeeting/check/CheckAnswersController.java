@@ -3,7 +3,6 @@ package se.rydberg.bookmeeting.check;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -61,7 +60,7 @@ public class CheckAnswersController {
     public String byMeeting(@PathVariable String id, Model model){
         Meeting meeting = meetingService.getWithAnswersBy(UUID.fromString(id));
         model.addAttribute("meeting", meeting);
-        List<UUID> answerIds = meeting.getMeetingAnswers().stream().map(meetingAnswer -> meetingAnswer.getAttendee().getId()).collect(Collectors.toList());
+        List<UUID> answerIds = meeting.getMeetingAnswers().stream().map(meetingAnswer -> meetingAnswer.getAttendee().getId()).toList();
         model.addAttribute("answerids", answerIds);
         List<MeetingAttendeeDTO> attendees = attendeeService.findAllByDepartment(meeting.getDepartment().getId());
         model.addAttribute("attendees", attendees);

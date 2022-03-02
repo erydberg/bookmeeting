@@ -1,11 +1,14 @@
 package se.rydberg.bookmeeting;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import se.rydberg.bookmeeting.attendee.AttendeeService;
 import se.rydberg.bookmeeting.attendee.MeetingAttendee;
 import se.rydberg.bookmeeting.configuration.ConfigurationDTO;
@@ -18,9 +21,6 @@ import se.rydberg.bookmeeting.security.Role;
 import se.rydberg.bookmeeting.security.RoleService;
 import se.rydberg.bookmeeting.security.User;
 import se.rydberg.bookmeeting.security.UserService;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Controller
 @RequestMapping("/")
