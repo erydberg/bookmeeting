@@ -85,9 +85,11 @@ public class BookController {
             List<DepartmentDTO> departments = departmentService.getAllDTOs();
             model.addAttribute("departments", departments);
             model.addAttribute("reminder", attendeeReminder);
+            ConfigurationDTO configuration = configurationService.loadConfiguration();
+            model.addAttribute("configuration", configuration);
             model.addAttribute(
                     "error_message",
-                    "Kan inte hitta någon deltagare med detta namn och denna e-postadress. Kontrollera att du fyllt i rätt och kontakta din ledare om det inte fungerar.");
+                    "Kan inte hitta någon deltagare med detta namn och denna e-postadress på vald avdelning. Kontrollera att du fyllt i rätt och kontakta din ledare om det inte fungerar.");
             return "bookmeeting/book-start";
         }
     }
