@@ -24,7 +24,11 @@
         <input type="hidden" id="id" th:field="*{id}">
         <label for="name">Deltagare</label>
         <input class="input-long" type="text" id="name" placeholder="Skriv in deltagarens namn" th:field="*{name}">
-        <label for="email">E-postadress till den som ska svara på om deltagaren kommer eller inte</label>
+        <label for="email">E-postadress till vårdnadshavare 1</label>
+        <input class="input-long" type="text" id="emailParen1" placeholder="Skriv in e-postadress" th:field="*{emailParent1}">
+        <label for="email">E-postadress till vårdnadshavare 2</label>
+        <input class="input-long" type="text" id="emailParent2" placeholder="Skriv in e-postadress" th:field="*{emailParent2}">
+        <label for="email">E-postadress till scouten själv</label>
         <input class="input-long" type="text" id="email" placeholder="Skriv in e-postadress" th:field="*{email}">
 
         <div>

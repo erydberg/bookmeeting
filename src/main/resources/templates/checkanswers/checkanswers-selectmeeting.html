@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="fragments/header :: header"></th:block>
     <title>Kolla anmälningar - Scoutmöten</title>
@@ -12,11 +12,17 @@
 </span>
     <h1>Kolla anmälningar</h1>
 </div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
 <div class="form-box">
     <div class="notepad">
         <p>Välj möte för att se och anmälningar.</p>
         Du kan också
-        <a th:href="@{'/admin/mail/createto/' + ${department.id}}">skicka mail till alla på avdelningen</a><img th:src="@{/styles/mail.png}">
+        <a th:href="@{'/admin/mail/createto/' + ${department.id}}">Skicka mail till alla på avdelningen</a><img th:src="@{/styles/mail.png}">
         <p></p>
         <ul class="list">
             <li th:each="meeting: ${meetings}">

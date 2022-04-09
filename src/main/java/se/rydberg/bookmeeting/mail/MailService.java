@@ -2,6 +2,7 @@ package se.rydberg.bookmeeting.mail;
 
 import static java.lang.String.format;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.springframework.mail.javamail.JavaMailSender;
@@ -30,7 +31,7 @@ public class MailService {
                 .forEach(
                         attendee -> send(
                                 sender,
-                                attendee.getEmail(),
+                                attendee.emails(),
                                 departmentMail.getSubject(),
                                 addLinkToRegister(attendee, departmentMail.formattedDescription())));
     }
@@ -39,7 +40,7 @@ public class MailService {
         return text + "<p><a href=\"" + domainurl + "bookmeeting/attendee/" + attendee.getId() + "\">Fyll i om du kommer eller inte</a>";
     }
 
-    public void send(String from, String to, String subject, String body) {
+    public void send(String from, String[] to, String subject, String body) {
         try {
             MimeMessagePreparator preparator = mimeMessage -> {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
@@ -50,7 +51,8 @@ public class MailService {
             };
             Thread.sleep(10);
             mailSender.send(preparator);
-            System.out.println(format("Mail sent to: %s", to));
+            //System.out.println(format("Mail sent to: %s", to));
+            Arrays.stream(to).forEach(mail -> System.out.println(format("Mail sent to: %s", mail)));
         } catch (InterruptedException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();

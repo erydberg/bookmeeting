@@ -62,6 +62,7 @@ public class MailController {
             MailService mailService = getMailService(department, configuration);
             mailService.sendDepartmentMail(mail);
             model.addAttribute("message", "Har skickat till alla deltagare");
+            redirectAttributes.addFlashAttribute("message", "Har skickat mail till alla deltagare");
             return "redirect:/admin/checkanswers/bydepartment/" + department.getId();
 
         } catch (NotFoundInDatabaseException e) {

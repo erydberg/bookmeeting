@@ -85,18 +85,22 @@ public class StartController {
         MeetingAttendee attendeeSparare = MeetingAttendee.builder()
                 .name("Kalle spårare")
                 .email("test@mail.se")
+                .emailParent1("kalleParent1@mail.se")
                 .department(department1)
                 .status(Status.ACTIVE)
                 .build();
         MeetingAttendee attendeeSparare2 = MeetingAttendee.builder()
                 .name("Stina spårare")
                 .email("erik@mail.se")
+                .emailParent2("stinaparent2@mail.se")
                 .department(department1)
                 .status(Status.ACTIVE)
                 .build();
         MeetingAttendee attendeeSparare3 = MeetingAttendee.builder()
                 .name("Lotta spårare")
                 .email("erik@mail.se")
+                .emailParent1("lottaparent1@mail.se")
+                .emailParent2("lottaparent2@mail.se")
                 .department(department1)
                 .status(Status.ACTIVE)
                 .build();

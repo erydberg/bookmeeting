@@ -28,6 +28,10 @@ public class MeetingAttendee {
     private String name;
     @Column(length = 100)
     private String email;
+    @Column(length = 100)
+    private String emailParent1;
+    @Column(length = 100)
+    private String emailParent2;
     @Enumerated(STRING)
     private Status status = Status.ACTIVE;
     @ManyToOne
@@ -47,5 +51,19 @@ public class MeetingAttendee {
     public void removeMeetingAnswer(MeetingAnswer answer) {
         meetingAnswers.remove(answer);
         answer.setAttendee(null);
+    }
+
+    public String[] emails(){
+        List<String> mails = new ArrayList<>();
+        if(email!=null){
+            mails.add(email);
+        }
+        if(emailParent1!=null){
+            mails.add(emailParent1);
+        }
+        if(emailParent2!=null){
+            mails.add(emailParent2);
+        }
+        return mails.toArray(new String[0]);
     }
 }

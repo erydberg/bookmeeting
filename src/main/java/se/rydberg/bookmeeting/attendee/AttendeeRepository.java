@@ -18,7 +18,11 @@ public interface AttendeeRepository extends JpaRepository<MeetingAttendee, UUID>
     @Query("SELECT attendee FROM MeetingAttendee as attendee where attendee.email =(:email) and lower(attendee.name) like lower(concat('%', :name,'%'))")
     Optional<MeetingAttendee> findByEmailName(@Param("email") String email, @Param("name") String name);
 
-    @Query("SELECT attendee FROM MeetingAttendee as attendee where attendee.email =(:email) and lower(attendee.name) like lower(concat('%', :name,'%')) and attendee.department.id =(:department)")
+    @Query("SELECT attendee FROM MeetingAttendee as attendee where (attendee.email =(:email) or attendee.emailParent1 =(:email) or attendee.emailParent2 =(:email)) and lower(attendee.name) like lower(concat('%', :name,'%')) and attendee.department.id =(:department)")
     Optional<MeetingAttendee> findByEmailNameDepartment(@Param("email") String email, @Param("name") String name, @Param("department") UUID id);
+
+    //@Query("SELECT attendee FROM MeetingAttendee as attendee where attendee.email =(:email) and lower(attendee.name) like lower(concat('%', :name,'%')) and attendee.department.id =(:department)")
+    //Optional<MeetingAttendee> findByEmailNameDepartment(@Param("email") String email, @Param("name") String name, @Param("department") UUID id);
+
 
 }

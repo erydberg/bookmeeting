@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="fragments/header :: header"></th:block>
     <title>Scoutmöten</title>
@@ -21,7 +21,7 @@
         <div th:text="${configuration.formattedBookDescription()}">Här kan du ange uppgifter för att komma vidare och kunna ange om deltagaren kommer eller inte.</div>
         <label for="name">Deltagare</label>
         <input class="input-long" type="text" id="name" placeholder="Skriv in deltagarens för och efternamn" th:field="*{name}">
-        <label for="email">E-postadress till den som ska svara på om deltagaren kommer eller inte</label>
+        <label for="email">Din e-postadress</label>
         <input class="input-long" type="text" id="email" placeholder="Skriv in e-postadress" th:field="*{email}">
 
         <div class="category-select">
